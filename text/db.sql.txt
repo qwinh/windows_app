@@ -1,0 +1,89 @@
+-- genres
+CREATE TABLE genres (
+    id INT PRIMARY KEY IDENTITY(1,1),
+    name NVARCHAR(100) NOT NULL,
+    description NVARCHAR(500)
+);
+
+-- authors
+CREATE TABLE authors (
+    id INT PRIMARY KEY IDENTITY(1,1),
+    name NVARCHAR(200) NOT NULL,
+    description NVARCHAR(1000),
+    date_birth DATE,
+    date_death DATE
+);
+
+-- books_formal
+CREATE TABLE books_formal (
+    id INT PRIMARY KEY IDENTITY(1,1),
+    name NVARCHAR(300) NOT NULL,
+    date_publish DATE
+);
+
+-- junction: books_formal <-> authors
+CREATE TABLE books_formal_authors (
+    books_formal_id INT NOT NULL,
+    authors_id INT NOT NULL,
+    PRIMARY KEY (books_formal_id, authors_id),
+    FOREIGN KEY (books_formal_id) REFERENCES books_formal(id),
+    FOREIGN KEY (authors_id) REFERENCES authors(id)
+);
+
+-- junction: books_formal <-> genres
+CREATE TABLE books_formal_genres (
+    books_formal_id INT NOT NULL,
+    genres_id INT NOT NULL,
+    PRIMARY KEY (books_formal_id, genres_id),
+    FOREIGN KEY (books_formal_id) REFERENCES books_formal(id),
+    FOREIGN KEY (genres_id) REFERENCES genres(id)
+);
+
+-- books_actual (physical copies)
+CREATE TABLE books_actual (
+    id INT PRIMARY KEY IDENTITY(1,1),
+    books_formal_id INT NOT NULL,
+    date_create DATE NOT NULL DEFAULT GETDATE(),
+    status TINYINT NOT NULL DEFAULT 1,
+        -- 1 = available, 2 = borrowed, 3 = damaged, 4 = lost
+    FOREIGN KEY (books_formal_id) REFERENCES books_formal(id)
+);
+
+-- employees
+CREATE TABLE employees (
+    id INT PRIMARY KEY IDENTITY(1,1),
+    name NVARCHAR(200) NOT NULL,
+    email NVARCHAR(200) UNIQUE NOT NULL,
+    pass NVARCHAR(256) NOT NULL,   -- store hashed
+    phone NVARCHAR(20),
+    address NVARCHAR(500),
+    date_create DATE NOT NULL DEFAULT GETDATE(),
+    status TINYINT NOT NULL DEFAULT 1
+        -- 1 = active, 0 = inactive
+);
+
+-- readers
+CREATE TABLE readers (
+    id INT PRIMARY KEY IDENTITY(1,1),
+    name NVARCHAR(200) NOT NULL,
+    email NVARCHAR(200) UNIQUE,
+    phone NVARCHAR(20),
+    address NVARCHAR(500),
+    date_create DATE NOT NULL DEFAULT GETDATE(),
+    date_expire DATE,
+    score INT NOT NULL DEFAULT 0
+);
+
+-- borrows
+CREATE TABLE borrows (
+    id INT PRIMARY KEY IDENTITY(1,1),
+    readers_id INT NOT NULL,
+    books_actual_id INT NOT NULL,
+    employees_id INT NOT NULL,
+    date_create DATE NOT NULL DEFAULT GETDATE(),
+    date_expire DATE NOT NULL,
+    date_return DATE,               -- NULL = not yet returned
+    FOREIGN KEY (readers_id) REFERENCES readers(id),
+    FOREIGN KEY (books_actual_id) REFERENCES books_actual(id),
+    FOREIGN KEY (employees_id) REFERENCES employees(id)
+);
