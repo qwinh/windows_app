@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace LibraryManagement
 {
-    public partial class MainMenu : Form
+    public partial class ReturnBookform : Form
     {
-        public MainMenu()
+        public ReturnBookform()
         {
             InitializeComponent();
         }
