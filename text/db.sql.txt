@@ -1,89 +1,97 @@
+-- ============================================
+-- LIBRARY MANAGEMENT SYSTEM
+-- SQL Server 2022
+-- ============================================
+
 -- genres
 CREATE TABLE genres (
-    id INT PRIMARY KEY IDENTITY(1,1),
-    name NVARCHAR(100) NOT NULL,
-    description NVARCHAR(500)
+    id          INT             IDENTITY(1,1)   PRIMARY KEY,
+    name        NVARCHAR(100)   NOT NULL        UNIQUE,
+    description NVARCHAR(500)   NULL
 );
 
 -- authors
 CREATE TABLE authors (
-    id INT PRIMARY KEY IDENTITY(1,1),
-    name NVARCHAR(200) NOT NULL,
-    description NVARCHAR(1000),
-    date_birth DATE,
-    date_death DATE
+    id          INT             IDENTITY(1,1)   PRIMARY KEY,
+    name        NVARCHAR(200)   NOT NULL,
+    description NVARCHAR(1000)  NULL,
+    date_birth  DATE            NULL,
+    date_death  DATE            NULL
 );
 
--- books_formal
+-- books.formal
 CREATE TABLE books_formal (
-    id INT PRIMARY KEY IDENTITY(1,1),
-    name NVARCHAR(300) NOT NULL,
-    date_publish DATE
+    id           INT             IDENTITY(1,1)   PRIMARY KEY,
+    name         NVARCHAR(300)   NOT NULL,
+    date_publish DATE            NULL
 );
 
--- junction: books_formal <-> authors
+-- books.formal-authors  (junction)
 CREATE TABLE books_formal_authors (
-    books_formal_id INT NOT NULL,
-    authors_id INT NOT NULL,
-    PRIMARY KEY (books_formal_id, authors_id),
-    FOREIGN KEY (books_formal_id) REFERENCES books_formal(id),
-    FOREIGN KEY (authors_id) REFERENCES authors(id)
+    books_formal_id INT NOT NULL    REFERENCES books_formal(id),
+    authors_id      INT NOT NULL    REFERENCES authors(id),
+    PRIMARY KEY (books_formal_id, authors_id)
 );
 
--- junction: books_formal <-> genres
+-- books.formal-genres  (junction)
 CREATE TABLE books_formal_genres (
-    books_formal_id INT NOT NULL,
-    genres_id INT NOT NULL,
-    PRIMARY KEY (books_formal_id, genres_id),
-    FOREIGN KEY (books_formal_id) REFERENCES books_formal(id),
-    FOREIGN KEY (genres_id) REFERENCES genres(id)
+    books_formal_id INT NOT NULL    REFERENCES books_formal(id),
+    genres_id       INT NOT NULL    REFERENCES genres(id),
+    PRIMARY KEY (books_formal_id, genres_id)
 );
 
--- books_actual (physical copies)
+-- books.actual  (physical copies)
 CREATE TABLE books_actual (
-    id INT PRIMARY KEY IDENTITY(1,1),
-    books_formal_id INT NOT NULL,
-    date_create DATE NOT NULL DEFAULT GETDATE(),
-    status TINYINT NOT NULL DEFAULT 1,
-        -- 1 = available, 2 = borrowed, 3 = damaged, 4 = lost
-    FOREIGN KEY (books_formal_id) REFERENCES books_formal(id)
+    id              INT             IDENTITY(1,1)   PRIMARY KEY,
+    books_formal_id INT             NOT NULL        REFERENCES books_formal(id),
+    date_create     DATETIME2       NOT NULL        DEFAULT SYSDATETIME(),
+    integrity       TINYINT         NOT NULL        DEFAULT 5
+                                    CHECK (integrity BETWEEN 1 AND 5)
 );
 
 -- employees
 CREATE TABLE employees (
-    id INT PRIMARY KEY IDENTITY(1,1),
-    name NVARCHAR(200) NOT NULL,
-    email NVARCHAR(200) UNIQUE NOT NULL,
-    pass NVARCHAR(256) NOT NULL,   -- store hashed
-    phone NVARCHAR(20),
-    address NVARCHAR(500),
-    date_create DATE NOT NULL DEFAULT GETDATE(),
-    status TINYINT NOT NULL DEFAULT 1
-        -- 1 = active, 0 = inactive
+    id          INT             IDENTITY(1,1)   PRIMARY KEY,
+    name        NVARCHAR(200)   NOT NULL,
+    email       NVARCHAR(254)   NOT NULL        UNIQUE,
+    pass        NVARCHAR(256)   NOT NULL,               -- store hashed
+    phone       NVARCHAR(20)    NULL,
+    address     NVARCHAR(500)   NULL,
+    date_create DATETIME2       NOT NULL        DEFAULT SYSDATETIME(),
+    status      TINYINT         NOT NULL        DEFAULT 1   -- 1=active, 0=inactive
 );
 
 -- readers
 CREATE TABLE readers (
-    id INT PRIMARY KEY IDENTITY(1,1),
-    name NVARCHAR(200) NOT NULL,
-    email NVARCHAR(200) UNIQUE,
-    phone NVARCHAR(20),
-    address NVARCHAR(500),
-    date_create DATE NOT NULL DEFAULT GETDATE(),
-    date_expire DATE,
-    score INT NOT NULL DEFAULT 0
+    id          INT             IDENTITY(1,1)   PRIMARY KEY,
+    name        NVARCHAR(200)   NOT NULL,
+    email       NVARCHAR(254)   NULL            UNIQUE,
+    phone       NVARCHAR(20)    NULL,
+    address     NVARCHAR(500)   NULL,
+    date_create DATETIME2       NOT NULL        DEFAULT SYSDATETIME(),
+    date_expire DATE            NULL,
+    integrity   TINYINT         NOT NULL        DEFAULT 5
+                                CHECK (integrity BETWEEN 1 AND 5)
 );
 
 -- borrows
 CREATE TABLE borrows (
-    id INT PRIMARY KEY IDENTITY(1,1),
-    readers_id INT NOT NULL,
-    books_actual_id INT NOT NULL,
-    employees_id INT NOT NULL,
-    date_create DATE NOT NULL DEFAULT GETDATE(),
-    date_expire DATE NOT NULL,
-    date_return DATE,               -- NULL = not yet returned
-    FOREIGN KEY (readers_id) REFERENCES readers(id),
-    FOREIGN KEY (books_actual_id) REFERENCES books_actual(id),
-    FOREIGN KEY (employees_id) REFERENCES employees(id)
+    id              INT         IDENTITY(1,1)   PRIMARY KEY,
+    readers_id      INT         NOT NULL        REFERENCES readers(id),
+    books_actual_id INT         NOT NULL        REFERENCES books_actual(id),
+    employees_id    INT         NOT NULL        REFERENCES employees(id),
+    date_create     DATETIME2   NOT NULL        DEFAULT SYSDATETIME(),
+    date_expire     DATETIME2   NOT NULL,
+    date_return     DATETIME2   NULL            -- NULL = not yet returned
 );
+
+-- ============================================
+-- INDEXES
+-- ============================================
+
+CREATE INDEX IX_books_actual_formal     ON books_actual (books_formal_id);
+CREATE INDEX IX_borrows_reader          ON borrows (readers_id);
+CREATE INDEX IX_borrows_book            ON borrows (books_actual_id);
+CREATE INDEX IX_borrows_employee        ON borrows (employees_id);
+CREATE INDEX IX_borrows_date_expire     ON borrows (date_expire) WHERE date_return IS NULL;
+CREATE INDEX IX_readers_email           ON readers (email) WHERE email IS NOT NULL;

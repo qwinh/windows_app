@@ -1,3 +1,5 @@
+library management, ms sql server 2022
+
 employees
 	id
 	name
@@ -12,7 +14,7 @@ books.actual
 	id
 	books.formal.id
 	date.create
-	status
+	integrity [1 to 5]
 
 books.formal
 	name
@@ -48,9 +50,10 @@ readers
 	address
 	date.create
 	date.exprire
-	score
+	integrity
 
 borrows
+	id
 	readers.id
 	books.actual.id
 	employees.id
