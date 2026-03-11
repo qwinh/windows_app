@@ -1,0 +1,59 @@
+employees
+	id
+	name
+	email
+	pass
+	phone
+	address
+	date.create
+	status
+
+books.actual
+	id
+	books.formal.id
+	date.create
+	status
+
+books.formal
+	name
+	authors.id
+	genres.id
+	date.publish
+
+genres
+	id
+	name
+	desciption
+
+books.formal-authors
+	books.formal.id
+	authors.id
+
+books.formal-genres
+	books.formal.id
+	genres.id
+
+authors
+	id
+	name
+	desciption
+	date.birth
+	date.death
+
+readers
+	id
+	name
+	email
+	phone
+	address
+	date.create
+	date.exprire
+	score
+
+borrows
+	readers.id
+	books.actual.id
+	employees.id
+	date.create
+	date.exprire
+	date.return
