@@ -37,18 +37,41 @@ namespace LibraryManagement
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
+            
+            // Attach primary button hover effects
+            AttachHoverEffect(btnLoginRegister, System.Drawing.Color.FromArgb(29, 78, 216), System.Drawing.Color.FromArgb(37, 99, 235));
+            
+            // Attach card hover effects (slightly deeper white/gray on hover)
+            AttachHoverEffect(btnManageBooks, System.Drawing.Color.FromArgb(240, 245, 250), System.Drawing.Color.White);
+            AttachHoverEffect(btnManageReaders, System.Drawing.Color.FromArgb(240, 245, 250), System.Drawing.Color.White);
+            AttachHoverEffect(btnBorrowBook, System.Drawing.Color.FromArgb(240, 245, 250), System.Drawing.Color.White);
+            AttachHoverEffect(btnReturnBook, System.Drawing.Color.FromArgb(240, 245, 250), System.Drawing.Color.White);
+            
+            // Attach secondary/exit hover effect
+            AttachHoverEffect(btnExit, System.Drawing.Color.FromArgb(220, 225, 235), System.Drawing.Color.FromArgb(240, 242, 245));
+
             RefreshLoginState();
+        }
+
+        private static void AttachHoverEffect(Button btn, System.Drawing.Color hoverColor, System.Drawing.Color normalColor)
+        {
+            btn.MouseEnter += (_, __) => btn.BackColor = hoverColor;
+            btn.MouseLeave += (_, __) => btn.BackColor = normalColor;
         }
 
         private void RefreshLoginState()
         {
             if (SessionManager.IsLoggedIn)
             {
-                btnLoginRegister.Text = $"Logout ({SessionManager.CurrentEmployee.Name})";
+                btnLoginRegister.Text = "Logout";
+                lblSessionStatus.Text = $"Signed in as: {SessionManager.CurrentEmployee.Name}";
+                lblSessionStatus.ForeColor = System.Drawing.Color.FromArgb(22, 43, 75); // Darker when active
             }
             else
             {
                 btnLoginRegister.Text = "Login / Register";
+                lblSessionStatus.Text = "Not signed in";
+                lblSessionStatus.ForeColor = System.Drawing.Color.FromArgb(120, 130, 145); // Muted when inactive
             }
         }
 
