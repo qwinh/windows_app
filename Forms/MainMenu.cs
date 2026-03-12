@@ -1,12 +1,6 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using LibraryManagement.Helpers;
 
 namespace LibraryManagement
 {
@@ -17,46 +11,89 @@ namespace LibraryManagement
             InitializeComponent();
         }
 
-        // button1 → Login
-        private void button1_Click(object sender, EventArgs e)
+        // button1 → Login/Register Or Logout
+        private void btnLoginOrLogout_Click(object sender, EventArgs e)
         {
-            LoginRegisterForm loginForm = new LoginRegisterForm();
-            loginForm.ShowDialog();
+            if (SessionManager.IsLoggedIn)
+            {
+                // Action: Logout
+                SessionManager.Logout();
+                MessageBox.Show("You have been logged out.", "Logout", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                RefreshLoginState();
+                return;
+            }
+
+            // Action: Login
+            this.Hide();
+            var loginForm = new LoginRegisterForm();
+            loginForm.FormClosed += (_, __) =>
+            {
+                this.Show();
+                RefreshLoginState();
+            };
+            loginForm.ShowDialog(this);
         }
 
-        // button2 → Register
-        private void button2_Click(object sender, EventArgs e)
+        protected override void OnLoad(EventArgs e)
         {
-            LoginRegisterForm registerForm = new LoginRegisterForm();
-            registerForm.ShowDialog();
+            base.OnLoad(e);
+            RefreshLoginState();
+        }
+
+        private void RefreshLoginState()
+        {
+            if (SessionManager.IsLoggedIn)
+            {
+                btnLoginRegister.Text = $"Logout ({SessionManager.CurrentEmployee.Name})";
+            }
+            else
+            {
+                btnLoginRegister.Text = "Login / Register";
+            }
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            base.OnFormClosing(e);
+
+            // Always release the login lock when leaving the main menu.
+            if (SessionManager.IsLoggedIn)
+            {
+                SessionManager.Logout();
+            }
         }
 
         // button3 → Manage Books (CRUD)
-        private void button3_Click(object sender, EventArgs e)
+        private void btnManageBooks_Click(object sender, EventArgs e)
         {
             CrudBookForm crudBookForm = new CrudBookForm();
             crudBookForm.ShowDialog();
         }
 
         // button4 → Manage Readers (CRUD)
-        private void button4_Click(object sender, EventArgs e)
+        private void btnManageReaders_Click(object sender, EventArgs e)
         {
             CrudReaderForm crudReaderForm = new CrudReaderForm();
             crudReaderForm.ShowDialog();
         }
 
         // button5 → Borrow Book
-        private void button5_Click(object sender, EventArgs e)
+        private void btnBorrowBook_Click(object sender, EventArgs e)
         {
             BorrowBookform borrowForm = new BorrowBookform();
             borrowForm.ShowDialog();
         }
 
         // button6 → Return Book
-        private void button6_Click(object sender, EventArgs e)
+        private void btnReturnBook_Click(object sender, EventArgs e)
         {
             ReturnBookform returnForm = new ReturnBookform();
             returnForm.ShowDialog();
+        }
+
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

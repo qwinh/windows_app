@@ -28,85 +28,85 @@ namespace LibraryManagement
         /// </summary>
         private void InitializeComponent()
         {
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
+            this.btnLoginRegister = new System.Windows.Forms.Button();
+            this.btnManageBooks = new System.Windows.Forms.Button();
+            this.btnManageReaders = new System.Windows.Forms.Button();
+            this.btnBorrowBook = new System.Windows.Forms.Button();
+            this.btnReturnBook = new System.Windows.Forms.Button();
+            this.btnExit = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // button1
+            // btnLoginRegister
             // 
-            this.button1.Location = new System.Drawing.Point(0, 0);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Login";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnLoginRegister.Location = new System.Drawing.Point(186, 28);
+            this.btnLoginRegister.Name = "btnLoginRegister";
+            this.btnLoginRegister.Size = new System.Drawing.Size(112, 49);
+            this.btnLoginRegister.TabIndex = 0;
+            this.btnLoginRegister.Text = "Login/Register";
+            this.btnLoginRegister.UseVisualStyleBackColor = true;
+            this.btnLoginRegister.Click += new System.EventHandler(this.btnLoginOrLogout_Click);
             // 
-            // button2
+            // btnManageBooks
             // 
-            this.button2.Location = new System.Drawing.Point(90, 0);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "Register";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.btnManageBooks.Location = new System.Drawing.Point(266, 219);
+            this.btnManageBooks.Name = "btnManageBooks";
+            this.btnManageBooks.Size = new System.Drawing.Size(189, 58);
+            this.btnManageBooks.TabIndex = 2;
+            this.btnManageBooks.Text = "Manage Books";
+            this.btnManageBooks.UseVisualStyleBackColor = true;
+            this.btnManageBooks.Click += new System.EventHandler(this.btnManageBooks_Click);
             // 
-            // button3
+            // btnManageReaders
             // 
-            this.button3.Location = new System.Drawing.Point(0, 63);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 2;
-            this.button3.Text = "CrudBook";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.btnManageReaders.Location = new System.Drawing.Point(266, 122);
+            this.btnManageReaders.Name = "btnManageReaders";
+            this.btnManageReaders.Size = new System.Drawing.Size(189, 58);
+            this.btnManageReaders.TabIndex = 3;
+            this.btnManageReaders.Text = "Manage Readers";
+            this.btnManageReaders.UseVisualStyleBackColor = true;
+            this.btnManageReaders.Click += new System.EventHandler(this.btnManageReaders_Click);
             // 
-            // button4
+            // btnBorrowBook
             // 
-            this.button4.Location = new System.Drawing.Point(0, 113);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(137, 23);
-            this.button4.TabIndex = 3;
-            this.button4.Text = "CrudReader";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.btnBorrowBook.Location = new System.Drawing.Point(56, 122);
+            this.btnBorrowBook.Name = "btnBorrowBook";
+            this.btnBorrowBook.Size = new System.Drawing.Size(189, 58);
+            this.btnBorrowBook.TabIndex = 4;
+            this.btnBorrowBook.Text = "Borrow Book";
+            this.btnBorrowBook.UseVisualStyleBackColor = true;
+            this.btnBorrowBook.Click += new System.EventHandler(this.btnBorrowBook_Click);
             // 
-            // button5
+            // btnReturnBook
             // 
-            this.button5.Location = new System.Drawing.Point(0, 169);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(137, 23);
-            this.button5.TabIndex = 4;
-            this.button5.Text = "Borrow";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
+            this.btnReturnBook.Location = new System.Drawing.Point(56, 219);
+            this.btnReturnBook.Name = "btnReturnBook";
+            this.btnReturnBook.Size = new System.Drawing.Size(189, 58);
+            this.btnReturnBook.TabIndex = 5;
+            this.btnReturnBook.Text = "Return Book";
+            this.btnReturnBook.UseVisualStyleBackColor = true;
+            this.btnReturnBook.Click += new System.EventHandler(this.btnReturnBook_Click);
             // 
-            // button6
+            // btnExit
             // 
-            this.button6.Location = new System.Drawing.Point(170, 169);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(137, 23);
-            this.button6.TabIndex = 5;
-            this.button6.Text = "Return";
-            this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
+            this.btnExit.Location = new System.Drawing.Point(186, 318);
+            this.btnExit.Name = "btnExit";
+            this.btnExit.Size = new System.Drawing.Size(112, 44);
+            this.btnExit.TabIndex = 6;
+            this.btnExit.Text = "Exit";
+            this.btnExit.UseVisualStyleBackColor = true;
+            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
             // MainMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.button6);
-            this.Controls.Add(this.button5);
-            this.Controls.Add(this.button4);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.ClientSize = new System.Drawing.Size(489, 466);
+            this.Controls.Add(this.btnExit);
+            this.Controls.Add(this.btnReturnBook);
+            this.Controls.Add(this.btnBorrowBook);
+            this.Controls.Add(this.btnManageReaders);
+            this.Controls.Add(this.btnManageBooks);
+            this.Controls.Add(this.btnLoginRegister);
             this.Name = "MainMenu";
             this.Text = "MainMenu";
             this.ResumeLayout(false);
@@ -115,12 +115,12 @@ namespace LibraryManagement
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button btnLoginRegister;
+        private System.Windows.Forms.Button btnManageBooks;
+        private System.Windows.Forms.Button btnManageReaders;
+        private System.Windows.Forms.Button btnBorrowBook;
+        private System.Windows.Forms.Button btnReturnBook;
+        private System.Windows.Forms.Button btnExit;
     }
 }
 
