@@ -128,5 +128,39 @@ namespace LibraryManagement.BLL
 
             return AuthValidationResult<bool>.Ok(true);
         }
+
+        /// <summary>
+        /// Updates the profile (Name, Phone, Address) of an existing employee.
+        /// Returns a structured validation result.
+        /// </summary>
+        public AuthValidationResult<bool> UpdateProfile(int employeeId, string name, string phone, string address)
+        {
+            name = (name ?? "").Trim();
+            phone = (phone ?? "").Trim();
+            address = (address ?? "").Trim();
+
+            // 1. Basic format validation
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return AuthValidationResult<bool>.Fail("Full Name is required.");
+            }
+
+            // 2. Perform DB update
+            bool sqlSuccess = _userDAL.UpdateProfile(employeeId, name, phone, address);
+            if (!sqlSuccess)
+            {
+                return AuthValidationResult<bool>.Fail("Failed to update profile due to a database error or invalid employee ID.");
+            }
+
+            // 3. Update the session state immediately to reflect changes
+            if (SessionManager.IsLoggedIn && SessionManager.CurrentEmployee.Id == employeeId)
+            {
+                SessionManager.CurrentEmployee.Name = name;
+                SessionManager.CurrentEmployee.Phone = string.IsNullOrEmpty(phone) ? null : phone;
+                SessionManager.CurrentEmployee.Address = string.IsNullOrEmpty(address) ? null : address;
+            }
+
+            return AuthValidationResult<bool>.Ok(true);
+        }
     }
 }

@@ -66,13 +66,27 @@ namespace LibraryManagement
                 btnLoginRegister.Text = "Logout";
                 lblSessionStatus.Text = $"Signed in as: {SessionManager.CurrentEmployee.Name}";
                 lblSessionStatus.ForeColor = System.Drawing.Color.FromArgb(22, 43, 75); // Darker when active
+                btnProfile.Visible = true;
             }
             else
             {
                 btnLoginRegister.Text = "Login / Register";
                 lblSessionStatus.Text = "Not signed in";
                 lblSessionStatus.ForeColor = System.Drawing.Color.FromArgb(120, 130, 145); // Muted when inactive
+                btnProfile.Visible = false;
             }
+        }
+
+        private void btnProfile_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            var profileForm = new ProfileForm();
+            profileForm.FormClosed += (_, __) =>
+            {
+                this.Show();
+                RefreshLoginState();
+            };
+            profileForm.ShowDialog(this);
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
