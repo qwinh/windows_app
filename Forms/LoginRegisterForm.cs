@@ -225,14 +225,26 @@ namespace LibraryManagement
 
         // ─── UX: Show/hide password toggles ────────────────────────────────────────
 
-        private void chkShowLoginPassword_CheckedChanged(object sender, EventArgs e) // UX
-            => txtLoginPassword.PasswordChar = chkShowLoginPassword.Checked ? '\0' : '●';
+        private void btnShowLoginPassword_Click(object sender, EventArgs e) // UX
+        {
+            bool isHidden = txtLoginPassword.PasswordChar == '●';
+            txtLoginPassword.PasswordChar = isHidden ? '\0' : '●';
+            btnShowLoginPassword.IconChar = isHidden ? FontAwesome.Sharp.IconChar.EyeSlash : FontAwesome.Sharp.IconChar.Eye;
+        }
 
-        private void chkShowRegPassword_CheckedChanged(object sender, EventArgs e) // UX
-            => txtRegPassword.PasswordChar = chkShowRegPassword.Checked ? '\0' : '●';
+        private void btnShowRegPassword_Click(object sender, EventArgs e) // UX
+        {
+            bool isHidden = txtRegPassword.PasswordChar == '●';
+            txtRegPassword.PasswordChar = isHidden ? '\0' : '●';
+            btnShowRegPassword.IconChar = isHidden ? FontAwesome.Sharp.IconChar.EyeSlash : FontAwesome.Sharp.IconChar.Eye;
+        }
 
-        private void chkShowRegPasswordConfirm_CheckedChanged(object sender, EventArgs e) // UX
-            => txtRegPasswordConfirm.PasswordChar = chkShowRegPasswordConfirm.Checked ? '\0' : '●';
+        private void btnShowRegPasswordConfirm_Click(object sender, EventArgs e) // UX
+        {
+            bool isHidden = txtRegPasswordConfirm.PasswordChar == '●';
+            txtRegPasswordConfirm.PasswordChar = isHidden ? '\0' : '●';
+            btnShowRegPasswordConfirm.IconChar = isHidden ? FontAwesome.Sharp.IconChar.EyeSlash : FontAwesome.Sharp.IconChar.Eye;
+        }
 
         // ─── UX: Email format helper ───────────────────────────────────────────────
 
@@ -331,5 +343,34 @@ namespace LibraryManagement
                 SetLoadingState(btnRegister, false, "Create Account", "Creating account…");
             }
         }
+
+        // ══════════════════════════════════════════════════════════════════════
+        // UI Polish - Custom TextBox Border Focus Handlers
+        // ══════════════════════════════════════════════════════════════════════
+        
+        private readonly System.Drawing.Color _borderColorNormal = System.Drawing.Color.FromArgb(210, 218, 230);
+        private readonly System.Drawing.Color _borderColorFocus = System.Drawing.Color.FromArgb(37, 99, 235);
+
+
+
+
+
+
+
+        // ══════════════════════════════════════════════════════════════════════
+        // UI Polish - Card Panel Borders
+        // ══════════════════════════════════════════════════════════════════════
+        private void CardPanel_Paint(object sender, PaintEventArgs e)
+        {
+            Panel pnl = sender as Panel;
+            if (pnl == null) return;
+            
+            // Soft border color #E2E8F0
+            using (Pen borderPen = new Pen(System.Drawing.Color.FromArgb(226, 232, 240), 1))
+            {
+                e.Graphics.DrawRectangle(borderPen, 0, 0, pnl.Width - 1, pnl.Height - 1);
+            }
+        }
     }
 }
+

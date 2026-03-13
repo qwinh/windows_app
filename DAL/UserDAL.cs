@@ -112,6 +112,25 @@ namespace LibraryManagement.DAL
             }
         }
 
+        public bool UpdateProfile(int id, string name, string phone, string address)
+        {
+            using (var conn = clsDatabase.CreateOpenConnection())
+            using (var cmd = new SqlCommand(
+                "UPDATE employees SET name = @name, phone = @phone, address = @address " +
+                "WHERE id = @id", conn))
+            {
+                cmd.Parameters.AddWithValue("@id", id);
+                cmd.Parameters.AddWithValue("@name", name);
+                
+                // Handle optional fields
+                cmd.Parameters.AddWithValue("@phone", string.IsNullOrEmpty(phone) ? (object)DBNull.Value : phone);
+                cmd.Parameters.AddWithValue("@address", string.IsNullOrEmpty(address) ? (object)DBNull.Value : address);
+                
+                int rowsAffected = cmd.ExecuteNonQuery();
+                return rowsAffected > 0;
+            }
+        }
+
         private Employee MapFromReader(SqlDataReader reader)
         {
             return new Employee
