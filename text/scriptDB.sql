@@ -1,6 +1,13 @@
 create database library
 use library;
 
+-- For authors
+ALTER TABLE authors
+ADD image_path NVARCHAR(500) NULL;
+
+-- For books_formal
+ALTER TABLE books_formal
+ADD image_path NVARCHAR(500) NULL;
 -- ============================================
 -- LIBRARY MANAGEMENT SYSTEM
 -- SQL Server 2022
