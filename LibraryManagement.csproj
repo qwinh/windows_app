@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -48,10 +48,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\Employee.cs" />
+    <Compile Include="Models\Reader.cs" />
+    <Compile Include="Models\Book.cs" />
     <Compile Include="Helpers\SessionManager.cs" />
     <Compile Include="DAL\UserDAL.cs" />
+    <Compile Include="DAL\ReaderDAL.cs" />
+    <Compile Include="DAL\BookDAL.cs" />
     <Compile Include="BLL\AuthService.cs" />
     <Compile Include="BLL\AuthValidationResult.cs" />
+    <Compile Include="BLL\BorrowService.cs" />
     <Compile Include="Helpers\clsDatabase.cs" />
     <Compile Include="Forms\BorrowBookform.cs">
       <SubType>Form</SubType>
@@ -97,6 +102,9 @@
     <Compile Include="Forms\ReturnBookform.Designer.cs">
       <DependentUpon>ReturnBookform.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Forms\BorrowBookform.resx">
+      <DependentUpon>BorrowBookform.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\LoginRegisterForm.resx">
       <DependentUpon>LoginRegisterForm.cs</DependentUpon>
     </EmbeddedResource>

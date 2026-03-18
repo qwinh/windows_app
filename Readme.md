@@ -8,4 +8,6 @@ thằng làm xong cuối xóa cái .md này
 hoàng xong
 
 
+Note (hà): chạy cái này trong project folder để cài package
 
+dotnet add package FontAwesome.Sharp

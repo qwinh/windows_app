@@ -33,18 +33,18 @@ namespace LibraryManagement
 
             // Login card
             pnlLogin.Left = (rightW - pnlLogin.Width) / 2;
-            pnlLogin.Top  = (rightH - pnlLogin.Height) / 2;
+            pnlLogin.Top = (rightH - pnlLogin.Height) / 2;
 
             // Register card
             pnlRegister.Left = (rightW - pnlRegister.Width) / 2;
-            pnlRegister.Top  = Math.Max(10, (rightH - pnlRegister.Height) / 2);
+            pnlRegister.Top = Math.Max(10, (rightH - pnlRegister.Height) / 2);
         }
 
         // ─── Panel Switching ───────────────────────────────────────────────────────
 
         private void ShowLoginPanel()
         {
-            pnlLogin.Visible    = true;
+            pnlLogin.Visible = true;
             pnlRegister.Visible = false;
 
             // UX – Enter key triggers login
@@ -56,7 +56,7 @@ namespace LibraryManagement
 
         private void ShowRegisterPanel()
         {
-            pnlLogin.Visible    = false;
+            pnlLogin.Visible = false;
             pnlRegister.Visible = true;
 
             // UX – Enter key triggers register
@@ -96,7 +96,7 @@ namespace LibraryManagement
         // UX – helper: show/hide a label depending on whether message is empty
         private static void SetError(Label lbl, string message) // UX
         {
-            lbl.Text    = message;
+            lbl.Text = message;
             lbl.Visible = !string.IsNullOrEmpty(message);
         }
 
@@ -105,7 +105,7 @@ namespace LibraryManagement
         protected override void OnLoad(EventArgs e) // UX
         {
             base.OnLoad(e);
-            AttachHoverEffect(btnLogin,    Color.FromArgb(29, 78, 216), Color.FromArgb(37, 99, 235));
+            AttachHoverEffect(btnLogin, Color.FromArgb(29, 78, 216), Color.FromArgb(37, 99, 235));
             AttachHoverEffect(btnRegister, Color.FromArgb(29, 78, 216), Color.FromArgb(37, 99, 235));
         }
 
@@ -122,7 +122,7 @@ namespace LibraryManagement
         private void txtLoginEmail_TextChanged(object sender, EventArgs e) // UX
         {
             if (lblLoginEmailError.Visible) SetError(lblLoginEmailError, "");
-            if (lblLoginError.Visible)      SetError(lblLoginError, "");
+            if (lblLoginError.Visible) SetError(lblLoginError, "");
         }
 
         private void txtLoginPassword_TextChanged(object sender, EventArgs e) // UX
@@ -153,8 +153,8 @@ namespace LibraryManagement
 
         private void txtRegEmail_TextChanged(object sender, EventArgs e) // UX
         {
-            if (lblRegEmailError.Visible)   SetError(lblRegEmailError, "");
-            if (lblRegisterError.Visible)   SetError(lblRegisterError, "");
+            if (lblRegEmailError.Visible) SetError(lblRegEmailError, "");
+            if (lblRegisterError.Visible) SetError(lblRegisterError, "");
         }
 
         private bool ValidateRegEmail() // UX
@@ -179,9 +179,9 @@ namespace LibraryManagement
         {
             if (password.Length == 0) { lblRegPasswordStrength.Text = ""; return; }
 
-            bool hasUpper   = Regex.IsMatch(password, @"[A-Z]");
-            bool hasLower   = Regex.IsMatch(password, @"[a-z]");
-            bool hasDigit   = Regex.IsMatch(password, @"\d");
+            bool hasUpper = Regex.IsMatch(password, @"[A-Z]");
+            bool hasLower = Regex.IsMatch(password, @"[a-z]");
+            bool hasDigit = Regex.IsMatch(password, @"\d");
             bool hasSpecial = Regex.IsMatch(password, @"[^A-Za-z0-9]");
 
             bool isStrong = password.Length >= 12
@@ -189,17 +189,17 @@ namespace LibraryManagement
 
             if (password.Length < 8)
             {
-                lblRegPasswordStrength.Text      = "● Weak";
+                lblRegPasswordStrength.Text = "● Weak";
                 lblRegPasswordStrength.ForeColor = Color.FromArgb(210, 50, 50);
             }
             else if (isStrong)
             {
-                lblRegPasswordStrength.Text      = "● Strong";
+                lblRegPasswordStrength.Text = "● Strong";
                 lblRegPasswordStrength.ForeColor = Color.FromArgb(22, 163, 74);
             }
             else
             {
-                lblRegPasswordStrength.Text      = "● Medium";
+                lblRegPasswordStrength.Text = "● Medium";
                 lblRegPasswordStrength.ForeColor = Color.FromArgb(234, 88, 12);
             }
         }
@@ -209,7 +209,7 @@ namespace LibraryManagement
         private void txtRegPasswordConfirm_TextChanged(object sender, EventArgs e) // UX
         {
             if (lblRegPasswordConfirmError.Visible) SetError(lblRegPasswordConfirmError, "");
-            if (lblRegisterError.Visible)           SetError(lblRegisterError, "");
+            if (lblRegisterError.Visible) SetError(lblRegisterError, "");
         }
 
         private bool ValidatePasswordConfirm() // UX
@@ -256,8 +256,8 @@ namespace LibraryManagement
         private void SetLoadingState(Button btn, bool isLoading, string defaultText, string loadingText)
         {
             btn.Enabled = !isLoading;
-            btn.Text    = isLoading ? loadingText : defaultText;
-            Cursor      = isLoading ? Cursors.WaitCursor : Cursors.Default;
+            btn.Text = isLoading ? loadingText : defaultText;
+            Cursor = isLoading ? Cursors.WaitCursor : Cursors.Default;
         }
 
         // ─── Login submit (async + loading state) ─────────────────────────────────
@@ -297,7 +297,7 @@ namespace LibraryManagement
 
         private async void btnRegister_Click(object sender, EventArgs e)
         {
-            bool emailOk   = ValidateRegEmail();
+            bool emailOk = ValidateRegEmail();
             bool confirmOk = ValidatePasswordConfirm();
             if (!emailOk || !confirmOk) return;
 
@@ -316,9 +316,9 @@ namespace LibraryManagement
                 if (result.Success)
                 {
                     // Clear fields
-                    txtRegName.Text            = "";
-                    txtRegEmail.Text           = "";
-                    txtRegPassword.Text        = "";
+                    txtRegName.Text = "";
+                    txtRegEmail.Text = "";
+                    txtRegPassword.Text = "";
                     txtRegPasswordConfirm.Text = "";    // UX
                     lblRegPasswordStrength.Text = "";   // UX
 
@@ -347,7 +347,7 @@ namespace LibraryManagement
         // ══════════════════════════════════════════════════════════════════════
         // UI Polish - Custom TextBox Border Focus Handlers
         // ══════════════════════════════════════════════════════════════════════
-        
+
         private readonly System.Drawing.Color _borderColorNormal = System.Drawing.Color.FromArgb(210, 218, 230);
         private readonly System.Drawing.Color _borderColorFocus = System.Drawing.Color.FromArgb(37, 99, 235);
 
@@ -364,7 +364,7 @@ namespace LibraryManagement
         {
             Panel pnl = sender as Panel;
             if (pnl == null) return;
-            
+
             // Soft border color #E2E8F0
             using (Pen borderPen = new Pen(System.Drawing.Color.FromArgb(226, 232, 240), 1))
             {
