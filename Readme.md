@@ -6,8 +6,8 @@ thằng nào làm xong rồi thì cmt vào Readme.md
 thằng làm xong cuối xóa cái .md này
 
 hoàng xong
+hà xong
 
-
-Note (hà): chạy cái này trong project folder để cài package
+Note (hà): nhớ chạy cái này trong project folder để cài package
 
 dotnet add package FontAwesome.Sharp
