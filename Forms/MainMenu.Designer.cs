@@ -28,99 +28,295 @@ namespace LibraryManagement
         /// </summary>
         private void InitializeComponent()
         {
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
+            this.btnLoginRegister = new System.Windows.Forms.Button();
+            this.btnProfile = new FontAwesome.Sharp.IconButton();
+            this.btnManageBooks = new System.Windows.Forms.Button();
+            this.btnManageReaders = new System.Windows.Forms.Button();
+            this.btnBorrowBook = new System.Windows.Forms.Button();
+            this.btnReturnBook = new System.Windows.Forms.Button();
+            this.btnExit = new System.Windows.Forms.Button();
+            this.pnlSidebar = new System.Windows.Forms.Panel();
+            this.lblSidebarAppTitle = new System.Windows.Forms.Label();
+            this.lblSidebarSubtitle = new System.Windows.Forms.Label();
+            this.iconSidebar = new FontAwesome.Sharp.IconPictureBox();
+            this.pnlRight = new System.Windows.Forms.Panel();
+            this.pnlContent = new System.Windows.Forms.Panel();
+            this.pnlHeader = new System.Windows.Forms.Panel();
+            this.lblHeaderTitle = new System.Windows.Forms.Label();
+            this.lblSessionStatus = new System.Windows.Forms.Label();
+            this.pnlSidebar.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.iconSidebar)).BeginInit();
+            this.pnlRight.SuspendLayout();
+            this.pnlContent.SuspendLayout();
+            this.pnlHeader.SuspendLayout();
             this.SuspendLayout();
             // 
-            // button1
+            // btnLoginRegister
             // 
-            this.button1.Location = new System.Drawing.Point(0, 0);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Login";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnLoginRegister.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(99)))), ((int)(((byte)(235)))));
+            this.btnLoginRegister.FlatAppearance.BorderSize = 0;
+            this.btnLoginRegister.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnLoginRegister.Font = new System.Drawing.Font("Segoe UI", 10.5F, System.Drawing.FontStyle.Bold);
+            this.btnLoginRegister.ForeColor = System.Drawing.Color.White;
+            this.btnLoginRegister.Location = new System.Drawing.Point(400, 20);
+            this.btnLoginRegister.Name = "btnLoginRegister";
+            this.btnLoginRegister.Size = new System.Drawing.Size(140, 42);
+            this.btnLoginRegister.TabIndex = 0;
+            this.btnLoginRegister.Text = "Login / Register";
+            this.btnLoginRegister.UseVisualStyleBackColor = false;
+            this.btnLoginRegister.Click += new System.EventHandler(this.btnLoginOrLogout_Click);
             // 
-            // button2
+            // btnProfile
             // 
-            this.button2.Location = new System.Drawing.Point(90, 0);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "Register";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.btnProfile.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(99)))), ((int)(((byte)(235)))));
+            this.btnProfile.FlatAppearance.BorderSize = 0;
+            this.btnProfile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnProfile.Font = new System.Drawing.Font("Segoe UI", 10.5F, System.Drawing.FontStyle.Bold);
+            this.btnProfile.ForeColor = System.Drawing.Color.White;
+            this.btnProfile.IconChar = FontAwesome.Sharp.IconChar.UserCircle;
+            this.btnProfile.IconColor = System.Drawing.Color.White;
+            this.btnProfile.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.btnProfile.IconSize = 18;
+            this.btnProfile.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnProfile.Location = new System.Drawing.Point(260, 20);
+            this.btnProfile.Name = "btnProfile";
+            this.btnProfile.Size = new System.Drawing.Size(130, 42);
+            this.btnProfile.TabIndex = 6;
+            this.btnProfile.Text = "My Profile";
+            this.btnProfile.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnProfile.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnProfile.UseVisualStyleBackColor = false;
+            this.btnProfile.Visible = false;
+            this.btnProfile.Click += new System.EventHandler(this.btnProfile_Click);
             // 
-            // button3
+            // btnManageBooks
             // 
-            this.button3.Location = new System.Drawing.Point(0, 63);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 2;
-            this.button3.Text = "CrudBook";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.btnManageBooks.BackColor = System.Drawing.Color.White;
+            this.btnManageBooks.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(225)))), ((int)(((byte)(235)))));
+            this.btnManageBooks.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnManageBooks.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
+            this.btnManageBooks.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(43)))), ((int)(((byte)(75)))));
+            this.btnManageBooks.Location = new System.Drawing.Point(40, 40);
+            this.btnManageBooks.Name = "btnManageBooks";
+            this.btnManageBooks.Size = new System.Drawing.Size(220, 80);
+            this.btnManageBooks.TabIndex = 1;
+            this.btnManageBooks.Text = "Manage Books";
+            this.btnManageBooks.UseVisualStyleBackColor = false;
+            this.btnManageBooks.Click += new System.EventHandler(this.btnManageBooks_Click);
             // 
-            // button4
+            // btnManageReaders
             // 
-            this.button4.Location = new System.Drawing.Point(0, 113);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(137, 23);
-            this.button4.TabIndex = 3;
-            this.button4.Text = "CrudReader";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.btnManageReaders.BackColor = System.Drawing.Color.White;
+            this.btnManageReaders.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(225)))), ((int)(((byte)(235)))));
+            this.btnManageReaders.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnManageReaders.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
+            this.btnManageReaders.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(43)))), ((int)(((byte)(75)))));
+            this.btnManageReaders.Location = new System.Drawing.Point(290, 40);
+            this.btnManageReaders.Name = "btnManageReaders";
+            this.btnManageReaders.Size = new System.Drawing.Size(220, 80);
+            this.btnManageReaders.TabIndex = 2;
+            this.btnManageReaders.Text = "Manage Readers";
+            this.btnManageReaders.UseVisualStyleBackColor = false;
+            this.btnManageReaders.Click += new System.EventHandler(this.btnManageReaders_Click);
             // 
-            // button5
+            // btnBorrowBook
             // 
-            this.button5.Location = new System.Drawing.Point(0, 169);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(137, 23);
-            this.button5.TabIndex = 4;
-            this.button5.Text = "Borrow";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
+            this.btnBorrowBook.BackColor = System.Drawing.Color.White;
+            this.btnBorrowBook.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(225)))), ((int)(((byte)(235)))));
+            this.btnBorrowBook.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnBorrowBook.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
+            this.btnBorrowBook.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(43)))), ((int)(((byte)(75)))));
+            this.btnBorrowBook.Location = new System.Drawing.Point(40, 150);
+            this.btnBorrowBook.Name = "btnBorrowBook";
+            this.btnBorrowBook.Size = new System.Drawing.Size(220, 80);
+            this.btnBorrowBook.TabIndex = 3;
+            this.btnBorrowBook.Text = "Borrow Book";
+            this.btnBorrowBook.UseVisualStyleBackColor = false;
+            this.btnBorrowBook.Click += new System.EventHandler(this.btnBorrowBook_Click);
             // 
-            // button6
+            // btnReturnBook
             // 
-            this.button6.Location = new System.Drawing.Point(170, 169);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(137, 23);
-            this.button6.TabIndex = 5;
-            this.button6.Text = "Return";
-            this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
+            this.btnReturnBook.BackColor = System.Drawing.Color.White;
+            this.btnReturnBook.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(225)))), ((int)(((byte)(235)))));
+            this.btnReturnBook.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnReturnBook.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
+            this.btnReturnBook.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(43)))), ((int)(((byte)(75)))));
+            this.btnReturnBook.Location = new System.Drawing.Point(290, 150);
+            this.btnReturnBook.Name = "btnReturnBook";
+            this.btnReturnBook.Size = new System.Drawing.Size(220, 80);
+            this.btnReturnBook.TabIndex = 4;
+            this.btnReturnBook.Text = "Return Book";
+            this.btnReturnBook.UseVisualStyleBackColor = false;
+            this.btnReturnBook.Click += new System.EventHandler(this.btnReturnBook_Click);
+            // 
+            // btnExit
+            // 
+            this.btnExit.BackColor = System.Drawing.Color.White;
+            this.btnExit.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(218)))), ((int)(((byte)(230)))));
+            this.btnExit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnExit.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.btnExit.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(60)))), ((int)(((byte)(80)))));
+            this.btnExit.Location = new System.Drawing.Point(390, 275);
+            this.btnExit.Name = "btnExit";
+            this.btnExit.Size = new System.Drawing.Size(120, 38);
+            this.btnExit.TabIndex = 5;
+            this.btnExit.Text = "Exit";
+            this.btnExit.UseVisualStyleBackColor = false;
+            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
+            // 
+            // pnlSidebar
+            // 
+            this.pnlSidebar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(43)))), ((int)(((byte)(75)))));
+            this.pnlSidebar.Controls.Add(this.lblSidebarAppTitle);
+            this.pnlSidebar.Controls.Add(this.lblSidebarSubtitle);
+            this.pnlSidebar.Controls.Add(this.iconSidebar);
+            this.pnlSidebar.Dock = System.Windows.Forms.DockStyle.Left;
+            this.pnlSidebar.Location = new System.Drawing.Point(0, 0);
+            this.pnlSidebar.Name = "pnlSidebar";
+            this.pnlSidebar.Size = new System.Drawing.Size(248, 423);
+            this.pnlSidebar.TabIndex = 10;
+            // 
+            // lblSidebarAppTitle
+            // 
+            this.lblSidebarAppTitle.AutoSize = true;
+            this.lblSidebarAppTitle.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
+            this.lblSidebarAppTitle.ForeColor = System.Drawing.Color.White;
+            this.lblSidebarAppTitle.Location = new System.Drawing.Point(12, 100);
+            this.lblSidebarAppTitle.Name = "lblSidebarAppTitle";
+            this.lblSidebarAppTitle.Size = new System.Drawing.Size(208, 37);
+            this.lblSidebarAppTitle.TabIndex = 11;
+            this.lblSidebarAppTitle.Text = "Library System";
+            // 
+            // lblSidebarSubtitle
+            // 
+            this.lblSidebarSubtitle.AutoSize = true;
+            this.lblSidebarSubtitle.Font = new System.Drawing.Font("Segoe UI", 9.5F);
+            this.lblSidebarSubtitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(160)))), ((int)(((byte)(190)))), ((int)(((byte)(220)))));
+            this.lblSidebarSubtitle.Location = new System.Drawing.Point(14, 137);
+            this.lblSidebarSubtitle.Name = "lblSidebarSubtitle";
+            this.lblSidebarSubtitle.Size = new System.Drawing.Size(226, 42);
+            this.lblSidebarSubtitle.TabIndex = 12;
+            this.lblSidebarSubtitle.Text = "Manage your library efficiently \r\nand securely.";
+            // 
+            // iconSidebar
+            // 
+            this.iconSidebar.BackColor = System.Drawing.Color.Transparent;
+            this.iconSidebar.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(92)))), ((int)(((byte)(179)))), ((int)(((byte)(255)))));
+            this.iconSidebar.IconChar = FontAwesome.Sharp.IconChar.BookOpen;
+            this.iconSidebar.IconColor = System.Drawing.Color.FromArgb(((int)(((byte)(92)))), ((int)(((byte)(179)))), ((int)(((byte)(255)))));
+            this.iconSidebar.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.iconSidebar.IconSize = 63;
+            this.iconSidebar.Location = new System.Drawing.Point(10, 40);
+            this.iconSidebar.Name = "iconSidebar";
+            this.iconSidebar.Size = new System.Drawing.Size(92, 63);
+            this.iconSidebar.TabIndex = 10;
+            this.iconSidebar.TabStop = false;
+            // 
+            // pnlRight
+            // 
+            this.pnlRight.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(247)))), ((int)(((byte)(250)))));
+            this.pnlRight.Controls.Add(this.pnlContent);
+            this.pnlRight.Controls.Add(this.pnlHeader);
+            this.pnlRight.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlRight.Location = new System.Drawing.Point(248, 0);
+            this.pnlRight.Name = "pnlRight";
+            this.pnlRight.Size = new System.Drawing.Size(554, 423);
+            this.pnlRight.TabIndex = 11;
+            // 
+            // pnlContent
+            // 
+            this.pnlContent.Controls.Add(this.btnReturnBook);
+            this.pnlContent.Controls.Add(this.btnBorrowBook);
+            this.pnlContent.Controls.Add(this.btnManageReaders);
+            this.pnlContent.Controls.Add(this.btnManageBooks);
+            this.pnlContent.Controls.Add(this.btnExit);
+            this.pnlContent.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlContent.Location = new System.Drawing.Point(0, 80);
+            this.pnlContent.Name = "pnlContent";
+            this.pnlContent.Size = new System.Drawing.Size(554, 343);
+            this.pnlContent.TabIndex = 15;
+            // 
+            // pnlHeader
+            // 
+            this.pnlHeader.BackColor = System.Drawing.Color.White;
+            this.pnlHeader.Controls.Add(this.lblHeaderTitle);
+            this.pnlHeader.Controls.Add(this.lblSessionStatus);
+            this.pnlHeader.Controls.Add(this.btnProfile);
+            this.pnlHeader.Controls.Add(this.btnLoginRegister);
+            this.pnlHeader.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnlHeader.Location = new System.Drawing.Point(0, 0);
+            this.pnlHeader.Name = "pnlHeader";
+            this.pnlHeader.Size = new System.Drawing.Size(554, 80);
+            this.pnlHeader.TabIndex = 12;
+            // 
+            // lblHeaderTitle
+            // 
+            this.lblHeaderTitle.AutoSize = true;
+            this.lblHeaderTitle.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold);
+            this.lblHeaderTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(43)))), ((int)(((byte)(75)))));
+            this.lblHeaderTitle.Location = new System.Drawing.Point(24, 9);
+            this.lblHeaderTitle.Name = "lblHeaderTitle";
+            this.lblHeaderTitle.Size = new System.Drawing.Size(179, 41);
+            this.lblHeaderTitle.TabIndex = 13;
+            this.lblHeaderTitle.Text = "Main Menu";
+            // 
+            // lblSessionStatus
+            // 
+            this.lblSessionStatus.Font = new System.Drawing.Font("Segoe UI", 9.5F);
+            this.lblSessionStatus.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(130)))), ((int)(((byte)(145)))));
+            this.lblSessionStatus.Location = new System.Drawing.Point(27, 50);
+            this.lblSessionStatus.Name = "lblSessionStatus";
+            this.lblSessionStatus.Size = new System.Drawing.Size(227, 20);
+            this.lblSessionStatus.TabIndex = 14;
+            this.lblSessionStatus.Text = "Not signed in";
+            this.lblSessionStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // MainMenu
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.button6);
-            this.Controls.Add(this.button5);
-            this.Controls.Add(this.button4);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.BackColor = System.Drawing.Color.White;
+            this.ClientSize = new System.Drawing.Size(802, 423);
+            this.Controls.Add(this.pnlRight);
+            this.Controls.Add(this.pnlSidebar);
+            this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "MainMenu";
-            this.Text = "MainMenu";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Library System - Main Menu";
+            this.pnlSidebar.ResumeLayout(false);
+            this.pnlSidebar.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.iconSidebar)).EndInit();
+            this.pnlRight.ResumeLayout(false);
+            this.pnlContent.ResumeLayout(false);
+            this.pnlHeader.ResumeLayout(false);
+            this.pnlHeader.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Button button6;
+        // Original buttons updated with new UX
+        private System.Windows.Forms.Button btnLoginRegister;
+        private FontAwesome.Sharp.IconButton btnProfile;
+        private System.Windows.Forms.Button btnManageBooks;
+        private System.Windows.Forms.Button btnManageReaders;
+        private System.Windows.Forms.Button btnBorrowBook;
+        private System.Windows.Forms.Button btnReturnBook;
+        private System.Windows.Forms.Button btnExit;
+
+        // New Layout Containers
+        private System.Windows.Forms.Panel pnlSidebar;
+        private System.Windows.Forms.Label lblSidebarAppTitle;
+        private System.Windows.Forms.Label lblSidebarSubtitle;
+        private FontAwesome.Sharp.IconPictureBox iconSidebar;
+        private System.Windows.Forms.Panel pnlRight;
+        private System.Windows.Forms.Panel pnlHeader;
+        private System.Windows.Forms.Label lblHeaderTitle;
+        private System.Windows.Forms.Label lblSessionStatus;
+        private System.Windows.Forms.Panel pnlContent;
     }
 }
 
