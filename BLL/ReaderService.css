@@ -1,0 +1,28 @@
+using System.Collections.Generic;
+using LibraryManagement.DAL;
+using LibraryManagement.Models;
+
+namespace LibraryManagement.BLL
+{
+    public class ReaderBLL
+    {
+        private readonly ReaderDAL _dal = new ReaderDAL();
+
+        public List<Reader> GetAll()            => _dal.GetAll();
+        public Reader       GetById(int id)     => _dal.GetById(id);
+        public int          Insert(Reader r)    => _dal.Insert(r);
+        public bool         Update(Reader r)    => _dal.Update(r);
+        public bool         Delete(int id)      => _dal.Delete(id);
+        public List<Reader> Search(string kw)   => _dal.Search(kw);
+
+        // Validation
+        public string Validate(Reader r)
+        {
+            if (string.IsNullOrWhiteSpace(r.Name))
+                return "Tên độc giả không được để trống!";
+            if (r.Integrity < 1 || r.Integrity > 5)
+                return "Integrity phải từ 1 đến 5!";
+            return null; // null = hợp lệ
+        }
+    }
+}

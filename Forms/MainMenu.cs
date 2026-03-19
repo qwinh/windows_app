@@ -1,6 +1,8 @@
+using LibraryManagement.BLL;
+using LibraryManagement.Forms;
+using LibraryManagement.Helpers;
 using System;
 using System.Windows.Forms;
-using LibraryManagement.Helpers;
 
 namespace LibraryManagement
 {
@@ -110,7 +112,8 @@ namespace LibraryManagement
         // button4 → Manage Readers (CRUD)
         private void btnManageReaders_Click(object sender, EventArgs e)
         {
-            CrudReaderForm crudReaderForm = new CrudReaderForm();
+            ReaderService service = new ReaderService();
+            CrudReaderForm crudReaderForm = new CrudReaderForm(service);
             crudReaderForm.ShowDialog();
         }
 
