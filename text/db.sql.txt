@@ -1,0 +1,97 @@
+-- ============================================
+-- LIBRARY MANAGEMENT SYSTEM
+-- SQL Server 2022
+-- ============================================
+
+-- genres
+CREATE TABLE genres (
+    id          INT             IDENTITY(1,1)   PRIMARY KEY,
+    name        NVARCHAR(100)   NOT NULL        UNIQUE,
+    description NVARCHAR(500)   NULL
+);
+
+-- authors
+CREATE TABLE authors (
+    id          INT             IDENTITY(1,1)   PRIMARY KEY,
+    name        NVARCHAR(200)   NOT NULL,
+    description NVARCHAR(1000)  NULL,
+    date_birth  DATE            NULL,
+    date_death  DATE            NULL
+);
+
+-- books.formal
+CREATE TABLE books_formal (
+    id           INT             IDENTITY(1,1)   PRIMARY KEY,
+    name         NVARCHAR(300)   NOT NULL,
+    date_publish DATE            NULL
+);
+
+-- books.formal-authors  (junction)
+CREATE TABLE books_formal_authors (
+    books_formal_id INT NOT NULL    REFERENCES books_formal(id),
+    authors_id      INT NOT NULL    REFERENCES authors(id),
+    PRIMARY KEY (books_formal_id, authors_id)
+);
+
+-- books.formal-genres  (junction)
+CREATE TABLE books_formal_genres (
+    books_formal_id INT NOT NULL    REFERENCES books_formal(id),
+    genres_id       INT NOT NULL    REFERENCES genres(id),
+    PRIMARY KEY (books_formal_id, genres_id)
+);
+
+-- books.actual  (physical copies)
+CREATE TABLE books_actual (
+    id              INT             IDENTITY(1,1)   PRIMARY KEY,
+    books_formal_id INT             NOT NULL        REFERENCES books_formal(id),
+    date_create     DATETIME2       NOT NULL        DEFAULT SYSDATETIME(),
+    integrity       TINYINT         NOT NULL        DEFAULT 5
+                                    CHECK (integrity BETWEEN 1 AND 5)
+);
+
+-- employees
+CREATE TABLE employees (
+    id          INT             IDENTITY(1,1)   PRIMARY KEY,
+    name        NVARCHAR(200)   NOT NULL,
+    email       NVARCHAR(254)   NOT NULL        UNIQUE,
+    pass        NVARCHAR(256)   NOT NULL,               -- store hashed
+    phone       NVARCHAR(20)    NULL,
+    address     NVARCHAR(500)   NULL,
+    date_create DATETIME2       NOT NULL        DEFAULT SYSDATETIME(),
+    status      TINYINT         NOT NULL        DEFAULT 1   -- 1=active, 0=inactive
+);
+
+-- readers
+CREATE TABLE readers (
+    id          INT             IDENTITY(1,1)   PRIMARY KEY,
+    name        NVARCHAR(200)   NOT NULL,
+    email       NVARCHAR(254)   NULL            UNIQUE,
+    phone       NVARCHAR(20)    NULL,
+    address     NVARCHAR(500)   NULL,
+    date_create DATETIME2       NOT NULL        DEFAULT SYSDATETIME(),
+    date_expire DATE            NULL,
+    integrity   TINYINT         NOT NULL        DEFAULT 5
+                                CHECK (integrity BETWEEN 1 AND 5)
+);
+
+-- borrows
+CREATE TABLE borrows (
+    id              INT         IDENTITY(1,1)   PRIMARY KEY,
+    readers_id      INT         NOT NULL        REFERENCES readers(id),
+    books_actual_id INT         NOT NULL        REFERENCES books_actual(id),
+    employees_id    INT         NOT NULL        REFERENCES employees(id),
+    date_create     DATETIME2   NOT NULL        DEFAULT SYSDATETIME(),
+    date_expire     DATETIME2   NOT NULL,
+    date_return     DATETIME2   NULL            -- NULL = not yet returned
+);
+
+-- ============================================
+-- INDEXES
+-- ============================================
+
+CREATE INDEX IX_books_actual_formal     ON books_actual (books_formal_id);
+CREATE INDEX IX_borrows_reader          ON borrows (readers_id);
+CREATE INDEX IX_borrows_book            ON borrows (books_actual_id);
+CREATE INDEX IX_borrows_employee        ON borrows (employees_id);
+CREATE INDEX IX_borrows_date_expire     ON borrows (date_expire) WHERE date_return IS NULL;
+CREATE INDEX IX_readers_email           ON readers (email) WHERE email IS NOT NULL;
