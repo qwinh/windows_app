@@ -13,6 +13,7 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <RuntimeIdentifier>win</RuntimeIdentifier>
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -47,10 +48,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Author.cs" />
+    <Compile Include="Models\Genre.cs" />
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\Reader.cs" />
     <Compile Include="Models\Book.cs" />
     <Compile Include="Helpers\SessionManager.cs" />
+    <Compile Include="DAL\ReferenceDAL.cs" />
     <Compile Include="DAL\UserDAL.cs" />
     <Compile Include="DAL\ReaderDAL.cs" />
     <Compile Include="DAL\BookDAL.cs" />

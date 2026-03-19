@@ -1,4 +1,5 @@
-﻿create database library;
+﻿SET QUOTED_IDENTIFIER ON; SET ARITHABORT ON; 
+create database library;
 GO
 use library;
 
@@ -302,3 +303,4 @@ ADD image_path NVARCHAR(500) NULL;
 -- Add image path to authors (author photo)
 ALTER TABLE authors
 ADD image_path NVARCHAR(500) NULL;
+
