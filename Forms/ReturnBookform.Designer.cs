@@ -40,10 +40,11 @@ namespace LibraryManagement
             this.pnlReturnCard.Controls.Add(this.cmbBook);
             this.pnlReturnCard.Controls.Add(this.btnSubmit);
             this.pnlReturnCard.Controls.Add(this.btnCancel);
-            this.pnlReturnCard.Location = new System.Drawing.Point(31, 30);
+            this.pnlReturnCard.Location = new System.Drawing.Point(35, 38);
+            this.pnlReturnCard.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.pnlReturnCard.Name = "pnlReturnCard";
-            this.pnlReturnCard.Padding = new System.Windows.Forms.Padding(28, 24, 28, 24);
-            this.pnlReturnCard.Size = new System.Drawing.Size(582, 460);
+            this.pnlReturnCard.Padding = new System.Windows.Forms.Padding(32, 30, 32, 30);
+            this.pnlReturnCard.Size = new System.Drawing.Size(655, 575);
             this.pnlReturnCard.TabIndex = 0;
             this.pnlReturnCard.Paint += new System.Windows.Forms.PaintEventHandler(this.CardPanel_Paint);
             // 
@@ -51,9 +52,9 @@ namespace LibraryManagement
             // 
             this.lblTitle.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold);
             this.lblTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(43)))), ((int)(((byte)(75)))));
-            this.lblTitle.Location = new System.Drawing.Point(30, 25);
+            this.lblTitle.Location = new System.Drawing.Point(34, 31);
             this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(300, 40);
+            this.lblTitle.Size = new System.Drawing.Size(338, 50);
             this.lblTitle.TabIndex = 0;
             this.lblTitle.Text = "Return Book";
             // 
@@ -61,9 +62,9 @@ namespace LibraryManagement
             // 
             this.lblSubtitle.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.lblSubtitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(130)))), ((int)(((byte)(145)))));
-            this.lblSubtitle.Location = new System.Drawing.Point(30, 65);
+            this.lblSubtitle.Location = new System.Drawing.Point(34, 81);
             this.lblSubtitle.Name = "lblSubtitle";
-            this.lblSubtitle.Size = new System.Drawing.Size(400, 22);
+            this.lblSubtitle.Size = new System.Drawing.Size(450, 28);
             this.lblSubtitle.TabIndex = 1;
             this.lblSubtitle.Text = "Search by reader and select borrowed book below";
             // 
@@ -72,9 +73,9 @@ namespace LibraryManagement
             this.lblReaderId.AutoSize = true;
             this.lblReaderId.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.lblReaderId.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(60)))), ((int)(((byte)(80)))));
-            this.lblReaderId.Location = new System.Drawing.Point(30, 105);
+            this.lblReaderId.Location = new System.Drawing.Point(34, 131);
             this.lblReaderId.Name = "lblReaderId";
-            this.lblReaderId.Size = new System.Drawing.Size(58, 20);
+            this.lblReaderId.Size = new System.Drawing.Size(72, 25);
             this.lblReaderId.TabIndex = 2;
             this.lblReaderId.Text = "Reader";
             // 
@@ -83,9 +84,10 @@ namespace LibraryManagement
             this.cmbReader.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.cmbReader.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.cmbReader.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.cmbReader.Location = new System.Drawing.Point(30, 127);
+            this.cmbReader.Location = new System.Drawing.Point(34, 159);
+            this.cmbReader.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cmbReader.Name = "cmbReader";
-            this.cmbReader.Size = new System.Drawing.Size(521, 31);
+            this.cmbReader.Size = new System.Drawing.Size(586, 36);
             this.cmbReader.TabIndex = 3;
             this.cmbReader.SelectedIndexChanged += new System.EventHandler(this.cmbReader_SelectedIndexChanged);
             // 
@@ -94,9 +96,9 @@ namespace LibraryManagement
             this.lblBookId.AutoSize = true;
             this.lblBookId.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.lblBookId.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(60)))), ((int)(((byte)(80)))));
-            this.lblBookId.Location = new System.Drawing.Point(30, 170);
+            this.lblBookId.Location = new System.Drawing.Point(34, 212);
             this.lblBookId.Name = "lblBookId";
-            this.lblBookId.Size = new System.Drawing.Size(164, 20);
+            this.lblBookId.Size = new System.Drawing.Size(206, 25);
             this.lblBookId.TabIndex = 4;
             this.lblBookId.Text = "Borrowed Book (Copy)";
             // 
@@ -105,9 +107,10 @@ namespace LibraryManagement
             this.cmbBook.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.cmbBook.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.cmbBook.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.cmbBook.Location = new System.Drawing.Point(30, 192);
+            this.cmbBook.Location = new System.Drawing.Point(34, 240);
+            this.cmbBook.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cmbBook.Name = "cmbBook";
-            this.cmbBook.Size = new System.Drawing.Size(521, 31);
+            this.cmbBook.Size = new System.Drawing.Size(586, 36);
             this.cmbBook.TabIndex = 5;
             // 
             // btnSubmit
@@ -118,9 +121,10 @@ namespace LibraryManagement
             this.btnSubmit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSubmit.Font = new System.Drawing.Font("Segoe UI", 10.5F, System.Drawing.FontStyle.Bold);
             this.btnSubmit.ForeColor = System.Drawing.Color.White;
-            this.btnSubmit.Location = new System.Drawing.Point(142, 260);
+            this.btnSubmit.Location = new System.Drawing.Point(160, 325);
+            this.btnSubmit.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnSubmit.Name = "btnSubmit";
-            this.btnSubmit.Size = new System.Drawing.Size(300, 42);
+            this.btnSubmit.Size = new System.Drawing.Size(338, 52);
             this.btnSubmit.TabIndex = 8;
             this.btnSubmit.Text = "Return Book";
             this.btnSubmit.UseVisualStyleBackColor = false;
@@ -134,9 +138,10 @@ namespace LibraryManagement
             this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCancel.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnCancel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(130)))), ((int)(((byte)(145)))));
-            this.btnCancel.Location = new System.Drawing.Point(142, 319);
+            this.btnCancel.Location = new System.Drawing.Point(160, 399);
+            this.btnCancel.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(300, 38);
+            this.btnCancel.Size = new System.Drawing.Size(338, 48);
             this.btnCancel.TabIndex = 9;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = false;
@@ -144,12 +149,13 @@ namespace LibraryManagement
             // 
             // ReturnBookform
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(247)))), ((int)(((byte)(250)))));
-            this.ClientSize = new System.Drawing.Size(640, 520);
+            this.ClientSize = new System.Drawing.Size(720, 650);
             this.Controls.Add(this.pnlReturnCard);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ReturnBookform";
