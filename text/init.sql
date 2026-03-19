@@ -1,7 +1,7 @@
-﻿create database library;
-GO
-use library;
-
+﻿CREATE DATABASE library; GO
+USE library; GO
+SET QUOTED_IDENTIFIER ON; GO
+SET ARITHABORT ON; GO
 -- ============================================
 -- LIBRARY MANAGEMENT SYSTEM
 -- SQL Server 2022
@@ -98,10 +98,12 @@ CREATE INDEX IX_borrows_reader          ON borrows (readers_id);
 CREATE INDEX IX_borrows_book            ON borrows (books_actual_id);
 CREATE INDEX IX_borrows_employee        ON borrows (employees_id);
 CREATE INDEX IX_borrows_date_expire     ON borrows (date_expire) WHERE date_return IS NULL;
-CREATE INDEX IX_readers_email           ON readers (email) WHERE email IS NOT NULL;
-
-
-
+CREATE INDEX IX_readers_email           ON readers (email) WHERE email IS NOT NULL;ALTER TABLE employees ADD image_path NVARCHAR(500) NULL; ALTER TABLE readers ADD image_path NVARCHAR(500) NULL; ALTER TABLE books_formal ADD image_path NVARCHAR(500) NULL; ALTER TABLE authors ADD image_path NVARCHAR(500) NULL; GO
+-- ============================================
+-- LIBRARY MANAGEMENT SYSTEM
+-- SEED DATA
+-- SQL Server 2022
+-- ============================================
 
 -- Insert Genres
 INSERT INTO genres (name, description) VALUES
@@ -286,19 +288,3 @@ VALUES (7, 12, 2, '2023-12-10 09:00:00', '2023-12-24 09:00:00', NULL);
 -- ============================================
 -- END OF SEED DATA
 -- ============================================
-
--- Add image path to employees (profile picture)
-ALTER TABLE employees
-ADD image_path NVARCHAR(500) NULL;
-
--- Add image path to readers (reader photo)
-ALTER TABLE readers
-ADD image_path NVARCHAR(500) NULL;
-
--- Add image path to books_formal (cover image)
-ALTER TABLE books_formal
-ADD image_path NVARCHAR(500) NULL;
-
--- Add image path to authors (author photo)
-ALTER TABLE authors
-ADD image_path NVARCHAR(500) NULL;
