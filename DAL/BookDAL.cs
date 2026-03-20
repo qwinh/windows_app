@@ -211,7 +211,8 @@ namespace LibraryManagement.DAL
                        (SELECT TOP 1 a.id FROM authors a INNER JOIN books_formal_authors bfa ON a.id = bfa.authors_id WHERE bfa.books_formal_id = bf.id) AS author_id,
                        (SELECT TOP 1 g.name FROM genres g INNER JOIN books_formal_genres bfg ON g.id = bfg.genres_id WHERE bfg.books_formal_id = bf.id) AS genre_name,
                        (SELECT TOP 1 g.id FROM genres g INNER JOIN books_formal_genres bfg ON g.id = bfg.genres_id WHERE bfg.books_formal_id = bf.id) AS genre_id,
-                       (SELECT COUNT(*) FROM books_actual ba WHERE ba.books_formal_id = bf.id) AS total_copies
+                       (SELECT COUNT(*) FROM books_actual ba WHERE ba.books_formal_id = bf.id) AS total_copies,
+                       (SELECT COUNT(*) FROM books_actual ba WHERE ba.books_formal_id = bf.id AND ba.id NOT IN (SELECT books_actual_id FROM borrows WHERE date_return IS NULL)) AS available_copies
                 FROM books_formal bf
                 ORDER BY bf.name";
             using (var conn = clsDatabase.CreateOpenConnection())
@@ -230,7 +231,8 @@ namespace LibraryManagement.DAL
                         AuthorId = reader["author_id"] != DBNull.Value ? Convert.ToInt32(reader["author_id"]) : 0,
                         GenreName = reader["genre_name"] != DBNull.Value ? reader["genre_name"].ToString() : null,
                         GenreId = reader["genre_id"] != DBNull.Value ? Convert.ToInt32(reader["genre_id"]) : 0,
-                        TotalCopies = Convert.ToInt32(reader["total_copies"])
+                        TotalCopies = Convert.ToInt32(reader["total_copies"]),
+                        AvailableCopies = Convert.ToInt32(reader["available_copies"])
                     });
                 }
             }
@@ -280,20 +282,49 @@ namespace LibraryManagement.DAL
             }
         }
 
-        public bool UpdateBook(BookFormal book)
+        public bool UpdateBook(BookFormal book, int targetCopies)
         {
             string query = @"
-                BEGIN TRANSACTION;
-                UPDATE books_formal SET name = @name, date_publish = @datePublish, image_path = @imagePath WHERE id = @id;
-                
-                DELETE FROM books_formal_authors WHERE books_formal_id = @id;
-                IF @authorId > 0
-                    INSERT INTO books_formal_authors (books_formal_id, authors_id) VALUES (@id, @authorId);
+                BEGIN TRY
+                    BEGIN TRANSACTION;
+                    UPDATE books_formal SET name = @name, date_publish = @datePublish, image_path = @imagePath WHERE id = @id;
                     
-                DELETE FROM books_formal_genres WHERE books_formal_id = @id;
-                IF @genreId > 0
-                    INSERT INTO books_formal_genres (books_formal_id, genres_id) VALUES (@id, @genreId);
-                COMMIT;";
+                    DELETE FROM books_formal_authors WHERE books_formal_id = @id;
+                    IF @authorId > 0
+                        INSERT INTO books_formal_authors (books_formal_id, authors_id) VALUES (@id, @authorId);
+                        
+                    DELETE FROM books_formal_genres WHERE books_formal_id = @id;
+                    IF @genreId > 0
+                        INSERT INTO books_formal_genres (books_formal_id, genres_id) VALUES (@id, @genreId);
+                    
+                    DECLARE @currentCopies INT;
+                    SELECT @currentCopies = COUNT(*) FROM books_actual WHERE books_formal_id = @id;
+                    
+                    IF @targetCopies > @currentCopies
+                    BEGIN
+                        DECLARE @i INT = 0;
+                        DECLARE @diff INT = @targetCopies - @currentCopies;
+                        WHILE @i < @diff
+                        BEGIN
+                            INSERT INTO books_actual (books_formal_id, integrity) VALUES (@id, 5);
+                            SET @i = @i + 1;
+                        END
+                    END
+                    ELSE IF @targetCopies < @currentCopies
+                    BEGIN
+                        DECLARE @toDelete INT = @currentCopies - @targetCopies;
+                        DELETE TOP (@toDelete) FROM books_actual 
+                        WHERE books_formal_id = @id 
+                        AND id NOT IN (SELECT books_actual_id FROM borrows WHERE date_return IS NULL);
+                    END
+                    
+                    COMMIT;
+                END TRY
+                BEGIN CATCH
+                    IF @@TRANCOUNT > 0
+                        ROLLBACK TRANSACTION;
+                    THROW;
+                END CATCH;";
             try
             {
                 using (var conn = clsDatabase.CreateOpenConnection())
@@ -305,6 +336,7 @@ namespace LibraryManagement.DAL
                     cmd.Parameters.AddWithValue("@imagePath", string.IsNullOrEmpty(book.ImagePath) ? DBNull.Value : (object)book.ImagePath);
                     cmd.Parameters.AddWithValue("@authorId", book.AuthorId);
                     cmd.Parameters.AddWithValue("@genreId", book.GenreId);
+                    cmd.Parameters.AddWithValue("@targetCopies", targetCopies);
                     cmd.ExecuteNonQuery();
                     return true;
                 }

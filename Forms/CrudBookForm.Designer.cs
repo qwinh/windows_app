@@ -26,6 +26,7 @@ namespace LibraryManagement
             this.dataGridViewBooks = new System.Windows.Forms.DataGridView();
             this.pnlDetails = new System.Windows.Forms.Panel();
             this.lblDetailsTitle = new System.Windows.Forms.Label();
+            this.btnDelete = new System.Windows.Forms.Button();
             this.divider = new System.Windows.Forms.Label();
             this.lblName = new System.Windows.Forms.Label();
             this.txtName = new System.Windows.Forms.TextBox();
@@ -43,7 +44,7 @@ namespace LibraryManagement
             this.nudCopies = new System.Windows.Forms.NumericUpDown();
             this.lblCopiesHint = new System.Windows.Forms.Label();
             this.btnSave = new System.Windows.Forms.Button();
-            this.btnDelete = new System.Windows.Forms.Button();
+
             this.pnlHeader.SuspendLayout();
             this.pnlList.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewBooks)).BeginInit();
@@ -185,6 +186,21 @@ namespace LibraryManagement
             this.lblDetailsTitle.TabIndex = 0;
             this.lblDetailsTitle.Text = "Book Details";
             // 
+            // btnDelete
+            // 
+            this.btnDelete.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(53)))), ((int)(((byte)(69)))));
+            this.btnDelete.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnDelete.FlatAppearance.BorderSize = 0;
+            this.btnDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDelete.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.btnDelete.ForeColor = System.Drawing.Color.White;
+            this.btnDelete.Location = new System.Drawing.Point(368, 15);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(100, 36);
+            this.btnDelete.TabIndex = 17;
+            this.btnDelete.Text = "Delete";
+            this.btnDelete.UseVisualStyleBackColor = false;
+            // 
             // divider
             // 
             this.divider.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
@@ -321,7 +337,7 @@ namespace LibraryManagement
             this.lblCopies.Name = "lblCopies";
             this.lblCopies.Size = new System.Drawing.Size(120, 25);
             this.lblCopies.TabIndex = 14;
-            this.lblCopies.Text = "Add Copies:";
+            this.lblCopies.Text = "Total Copies:";
             this.lblCopies.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // nudCopies
@@ -329,7 +345,7 @@ namespace LibraryManagement
             this.nudCopies.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.nudCopies.Location = new System.Drawing.Point(160, 428);
             this.nudCopies.Maximum = new decimal(new int[] {
-            50,
+            100,
             0,
             0,
             0});
@@ -346,7 +362,7 @@ namespace LibraryManagement
             this.lblCopiesHint.Name = "lblCopiesHint";
             this.lblCopiesHint.Size = new System.Drawing.Size(183, 20);
             this.lblCopiesHint.TabIndex = 16;
-            this.lblCopiesHint.Text = "(Only applied during Add)";
+            this.lblCopiesHint.Text = "Total copies to create";
             // 
             // btnSave
             // 
@@ -356,27 +372,12 @@ namespace LibraryManagement
             this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSave.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.btnSave.ForeColor = System.Drawing.Color.White;
-            this.btnSave.Location = new System.Drawing.Point(190, 480);
+            this.btnSave.Location = new System.Drawing.Point(160, 480);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(140, 40);
+            this.btnSave.Size = new System.Drawing.Size(310, 40);
             this.btnSave.TabIndex = 18;
-            this.btnSave.Text = "Save";
+            this.btnSave.Text = "Save Book";
             this.btnSave.UseVisualStyleBackColor = false;
-            // 
-            // btnDelete
-            // 
-            this.btnDelete.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(53)))), ((int)(((byte)(69)))));
-            this.btnDelete.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnDelete.FlatAppearance.BorderSize = 0;
-            this.btnDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDelete.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.btnDelete.ForeColor = System.Drawing.Color.White;
-            this.btnDelete.Location = new System.Drawing.Point(368, 8);
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(120, 40);
-            this.btnDelete.TabIndex = 17;
-            this.btnDelete.Text = "Delete";
-            this.btnDelete.UseVisualStyleBackColor = false;
             // 
             // CrudBookForm
             // 
@@ -416,6 +417,7 @@ namespace LibraryManagement
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Panel pnlDetails;
         private System.Windows.Forms.Label lblDetailsTitle;
+        private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Label divider;
         private System.Windows.Forms.Label lblName;
         private System.Windows.Forms.TextBox txtName;
@@ -433,6 +435,5 @@ namespace LibraryManagement
         private System.Windows.Forms.NumericUpDown nudCopies;
         private System.Windows.Forms.Label lblCopiesHint;
         private System.Windows.Forms.Button btnSave;
-        private System.Windows.Forms.Button btnDelete;
     }
 }

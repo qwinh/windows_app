@@ -27,6 +27,7 @@ namespace LibraryManagement.Models
         public int AuthorId { get; set; }
         public int GenreId { get; set; }
         public int TotalCopies { get; set; }
+        public int AvailableCopies { get; set; }
     }
 
     public class BookActual

@@ -41,9 +41,10 @@ namespace LibraryManagement
             // Format DataGridView
             dataGridViewBooks.AutoGenerateColumns = false;
             dataGridViewBooks.Columns.Clear();
-            dataGridViewBooks.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Name", HeaderText = "Title", FillWeight = 200 });
-            dataGridViewBooks.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "AuthorName", HeaderText = "Author", FillWeight = 150 });
-            dataGridViewBooks.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "TotalCopies", HeaderText = "Copies", FillWeight = 50 });
+            dataGridViewBooks.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Name", HeaderText = "Title", FillWeight = 160 });
+            dataGridViewBooks.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "AuthorName", HeaderText = "Author", FillWeight = 140 });
+            dataGridViewBooks.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "TotalCopies", HeaderText = "Total", FillWeight = 50 });
+            dataGridViewBooks.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "AvailableCopies", HeaderText = "Avail", FillWeight = 50 });
         }
 
         private void LoadDropdowns()
@@ -149,6 +150,7 @@ namespace LibraryManagement
             nudCopies.Value = 1;
             nudCopies.Enabled = true;
             lblCopiesHint.Visible = true;
+            lblCopiesHint.Text = "Total copies to create";
         }
 
         private void DataGridViewBooks_SelectionChanged(object sender, EventArgs e)
@@ -171,10 +173,10 @@ namespace LibraryManagement
                 txtImagePath.Text = book.ImagePath;
                 LoadImage(book.ImagePath);
                 
-                // Disable copies amount when editing an existing formal book
-                nudCopies.Value = 0;
-                nudCopies.Enabled = false;
-                lblCopiesHint.Visible = false;
+                nudCopies.Value = book.TotalCopies;
+                nudCopies.Enabled = true;
+                lblCopiesHint.Visible = true;
+                lblCopiesHint.Text = "Adjust total copies";
             }
         }
 
@@ -244,16 +246,16 @@ namespace LibraryManagement
             };
 
             bool success = false;
+            int copies = (int)nudCopies.Value;
             if (_currentBookId == 0)
             {
                 // Add new book
-                int copies = (int)nudCopies.Value;
                 success = _dal.AddBook(book, copies);
             }
             else
             {
                 // Update existing book
-                success = _dal.UpdateBook(book);
+                success = _dal.UpdateBook(book, copies);
             }
 
             if (success)
