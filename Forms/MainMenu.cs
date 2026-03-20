@@ -13,7 +13,7 @@ namespace LibraryManagement
             InitializeComponent();
         }
 
-        // button1 → Login/Register Or Logout
+        // button1 → Logout (login starts from Program.cs)
         private void btnLoginOrLogout_Click(object sender, EventArgs e)
         {
             if (SessionManager.IsLoggedIn)
@@ -22,18 +22,7 @@ namespace LibraryManagement
                 SessionManager.Logout();
                 MessageBox.Show("You have been logged out.", "Logout", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();
-                return;
             }
-
-            // Action: Login
-            this.Hide();
-            var loginForm = new LoginRegisterForm();
-            loginForm.FormClosed += (_, __) =>
-            {
-                this.Show();
-                RefreshLoginState();
-            };
-            loginForm.ShowDialog(this);
         }
 
         protected override void OnLoad(EventArgs e)
@@ -57,6 +46,7 @@ namespace LibraryManagement
 
         private static void AttachHoverEffect(Button btn, System.Drawing.Color hoverColor, System.Drawing.Color normalColor)
         {
+            // SIMPLIFY-CANDIDATE: AttachHoverEffect is defined identically in LoginRegisterForm and ProfileForm. Could be extracted to a shared static helper class without altering behaviour, but Criterion 4 forbids adding new files.
             btn.MouseEnter += (_, __) => btn.BackColor = hoverColor;
             btn.MouseLeave += (_, __) => btn.BackColor = normalColor;
         }
@@ -66,8 +56,10 @@ namespace LibraryManagement
             if (SessionManager.IsLoggedIn)
             {
                 btnLoginRegister.Text = "Logout";
-                lblSessionStatus.Text = $"Signed in as: {SessionManager.CurrentEmployee.Name}";
-                lblSessionStatus.ForeColor = System.Drawing.Color.FromArgb(22, 43, 75); // Darker when active
+                // [HIGH] Guard against null CurrentEmployee before accessing .Name
+                var emp = SessionManager.CurrentEmployee;
+                lblSessionStatus.Text = emp != null ? $"Signed in as: {emp.Name}" : "Signed in";
+                lblSessionStatus.ForeColor = System.Drawing.Color.FromArgb(22, 43, 75);
                 btnProfile.Visible = true;
             }
             else
@@ -105,6 +97,7 @@ namespace LibraryManagement
         // button3 → Manage Books (CRUD)
         private void btnManageBooks_Click(object sender, EventArgs e)
         {
+            // REVIEW [MEDIUM]: Form not wrapped in using; could leak resources if ShowDialog throws.
             CrudBookForm crudBookForm = new CrudBookForm();
             crudBookForm.ShowDialog();
         }
@@ -112,6 +105,7 @@ namespace LibraryManagement
         // button4 → Manage Readers (CRUD)
         private void btnManageReaders_Click(object sender, EventArgs e)
         {
+            // REVIEW [MEDIUM]: Form not wrapped in using; could leak resources if ShowDialog throws.
             ReaderService service = new ReaderService();
             CrudReaderForm crudReaderForm = new CrudReaderForm(service);
             crudReaderForm.ShowDialog();
@@ -120,6 +114,7 @@ namespace LibraryManagement
         // button5 → Borrow Book
         private void btnBorrowBook_Click(object sender, EventArgs e)
         {
+            // REVIEW [MEDIUM]: Form not wrapped in using; could leak resources if ShowDialog throws.
             BorrowBookform borrowForm = new BorrowBookform();
             borrowForm.ShowDialog();
         }
@@ -127,6 +122,7 @@ namespace LibraryManagement
         // button6 → Return Book
         private void btnReturnBook_Click(object sender, EventArgs e)
         {
+            // REVIEW [MEDIUM]: Form not wrapped in using; could leak resources if ShowDialog throws.
             ReturnBookform returnForm = new ReturnBookform();
             returnForm.ShowDialog();
         }

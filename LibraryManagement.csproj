@@ -68,6 +68,7 @@
     <Compile Include="DAL\ReaderDAL.cs" />
     <Compile Include="DAL\BookDAL.cs" />
     <Compile Include="BLL\AuthService.cs" />
+    <Compile Include="BLL\InvalidPasswordException.cs" />
     <Compile Include="BLL\AuthValidationResult.cs" />
     <Compile Include="BLL\BorrowService.cs" />
     <Compile Include="Helpers\clsDatabase.cs" />

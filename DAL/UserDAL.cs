@@ -147,5 +147,20 @@ namespace LibraryManagement.DAL
                 Status = Convert.ToByte(reader["status"])
             };
         }
+        /// <summary>
+        /// FEATURE: Updates the hashed password for the given employee.
+        /// </summary>
+        public bool UpdatePassword(int employeeId, string newHash)
+        {
+            using (var conn = clsDatabase.CreateOpenConnection())
+            using (var cmd = new SqlCommand(
+                "UPDATE employees SET pass = @pass WHERE id = @id", conn))
+            {
+                cmd.Parameters.AddWithValue("@id", employeeId);
+                cmd.Parameters.AddWithValue("@pass", newHash);
+                int rowsAffected = cmd.ExecuteNonQuery();
+                return rowsAffected > 0;
+            }
+        }
     }
 }

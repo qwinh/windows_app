@@ -21,7 +21,7 @@ namespace LibraryManagement
 
         private string _currentImagePath;
         private Image _avatarImage;
-        private bool _isEditMode = false;
+        private bool _isEditMode;
 
         public ProfileForm()
         {
@@ -119,6 +119,7 @@ namespace LibraryManagement
                 catch
                 {
                     _avatarImage = null;
+                    // REVIEW [LOW]: Avatar load errors are swallowed silently. Consider logging if a logging framework is added.
                 }
             }
             pnlAvatar.Invalidate(); // Trigger repainting of the avatar
@@ -312,6 +313,7 @@ namespace LibraryManagement
             ClearErrors();
             SetLoadingState(true);
 
+            // REVIEW [MEDIUM]: SessionManager.CurrentEmployee could theoretically be null if session expires mid-edit. Guard if this becomes a concern.
             int empId = SessionManager.CurrentEmployee.Id;
             string finalImagePath = _currentImagePath;
 
@@ -370,36 +372,153 @@ namespace LibraryManagement
         }
 
         // ══════════════════════════════════════════════════════════════════════
-        // UI Polish - Custom TextBox Border Focus Handlers
+        // FEATURE — Change Password
         // ══════════════════════════════════════════════════════════════════════
 
-        private readonly System.Drawing.Color _borderColorNormal = System.Drawing.Color.FromArgb(210, 218, 230);
-        private readonly System.Drawing.Color _borderColorFocus = System.Drawing.Color.FromArgb(37, 99, 235);
+        private void chkShowCurrentPassword_CheckedChanged(object sender, EventArgs e) // UX
+        {
+            txtCurrentPassword.UseSystemPasswordChar = !chkShowCurrentPassword.Checked;
+        }
 
-        private void txtFirstName_EnterFocus(object sender, EventArgs e) {}
-        private void txtFirstName_LeaveFocus(object sender, EventArgs e) {}
+        private void chkShowNewPassword_CheckedChanged(object sender, EventArgs e) // UX
+        {
+            bool show = chkShowNewPassword.Checked;
+            txtNewPassword.UseSystemPasswordChar = !show;
+            txtConfirmNewPassword.UseSystemPasswordChar = !show;
+        }
 
-        private void txtPhone_EnterFocus(object sender, EventArgs e) {}
-        private void txtPhone_LeaveFocus(object sender, EventArgs e) {}
+        private void txtNewPassword_TextChanged(object sender, EventArgs e) // UX
+        {
+            // Clear mismatch error on each keystroke
+            if (lblNewPasswordError.Visible) SetError(lblNewPasswordError, "");
 
-        private void txtAddress_EnterFocus(object sender, EventArgs e) {}
-        private void txtAddress_LeaveFocus(object sender, EventArgs e) {}
+            string pwd = txtNewPassword.Text;
+            if (pwd.Length == 0)
+            {
+                lblPasswordStrength.Text = "";
+                lblPasswordStrength.Visible = false;
+                return;
+            }
 
-        private void txtEmail_EnterFocus(object sender, EventArgs e) { /* Read-only, do not change border color on focus typically, but leaving handler active */ }
-        private void txtEmail_LeaveFocus(object sender, EventArgs e) { }
+            bool hasUpper   = Regex.IsMatch(pwd, @"[A-Z]");
+            bool hasLower   = Regex.IsMatch(pwd, @"[a-z]");
+            bool hasDigit   = Regex.IsMatch(pwd, @"\d");
+            bool hasSpecial = Regex.IsMatch(pwd, @"[^A-Za-z0-9]");
+            bool isStrong   = pwd.Length >= 12 || (pwd.Length >= 8 && hasUpper && hasLower && hasDigit && hasSpecial);
+
+            if (pwd.Length < 8)
+            {
+                lblPasswordStrength.Text = "● Weak";
+                lblPasswordStrength.ForeColor = Color.FromArgb(210, 50, 50);
+            }
+            else if (isStrong)
+            {
+                lblPasswordStrength.Text = "● Strong";
+                lblPasswordStrength.ForeColor = Color.FromArgb(22, 163, 74);
+            }
+            else
+            {
+                lblPasswordStrength.Text = "● Medium";
+                lblPasswordStrength.ForeColor = Color.FromArgb(234, 88, 12);
+            }
+            lblPasswordStrength.Visible = true;
+        }
+
+        private void txtConfirmNewPassword_Leave(object sender, EventArgs e) // UX
+        {
+            if (txtConfirmNewPassword.Text.Length > 0 && txtConfirmNewPassword.Text != txtNewPassword.Text)
+            {
+                SetError(lblNewPasswordError, "Passwords do not match.");
+            }
+        }
+
+        private async void btnChangePassword_Click(object sender, EventArgs e) // FEATURE
+        {
+            // 1. Validate current password not empty
+            if (string.IsNullOrWhiteSpace(txtCurrentPassword.Text))
+            {
+                SetError(lblCurrentPasswordError, "Current password is required.");
+                return;
+            }
+            SetError(lblCurrentPasswordError, "");
+
+            // 2. Validate new password strength (not Weak)
+            string newPwd = txtNewPassword.Text;
+            if (newPwd.Length < 8)
+            {
+                SetError(lblNewPasswordError, "Password must be at least 8 characters.");
+                return;
+            }
+
+            // 3. Validate confirm match
+            if (newPwd != txtConfirmNewPassword.Text)
+            {
+                SetError(lblNewPasswordError, "Passwords do not match.");
+                return;
+            }
+            SetError(lblNewPasswordError, "");
+
+            // 4. Loading state
+            btnChangePassword.Enabled = false;
+            btnChangePassword.Text = "Saving\u2026";
+            Cursor = Cursors.WaitCursor;
+
+            try
+            {
+                var employee = SessionManager.CurrentEmployee;
+                string current = txtCurrentPassword.Text;
+
+                await Task.Run(() => _authService.ChangePassword(employee, current, newPwd));
+
+                // 5. Success
+                txtCurrentPassword.Text = "";
+                txtNewPassword.Text = "";
+                txtConfirmNewPassword.Text = "";
+                chkShowCurrentPassword.Checked = false;
+                chkShowNewPassword.Checked = false;
+                lblPasswordStrength.Text = "";
+                lblPasswordStrength.Visible = false;
+
+                lblChangePasswordSuccess.Text = "Password changed successfully.";
+                lblChangePasswordSuccess.Visible = true;
+
+                // Auto-hide after 3 seconds
+                await Task.Delay(3000);
+                if (!IsDisposed) lblChangePasswordSuccess.Visible = false;
+            }
+            catch (BLL.InvalidPasswordException ipex)
+            {
+                // 6. Wrong current password
+                SetError(lblCurrentPasswordError, ipex.Message);
+            }
+            catch (Exception ex)
+            {
+                // 7. Unexpected error
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                // 8. Restore loading state
+                if (!IsDisposed)
+                {
+                    btnChangePassword.Enabled = true;
+                    btnChangePassword.Text = "Update Password";
+                    Cursor = Cursors.Default;
+                }
+            }
+        }
 
         // ══════════════════════════════════════════════════════════════════════
         // UI Polish - Card Panel Borders
         // ══════════════════════════════════════════════════════════════════════
         private void CardPanel_Paint(object sender, PaintEventArgs e)
         {
-            Panel pnl = sender as Panel;
-            if (pnl == null) return;
-            
-            // Soft border color #E2E8F0
-            using (Pen borderPen = new Pen(System.Drawing.Color.FromArgb(226, 232, 240), 1))
+            if (sender is Panel pnl)
             {
-                e.Graphics.DrawRectangle(borderPen, 0, 0, pnl.Width - 1, pnl.Height - 1);
+                using (Pen borderPen = new Pen(System.Drawing.Color.FromArgb(226, 232, 240), 1))
+                {
+                    e.Graphics.DrawRectangle(borderPen, 0, 0, pnl.Width - 1, pnl.Height - 1);
+                }
             }
         }
 

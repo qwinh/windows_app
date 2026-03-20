@@ -164,5 +164,30 @@ namespace LibraryManagement.BLL
 
             return AuthValidationResult<bool>.Ok(true);
         }
+        /// <summary>
+        /// FEATURE: Change password — verifies current password then updates hash.
+        /// Throws InvalidPasswordException if currentPassword does not match stored hash.
+        /// </summary>
+        public void ChangePassword(Models.Employee employee, string currentPassword, string newPassword)
+        {
+            if (employee == null) throw new ArgumentNullException(nameof(employee));
+
+            // 1. Re-fetch the current hash from DB
+            Models.Employee fresh = _userDAL.GetByEmail(employee.Email);
+            if (fresh == null) throw new InvalidPasswordException("Account not found.");
+
+            // 2. Verify supplied current password
+            bool matches = BCrypt.Net.BCrypt.Verify(currentPassword, fresh.HashedPassword);
+            if (!matches)
+                throw new InvalidPasswordException("Current password is incorrect.");
+
+            // 3. Hash the new password
+            string newHash = BCrypt.Net.BCrypt.HashPassword(newPassword, 10);
+
+            // 4. Persist the new hash
+            bool ok = _userDAL.UpdatePassword(employee.Id, newHash);
+            if (!ok)
+                throw new Exception("Failed to update password in the database.");
+        }
     }
 }

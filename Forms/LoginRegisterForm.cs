@@ -19,6 +19,7 @@ namespace LibraryManagement
             _authService = new AuthService();
 
             // UX – center cards when the right panel resizes (e.g. form loads)
+            // REVIEW [LOW]: Resize wired with a lambda — acceptable but consider a named method for consistency with designer conventions.
             pnlRight.Resize += (_, __) => CenterCards();
 
             ShowLoginPanel();
@@ -227,22 +228,22 @@ namespace LibraryManagement
 
         private void btnShowLoginPassword_Click(object sender, EventArgs e) // UX
         {
-            bool isHidden = txtLoginPassword.PasswordChar == '●';
-            txtLoginPassword.PasswordChar = isHidden ? '\0' : '●';
+            bool isHidden = txtLoginPassword.UseSystemPasswordChar;
+            txtLoginPassword.UseSystemPasswordChar = !isHidden;
             btnShowLoginPassword.IconChar = isHidden ? FontAwesome.Sharp.IconChar.EyeSlash : FontAwesome.Sharp.IconChar.Eye;
         }
 
         private void btnShowRegPassword_Click(object sender, EventArgs e) // UX
         {
-            bool isHidden = txtRegPassword.PasswordChar == '●';
-            txtRegPassword.PasswordChar = isHidden ? '\0' : '●';
+            bool isHidden = txtRegPassword.UseSystemPasswordChar;
+            txtRegPassword.UseSystemPasswordChar = !isHidden;
             btnShowRegPassword.IconChar = isHidden ? FontAwesome.Sharp.IconChar.EyeSlash : FontAwesome.Sharp.IconChar.Eye;
         }
 
         private void btnShowRegPasswordConfirm_Click(object sender, EventArgs e) // UX
         {
-            bool isHidden = txtRegPasswordConfirm.PasswordChar == '●';
-            txtRegPasswordConfirm.PasswordChar = isHidden ? '\0' : '●';
+            bool isHidden = txtRegPasswordConfirm.UseSystemPasswordChar;
+            txtRegPasswordConfirm.UseSystemPasswordChar = !isHidden;
             btnShowRegPasswordConfirm.IconChar = isHidden ? FontAwesome.Sharp.IconChar.EyeSlash : FontAwesome.Sharp.IconChar.Eye;
         }
 
@@ -345,36 +346,17 @@ namespace LibraryManagement
         }
 
         // ══════════════════════════════════════════════════════════════════════
-        // UI Polish - Custom TextBox Border Focus Handlers
-        // ══════════════════════════════════════════════════════════════════════
-
-        private readonly System.Drawing.Color _borderColorNormal = System.Drawing.Color.FromArgb(210, 218, 230);
-        private readonly System.Drawing.Color _borderColorFocus = System.Drawing.Color.FromArgb(37, 99, 235);
-
-
-
-
-
-
-
-        // ══════════════════════════════════════════════════════════════════════
         // UI Polish - Card Panel Borders
         // ══════════════════════════════════════════════════════════════════════
         private void CardPanel_Paint(object sender, PaintEventArgs e)
         {
-            Panel pnl = sender as Panel;
-            if (pnl == null) return;
-
-            // Soft border color #E2E8F0
-            using (Pen borderPen = new Pen(System.Drawing.Color.FromArgb(226, 232, 240), 1))
+            if (sender is Panel pnl)
             {
-                e.Graphics.DrawRectangle(borderPen, 0, 0, pnl.Width - 1, pnl.Height - 1);
+                using (Pen borderPen = new Pen(System.Drawing.Color.FromArgb(226, 232, 240), 1))
+                {
+                    e.Graphics.DrawRectangle(borderPen, 0, 0, pnl.Width - 1, pnl.Height - 1);
+                }
             }
-        }
-
-        private void pnlRight_Paint(object sender, PaintEventArgs e)
-        {
-
         }
     }
 }
