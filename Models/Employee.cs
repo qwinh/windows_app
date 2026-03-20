@@ -21,6 +21,7 @@ namespace LibraryManagement.Models
 
         public string Phone { get; set; }
         public string Address { get; set; }
+        public string ImagePath { get; set; }
         public DateTime DateCreate { get; set; }
 
         /// <summary>1 = active (can log in), 0 = deactivated (login blocked).</summary>

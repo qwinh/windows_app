@@ -16,7 +16,23 @@ namespace LibraryManagement
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainMenu());
+            
+            while (true)
+            {
+                using (var loginForm = new LoginRegisterForm())
+                {
+                    if (loginForm.ShowDialog() == DialogResult.OK)
+                    {
+                        Application.Run(new MainMenu());
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
         }
     }
 }
+
+

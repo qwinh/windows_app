@@ -21,7 +21,7 @@ namespace LibraryManagement
                 // Action: Logout
                 SessionManager.Logout();
                 MessageBox.Show("You have been logged out.", "Logout", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                RefreshLoginState();
+                this.Close();
                 return;
             }
 
@@ -137,3 +137,4 @@ namespace LibraryManagement
         }
     }
 }
+
