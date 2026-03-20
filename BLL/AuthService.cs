@@ -166,20 +166,21 @@ namespace LibraryManagement.BLL
         }
         /// <summary>
         /// FEATURE: Change password — verifies current password then updates hash.
-        /// Throws InvalidPasswordException if currentPassword does not match stored hash.
+        /// Returns a structured validation result instead of throwing.
         /// </summary>
-        public void ChangePassword(Models.Employee employee, string currentPassword, string newPassword)
+        public AuthValidationResult<bool> ChangePassword(Models.Employee employee, string currentPassword, string newPassword)
         {
             if (employee == null) throw new ArgumentNullException(nameof(employee));
 
             // 1. Re-fetch the current hash from DB
             Models.Employee fresh = _userDAL.GetByEmail(employee.Email);
-            if (fresh == null) throw new InvalidPasswordException("Account not found.");
+            if (fresh == null)
+                return AuthValidationResult<bool>.Fail("Account not found.");
 
             // 2. Verify supplied current password
             bool matches = BCrypt.Net.BCrypt.Verify(currentPassword, fresh.HashedPassword);
             if (!matches)
-                throw new InvalidPasswordException("Current password is incorrect.");
+                return AuthValidationResult<bool>.Fail("Current password is incorrect.");
 
             // 3. Hash the new password
             string newHash = BCrypt.Net.BCrypt.HashPassword(newPassword, 10);
@@ -187,7 +188,58 @@ namespace LibraryManagement.BLL
             // 4. Persist the new hash
             bool ok = _userDAL.UpdatePassword(employee.Id, newHash);
             if (!ok)
-                throw new Exception("Failed to update password in the database.");
+                return AuthValidationResult<bool>.Fail("Failed to update password in the database.");
+
+            return AuthValidationResult<bool>.Ok(true);
         }
+    }
+
+    // ---------------------------------------------------------------------------
+    // Moved from AuthValidationResult.cs — kept in the same namespace/assembly
+    // ---------------------------------------------------------------------------
+    /// <summary>
+    /// Encapsulates the result of an authentication operation (Login/Register).
+    /// Prevents the need to throw generic Exceptions for validation failures.
+    /// </summary>
+    public class AuthValidationResult<T>
+    {
+        public bool Success { get; }
+        public string ErrorMessage { get; }
+        public T Data { get; }
+
+        private AuthValidationResult(bool success, string errorMessage, T data)
+        {
+            Success = success;
+            ErrorMessage = errorMessage;
+            Data = data;
+        }
+
+        public static AuthValidationResult<T> Ok(T data)
+        {
+            return new AuthValidationResult<T>(true, string.Empty, data);
+        }
+
+        public static AuthValidationResult<T> Fail(string errorMessage)
+        {
+            return new AuthValidationResult<T>(false, errorMessage, default(T));
+        }
+    }
+
+    // ---------------------------------------------------------------------------
+    // Moved from InvalidPasswordException.cs — kept in the same namespace/assembly
+    // ---------------------------------------------------------------------------
+    /// <summary>
+    /// Thrown when a supplied password does not match the stored hash.
+    /// </summary>
+    public class InvalidPasswordException : Exception
+    {
+        public InvalidPasswordException()
+            : base("The supplied password is incorrect.") { }
+
+        public InvalidPasswordException(string message)
+            : base(message) { }
+
+        public InvalidPasswordException(string message, Exception inner)
+            : base(message, inner) { }
     }
 }
