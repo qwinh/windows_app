@@ -54,30 +54,30 @@ namespace LibraryManagement
             this.btnEdit = new FontAwesome.Sharp.IconButton();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.grpChangePassword = new System.Windows.Forms.GroupBox();
+            this.chkShowNewPassword = new System.Windows.Forms.CheckBox();
+            this.chkShowCurrentPassword = new System.Windows.Forms.CheckBox();
+            this.lblChangePasswordSuccess = new System.Windows.Forms.Label();
+            this.btnChangePassword = new System.Windows.Forms.Button();
+            this.lblPasswordStrength = new System.Windows.Forms.Label();
+            this.lblNewPasswordError = new System.Windows.Forms.Label();
+            this.txtConfirmNewPassword = new System.Windows.Forms.TextBox();
+            this.lblConfirmNewPassword = new System.Windows.Forms.Label();
+            this.txtNewPassword = new System.Windows.Forms.TextBox();
+            this.lblNewPassword = new System.Windows.Forms.Label();
+            this.lblCurrentPasswordError = new System.Windows.Forms.Label();
+            this.txtCurrentPassword = new System.Windows.Forms.TextBox();
+            this.lblCurrentPassword = new System.Windows.Forms.Label();
             this.pnlHeader = new System.Windows.Forms.Panel();
             this.lblPageTitle = new System.Windows.Forms.Label();
             this.lblPageSubtitle = new System.Windows.Forms.Label();
-            this.grpChangePassword = new System.Windows.Forms.GroupBox();
-            this.txtCurrentPassword = new System.Windows.Forms.TextBox();
-            this.txtNewPassword = new System.Windows.Forms.TextBox();
-            this.txtConfirmNewPassword = new System.Windows.Forms.TextBox();
-            this.chkShowCurrentPassword = new System.Windows.Forms.CheckBox();
-            this.chkShowNewPassword = new System.Windows.Forms.CheckBox();
-            this.lblCurrentPasswordError = new System.Windows.Forms.Label();
-            this.lblNewPasswordError = new System.Windows.Forms.Label();
-            this.lblPasswordStrength = new System.Windows.Forms.Label();
-            this.btnChangePassword = new System.Windows.Forms.Button();
-            this.lblChangePasswordSuccess = new System.Windows.Forms.Label();
-            this.lblCurrentPassword = new System.Windows.Forms.Label();
-            this.lblNewPassword = new System.Windows.Forms.Label();
-            this.lblConfirmNewPassword = new System.Windows.Forms.Label();
             this.pnlSidebar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.iconNavProfile)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconSidebar)).BeginInit();
             this.pnlRight.SuspendLayout();
             this.pnlProfileCard.SuspendLayout();
-            this.grpChangePassword.SuspendLayout();
             this.pnlAvatar.SuspendLayout();
+            this.grpChangePassword.SuspendLayout();
             this.pnlHeader.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -94,7 +94,7 @@ namespace LibraryManagement
             this.pnlSidebar.Dock = System.Windows.Forms.DockStyle.Left;
             this.pnlSidebar.Location = new System.Drawing.Point(0, 0);
             this.pnlSidebar.Name = "pnlSidebar";
-            this.pnlSidebar.Size = new System.Drawing.Size(230, 617);
+            this.pnlSidebar.Size = new System.Drawing.Size(230, 812);
             this.pnlSidebar.TabIndex = 1;
             // 
             // btnBackToMenu
@@ -195,14 +195,14 @@ namespace LibraryManagement
             // 
             // pnlRight
             // 
+            this.pnlRight.AutoScroll = true;
             this.pnlRight.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(247)))), ((int)(((byte)(250)))));
             this.pnlRight.Controls.Add(this.pnlProfileCard);
             this.pnlRight.Controls.Add(this.pnlHeader);
             this.pnlRight.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlRight.Location = new System.Drawing.Point(230, 0);
-            this.pnlRight.AutoScroll = true;
             this.pnlRight.Name = "pnlRight";
-            this.pnlRight.Size = new System.Drawing.Size(570, 617);
+            this.pnlRight.Size = new System.Drawing.Size(614, 812);
             this.pnlRight.TabIndex = 0;
             // 
             // pnlProfileCard
@@ -228,7 +228,7 @@ namespace LibraryManagement
             this.pnlProfileCard.Controls.Add(this.btnSave);
             this.pnlProfileCard.Controls.Add(this.btnCancel);
             this.pnlProfileCard.Controls.Add(this.grpChangePassword);
-            this.pnlProfileCard.Location = new System.Drawing.Point(57, 100);
+            this.pnlProfileCard.Location = new System.Drawing.Point(72, 72);
             this.pnlProfileCard.Name = "pnlProfileCard";
             this.pnlProfileCard.Padding = new System.Windows.Forms.Padding(28, 24, 28, 24);
             this.pnlProfileCard.Size = new System.Drawing.Size(440, 770);
@@ -265,7 +265,7 @@ namespace LibraryManagement
             this.lblDisplayName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(60)))), ((int)(((byte)(80)))));
             this.lblDisplayName.Location = new System.Drawing.Point(110, 30);
             this.lblDisplayName.Name = "lblDisplayName";
-            this.lblDisplayName.Size = new System.Drawing.Size(141, 32);
+            this.lblDisplayName.Size = new System.Drawing.Size(111, 25);
             this.lblDisplayName.TabIndex = 1;
             this.lblDisplayName.Text = "John Smith";
             // 
@@ -276,7 +276,7 @@ namespace LibraryManagement
             this.lblDisplayRole.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(130)))), ((int)(((byte)(145)))));
             this.lblDisplayRole.Location = new System.Drawing.Point(112, 60);
             this.lblDisplayRole.Name = "lblDisplayRole";
-            this.lblDisplayRole.Size = new System.Drawing.Size(72, 21);
+            this.lblDisplayRole.Size = new System.Drawing.Size(59, 17);
             this.lblDisplayRole.TabIndex = 2;
             this.lblDisplayRole.Text = "Librarian";
             // 
@@ -285,9 +285,9 @@ namespace LibraryManagement
             this.lblFirstName.AutoSize = true;
             this.lblFirstName.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.lblFirstName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(60)))), ((int)(((byte)(80)))));
-            this.lblFirstName.Location = new System.Drawing.Point(30, 123);
+            this.lblFirstName.Location = new System.Drawing.Point(30, 111);
             this.lblFirstName.Name = "lblFirstName";
-            this.lblFirstName.Size = new System.Drawing.Size(76, 20);
+            this.lblFirstName.Size = new System.Drawing.Size(61, 15);
             this.lblFirstName.TabIndex = 3;
             this.lblFirstName.Text = "Full Name";
             // 
@@ -295,20 +295,20 @@ namespace LibraryManagement
             // 
             this.txtFirstName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtFirstName.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtFirstName.Location = new System.Drawing.Point(140, 120);
+            this.txtFirstName.Location = new System.Drawing.Point(140, 108);
             this.txtFirstName.Name = "txtFirstName";
-            this.txtFirstName.Size = new System.Drawing.Size(290, 30);
+            this.txtFirstName.Size = new System.Drawing.Size(290, 25);
             this.txtFirstName.TabIndex = 0;
             this.txtFirstName.TextChanged += new System.EventHandler(this.txtFirstName_TextChanged);
-
+            // 
             // lblErrFirstName
             // 
             this.lblErrFirstName.AutoSize = true;
             this.lblErrFirstName.Font = new System.Drawing.Font("Segoe UI", 8F);
             this.lblErrFirstName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lblErrFirstName.Location = new System.Drawing.Point(140, 150);
+            this.lblErrFirstName.Location = new System.Drawing.Point(140, 138);
             this.lblErrFirstName.Name = "lblErrFirstName";
-            this.lblErrFirstName.Size = new System.Drawing.Size(0, 19);
+            this.lblErrFirstName.Size = new System.Drawing.Size(0, 13);
             this.lblErrFirstName.TabIndex = 4;
             this.lblErrFirstName.Visible = false;
             // 
@@ -317,9 +317,9 @@ namespace LibraryManagement
             this.lblPhone.AutoSize = true;
             this.lblPhone.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.lblPhone.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(60)))), ((int)(((byte)(80)))));
-            this.lblPhone.Location = new System.Drawing.Point(30, 233);
+            this.lblPhone.Location = new System.Drawing.Point(30, 221);
             this.lblPhone.Name = "lblPhone";
-            this.lblPhone.Size = new System.Drawing.Size(108, 20);
+            this.lblPhone.Size = new System.Drawing.Size(88, 15);
             this.lblPhone.TabIndex = 5;
             this.lblPhone.Text = "Phone Number";
             // 
@@ -327,20 +327,20 @@ namespace LibraryManagement
             // 
             this.txtPhone.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtPhone.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtPhone.Location = new System.Drawing.Point(140, 230);
+            this.txtPhone.Location = new System.Drawing.Point(140, 218);
             this.txtPhone.Name = "txtPhone";
-            this.txtPhone.Size = new System.Drawing.Size(290, 30);
+            this.txtPhone.Size = new System.Drawing.Size(290, 25);
             this.txtPhone.TabIndex = 2;
             this.txtPhone.TextChanged += new System.EventHandler(this.txtPhone_TextChanged);
-
+            // 
             // lblErrPhone
             // 
             this.lblErrPhone.AutoSize = true;
             this.lblErrPhone.Font = new System.Drawing.Font("Segoe UI", 8F);
             this.lblErrPhone.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lblErrPhone.Location = new System.Drawing.Point(140, 260);
+            this.lblErrPhone.Location = new System.Drawing.Point(140, 248);
             this.lblErrPhone.Name = "lblErrPhone";
-            this.lblErrPhone.Size = new System.Drawing.Size(0, 19);
+            this.lblErrPhone.Size = new System.Drawing.Size(0, 13);
             this.lblErrPhone.TabIndex = 6;
             this.lblErrPhone.Visible = false;
             // 
@@ -349,9 +349,9 @@ namespace LibraryManagement
             this.lblAddress.AutoSize = true;
             this.lblAddress.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.lblAddress.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(60)))), ((int)(((byte)(80)))));
-            this.lblAddress.Location = new System.Drawing.Point(30, 288);
+            this.lblAddress.Location = new System.Drawing.Point(30, 276);
             this.lblAddress.Name = "lblAddress";
-            this.lblAddress.Size = new System.Drawing.Size(62, 20);
+            this.lblAddress.Size = new System.Drawing.Size(49, 15);
             this.lblAddress.TabIndex = 7;
             this.lblAddress.Text = "Address";
             // 
@@ -359,22 +359,22 @@ namespace LibraryManagement
             // 
             this.txtAddress.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtAddress.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtAddress.Location = new System.Drawing.Point(140, 285);
+            this.txtAddress.Location = new System.Drawing.Point(140, 273);
             this.txtAddress.Multiline = true;
             this.txtAddress.Name = "txtAddress";
             this.txtAddress.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtAddress.Size = new System.Drawing.Size(290, 80);
             this.txtAddress.TabIndex = 3;
             this.txtAddress.TextChanged += new System.EventHandler(this.txtAddress_TextChanged);
-
+            // 
             // lblErrAddress
             // 
             this.lblErrAddress.AutoSize = true;
             this.lblErrAddress.Font = new System.Drawing.Font("Segoe UI", 8F);
             this.lblErrAddress.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lblErrAddress.Location = new System.Drawing.Point(140, 347);
+            this.lblErrAddress.Location = new System.Drawing.Point(140, 335);
             this.lblErrAddress.Name = "lblErrAddress";
-            this.lblErrAddress.Size = new System.Drawing.Size(0, 19);
+            this.lblErrAddress.Size = new System.Drawing.Size(0, 13);
             this.lblErrAddress.TabIndex = 8;
             this.lblErrAddress.Visible = false;
             // 
@@ -383,9 +383,9 @@ namespace LibraryManagement
             this.lblEmail.AutoSize = true;
             this.lblEmail.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.lblEmail.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(60)))), ((int)(((byte)(80)))));
-            this.lblEmail.Location = new System.Drawing.Point(30, 178);
+            this.lblEmail.Location = new System.Drawing.Point(30, 166);
             this.lblEmail.Name = "lblEmail";
-            this.lblEmail.Size = new System.Drawing.Size(103, 20);
+            this.lblEmail.Size = new System.Drawing.Size(81, 15);
             this.lblEmail.TabIndex = 9;
             this.lblEmail.Text = "Email Address";
             // 
@@ -394,26 +394,27 @@ namespace LibraryManagement
             this.txtEmail.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(247)))), ((int)(((byte)(250)))));
             this.txtEmail.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtEmail.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtEmail.Location = new System.Drawing.Point(140, 175);
+            this.txtEmail.Location = new System.Drawing.Point(140, 163);
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.ReadOnly = true;
-            this.txtEmail.Size = new System.Drawing.Size(290, 30);
-            this.txtEmail.TabIndex = 1;            // 
+            this.txtEmail.Size = new System.Drawing.Size(290, 25);
+            this.txtEmail.TabIndex = 1;
+            // 
             // lblEmailNote
             // 
             this.lblEmailNote.AutoSize = true;
             this.lblEmailNote.Font = new System.Drawing.Font("Segoe UI", 8F);
             this.lblEmailNote.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(130)))), ((int)(((byte)(145)))));
-            this.lblEmailNote.Location = new System.Drawing.Point(140, 205);
+            this.lblEmailNote.Location = new System.Drawing.Point(140, 193);
             this.lblEmailNote.Name = "lblEmailNote";
-            this.lblEmailNote.Size = new System.Drawing.Size(165, 19);
+            this.lblEmailNote.Size = new System.Drawing.Size(140, 13);
             this.lblEmailNote.TabIndex = 10;
             this.lblEmailNote.Text = "Email cannot be changed.";
             // 
             // lblFeedback
             // 
             this.lblFeedback.Font = new System.Drawing.Font("Segoe UI", 8.5F);
-            this.lblFeedback.Location = new System.Drawing.Point(30, 365);
+            this.lblFeedback.Location = new System.Drawing.Point(30, 353);
             this.lblFeedback.Name = "lblFeedback";
             this.lblFeedback.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
             this.lblFeedback.Size = new System.Drawing.Size(400, 30);
@@ -478,54 +479,6 @@ namespace LibraryManagement
             this.btnCancel.Visible = false;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
-            // pnlHeader
-            // 
-            this.pnlHeader.BackColor = System.Drawing.Color.White;
-            this.pnlHeader.Controls.Add(this.lblPageTitle);
-            this.pnlHeader.Controls.Add(this.lblPageSubtitle);
-            this.pnlHeader.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlHeader.Location = new System.Drawing.Point(0, 0);
-            this.pnlHeader.Name = "pnlHeader";
-            this.pnlHeader.Size = new System.Drawing.Size(570, 80);
-            this.pnlHeader.TabIndex = 1;
-            // 
-            // lblPageTitle
-            // 
-            this.lblPageTitle.AutoSize = true;
-            this.lblPageTitle.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
-            this.lblPageTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(43)))), ((int)(((byte)(75)))));
-            this.lblPageTitle.Location = new System.Drawing.Point(25, 20);
-            this.lblPageTitle.Name = "lblPageTitle";
-            this.lblPageTitle.Size = new System.Drawing.Size(151, 37);
-            this.lblPageTitle.TabIndex = 0;
-            this.lblPageTitle.Text = "My Profile";
-            // 
-            // lblPageSubtitle
-            // 
-            this.lblPageSubtitle.AutoSize = true;
-            this.lblPageSubtitle.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.lblPageSubtitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(130)))), ((int)(((byte)(145)))));
-            this.lblPageSubtitle.Location = new System.Drawing.Point(27, 52);
-            this.lblPageSubtitle.Name = "lblPageSubtitle";
-            this.lblPageSubtitle.Size = new System.Drawing.Size(265, 20);
-            this.lblPageSubtitle.TabIndex = 1;
-            this.lblPageSubtitle.Text = "View and manage your account details";
-            // 
-            // ProfileForm
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(800, 617);
-            this.Controls.Add(this.pnlRight);
-            this.Controls.Add(this.pnlSidebar);
-            this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.MaximizeBox = false;
-            this.Name = "ProfileForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "My Profile — Library System";
-            // 
             // grpChangePassword
             // 
             this.grpChangePassword.Controls.Add(this.chkShowNewPassword);
@@ -543,105 +496,12 @@ namespace LibraryManagement
             this.grpChangePassword.Controls.Add(this.lblCurrentPassword);
             this.grpChangePassword.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.grpChangePassword.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(60)))), ((int)(((byte)(80)))));
-            this.grpChangePassword.Location = new System.Drawing.Point(30, 385);
+            this.grpChangePassword.Location = new System.Drawing.Point(30, 398);
             this.grpChangePassword.Name = "grpChangePassword";
             this.grpChangePassword.Size = new System.Drawing.Size(400, 275);
             this.grpChangePassword.TabIndex = 22;
             this.grpChangePassword.TabStop = false;
             this.grpChangePassword.Text = "Change Password";
-            // 
-            // lblCurrentPassword
-            // 
-            this.lblCurrentPassword.AutoSize = true;
-            this.lblCurrentPassword.Font = new System.Drawing.Font("Segoe UI", 8.5F);
-            this.lblCurrentPassword.Location = new System.Drawing.Point(15, 30);
-            this.lblCurrentPassword.Name = "lblCurrentPassword";
-            this.lblCurrentPassword.Size = new System.Drawing.Size(125, 20);
-            this.lblCurrentPassword.TabIndex = 0;
-            this.lblCurrentPassword.Text = "Current Password";
-            // 
-            // txtCurrentPassword
-            // 
-            this.txtCurrentPassword.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtCurrentPassword.Font = new System.Drawing.Font("Segoe UI", 9.5F);
-            this.txtCurrentPassword.Location = new System.Drawing.Point(150, 28);
-            this.txtCurrentPassword.Name = "txtCurrentPassword";
-            this.txtCurrentPassword.UseSystemPasswordChar = true;
-            this.txtCurrentPassword.Size = new System.Drawing.Size(235, 29);
-            this.txtCurrentPassword.TabIndex = 1;
-            // 
-            // chkShowCurrentPassword
-            // 
-            this.chkShowCurrentPassword.AutoSize = true;
-            this.chkShowCurrentPassword.Font = new System.Drawing.Font("Segoe UI", 8F);
-            this.chkShowCurrentPassword.Location = new System.Drawing.Point(150, 60);
-            this.chkShowCurrentPassword.Name = "chkShowCurrentPassword";
-            this.chkShowCurrentPassword.Size = new System.Drawing.Size(128, 23);
-            this.chkShowCurrentPassword.TabIndex = 2;
-            this.chkShowCurrentPassword.Text = "Show Password";
-            this.chkShowCurrentPassword.UseVisualStyleBackColor = true;
-            this.chkShowCurrentPassword.CheckedChanged += new System.EventHandler(this.chkShowCurrentPassword_CheckedChanged);
-            // 
-            // lblCurrentPasswordError
-            // 
-            this.lblCurrentPasswordError.AutoSize = true;
-            this.lblCurrentPasswordError.Font = new System.Drawing.Font("Segoe UI", 8F);
-            this.lblCurrentPasswordError.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lblCurrentPasswordError.Location = new System.Drawing.Point(150, 80);
-            this.lblCurrentPasswordError.Name = "lblCurrentPasswordError";
-            this.lblCurrentPasswordError.Size = new System.Drawing.Size(0, 19);
-            this.lblCurrentPasswordError.TabIndex = 3;
-            // 
-            // lblNewPassword
-            // 
-            this.lblNewPassword.AutoSize = true;
-            this.lblNewPassword.Font = new System.Drawing.Font("Segoe UI", 8.5F);
-            this.lblNewPassword.Location = new System.Drawing.Point(15, 105);
-            this.lblNewPassword.Name = "lblNewPassword";
-            this.lblNewPassword.Size = new System.Drawing.Size(104, 20);
-            this.lblNewPassword.TabIndex = 4;
-            this.lblNewPassword.Text = "New Password";
-            // 
-            // txtNewPassword
-            // 
-            this.txtNewPassword.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtNewPassword.Font = new System.Drawing.Font("Segoe UI", 9.5F);
-            this.txtNewPassword.Location = new System.Drawing.Point(150, 103);
-            this.txtNewPassword.Name = "txtNewPassword";
-            this.txtNewPassword.UseSystemPasswordChar = true;
-            this.txtNewPassword.Size = new System.Drawing.Size(235, 29);
-            this.txtNewPassword.TabIndex = 5;
-            this.txtNewPassword.TextChanged += new System.EventHandler(this.txtNewPassword_TextChanged);
-            // 
-            // lblPasswordStrength
-            // 
-            this.lblPasswordStrength.AutoSize = true;
-            this.lblPasswordStrength.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Bold);
-            this.lblPasswordStrength.Location = new System.Drawing.Point(150, 133);
-            this.lblPasswordStrength.Name = "lblPasswordStrength";
-            this.lblPasswordStrength.Size = new System.Drawing.Size(0, 19);
-            this.lblPasswordStrength.TabIndex = 6;
-            // 
-            // lblConfirmNewPassword
-            // 
-            this.lblConfirmNewPassword.AutoSize = true;
-            this.lblConfirmNewPassword.Font = new System.Drawing.Font("Segoe UI", 8.5F);
-            this.lblConfirmNewPassword.Location = new System.Drawing.Point(15, 153);
-            this.lblConfirmNewPassword.Name = "lblConfirmNewPassword";
-            this.lblConfirmNewPassword.Size = new System.Drawing.Size(127, 20);
-            this.lblConfirmNewPassword.TabIndex = 7;
-            this.lblConfirmNewPassword.Text = "Confirm Password";
-            // 
-            // txtConfirmNewPassword
-            // 
-            this.txtConfirmNewPassword.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtConfirmNewPassword.Font = new System.Drawing.Font("Segoe UI", 9.5F);
-            this.txtConfirmNewPassword.Location = new System.Drawing.Point(150, 151);
-            this.txtConfirmNewPassword.Name = "txtConfirmNewPassword";
-            this.txtConfirmNewPassword.UseSystemPasswordChar = true;
-            this.txtConfirmNewPassword.Size = new System.Drawing.Size(235, 29);
-            this.txtConfirmNewPassword.TabIndex = 8;
-            this.txtConfirmNewPassword.Leave += new System.EventHandler(this.txtConfirmNewPassword_Leave);
             // 
             // chkShowNewPassword
             // 
@@ -649,21 +509,33 @@ namespace LibraryManagement
             this.chkShowNewPassword.Font = new System.Drawing.Font("Segoe UI", 8F);
             this.chkShowNewPassword.Location = new System.Drawing.Point(150, 183);
             this.chkShowNewPassword.Name = "chkShowNewPassword";
-            this.chkShowNewPassword.Size = new System.Drawing.Size(128, 23);
+            this.chkShowNewPassword.Size = new System.Drawing.Size(107, 17);
             this.chkShowNewPassword.TabIndex = 9;
             this.chkShowNewPassword.Text = "Show Password";
             this.chkShowNewPassword.UseVisualStyleBackColor = true;
             this.chkShowNewPassword.CheckedChanged += new System.EventHandler(this.chkShowNewPassword_CheckedChanged);
             // 
-            // lblNewPasswordError
+            // chkShowCurrentPassword
             // 
-            this.lblNewPasswordError.AutoSize = true;
-            this.lblNewPasswordError.Font = new System.Drawing.Font("Segoe UI", 8F);
-            this.lblNewPasswordError.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lblNewPasswordError.Location = new System.Drawing.Point(150, 203);
-            this.lblNewPasswordError.Name = "lblNewPasswordError";
-            this.lblNewPasswordError.Size = new System.Drawing.Size(0, 19);
-            this.lblNewPasswordError.TabIndex = 10;
+            this.chkShowCurrentPassword.AutoSize = true;
+            this.chkShowCurrentPassword.Font = new System.Drawing.Font("Segoe UI", 8F);
+            this.chkShowCurrentPassword.Location = new System.Drawing.Point(150, 60);
+            this.chkShowCurrentPassword.Name = "chkShowCurrentPassword";
+            this.chkShowCurrentPassword.Size = new System.Drawing.Size(107, 17);
+            this.chkShowCurrentPassword.TabIndex = 2;
+            this.chkShowCurrentPassword.Text = "Show Password";
+            this.chkShowCurrentPassword.UseVisualStyleBackColor = true;
+            this.chkShowCurrentPassword.CheckedChanged += new System.EventHandler(this.chkShowCurrentPassword_CheckedChanged);
+            // 
+            // lblChangePasswordSuccess
+            // 
+            this.lblChangePasswordSuccess.AutoSize = true;
+            this.lblChangePasswordSuccess.Font = new System.Drawing.Font("Segoe UI", 8.5F, System.Drawing.FontStyle.Bold);
+            this.lblChangePasswordSuccess.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(163)))), ((int)(((byte)(74)))));
+            this.lblChangePasswordSuccess.Location = new System.Drawing.Point(165, 236);
+            this.lblChangePasswordSuccess.Name = "lblChangePasswordSuccess";
+            this.lblChangePasswordSuccess.Size = new System.Drawing.Size(0, 15);
+            this.lblChangePasswordSuccess.TabIndex = 12;
             // 
             // btnChangePassword
             // 
@@ -681,16 +553,144 @@ namespace LibraryManagement
             this.btnChangePassword.UseVisualStyleBackColor = false;
             this.btnChangePassword.Click += new System.EventHandler(this.btnChangePassword_Click);
             // 
-            // lblChangePasswordSuccess
+            // lblPasswordStrength
             // 
-            this.lblChangePasswordSuccess.AutoSize = true;
-            this.lblChangePasswordSuccess.Font = new System.Drawing.Font("Segoe UI", 8.5F, System.Drawing.FontStyle.Bold);
-            this.lblChangePasswordSuccess.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(163)))), ((int)(((byte)(74)))));
-            this.lblChangePasswordSuccess.Location = new System.Drawing.Point(165, 236);
-            this.lblChangePasswordSuccess.Name = "lblChangePasswordSuccess";
-            this.lblChangePasswordSuccess.Size = new System.Drawing.Size(0, 20);
-            this.lblChangePasswordSuccess.TabIndex = 12;
-            
+            this.lblPasswordStrength.AutoSize = true;
+            this.lblPasswordStrength.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Bold);
+            this.lblPasswordStrength.Location = new System.Drawing.Point(150, 133);
+            this.lblPasswordStrength.Name = "lblPasswordStrength";
+            this.lblPasswordStrength.Size = new System.Drawing.Size(0, 13);
+            this.lblPasswordStrength.TabIndex = 6;
+            // 
+            // lblNewPasswordError
+            // 
+            this.lblNewPasswordError.AutoSize = true;
+            this.lblNewPasswordError.Font = new System.Drawing.Font("Segoe UI", 8F);
+            this.lblNewPasswordError.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lblNewPasswordError.Location = new System.Drawing.Point(150, 203);
+            this.lblNewPasswordError.Name = "lblNewPasswordError";
+            this.lblNewPasswordError.Size = new System.Drawing.Size(0, 13);
+            this.lblNewPasswordError.TabIndex = 10;
+            // 
+            // txtConfirmNewPassword
+            // 
+            this.txtConfirmNewPassword.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtConfirmNewPassword.Font = new System.Drawing.Font("Segoe UI", 9.5F);
+            this.txtConfirmNewPassword.Location = new System.Drawing.Point(150, 151);
+            this.txtConfirmNewPassword.Name = "txtConfirmNewPassword";
+            this.txtConfirmNewPassword.Size = new System.Drawing.Size(235, 24);
+            this.txtConfirmNewPassword.TabIndex = 8;
+            this.txtConfirmNewPassword.UseSystemPasswordChar = true;
+            this.txtConfirmNewPassword.Leave += new System.EventHandler(this.txtConfirmNewPassword_Leave);
+            // 
+            // lblConfirmNewPassword
+            // 
+            this.lblConfirmNewPassword.AutoSize = true;
+            this.lblConfirmNewPassword.Font = new System.Drawing.Font("Segoe UI", 8.5F);
+            this.lblConfirmNewPassword.Location = new System.Drawing.Point(15, 153);
+            this.lblConfirmNewPassword.Name = "lblConfirmNewPassword";
+            this.lblConfirmNewPassword.Size = new System.Drawing.Size(104, 15);
+            this.lblConfirmNewPassword.TabIndex = 7;
+            this.lblConfirmNewPassword.Text = "Confirm Password";
+            // 
+            // txtNewPassword
+            // 
+            this.txtNewPassword.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtNewPassword.Font = new System.Drawing.Font("Segoe UI", 9.5F);
+            this.txtNewPassword.Location = new System.Drawing.Point(150, 103);
+            this.txtNewPassword.Name = "txtNewPassword";
+            this.txtNewPassword.Size = new System.Drawing.Size(235, 24);
+            this.txtNewPassword.TabIndex = 5;
+            this.txtNewPassword.UseSystemPasswordChar = true;
+            this.txtNewPassword.TextChanged += new System.EventHandler(this.txtNewPassword_TextChanged);
+            // 
+            // lblNewPassword
+            // 
+            this.lblNewPassword.AutoSize = true;
+            this.lblNewPassword.Font = new System.Drawing.Font("Segoe UI", 8.5F);
+            this.lblNewPassword.Location = new System.Drawing.Point(15, 105);
+            this.lblNewPassword.Name = "lblNewPassword";
+            this.lblNewPassword.Size = new System.Drawing.Size(84, 15);
+            this.lblNewPassword.TabIndex = 4;
+            this.lblNewPassword.Text = "New Password";
+            // 
+            // lblCurrentPasswordError
+            // 
+            this.lblCurrentPasswordError.AutoSize = true;
+            this.lblCurrentPasswordError.Font = new System.Drawing.Font("Segoe UI", 8F);
+            this.lblCurrentPasswordError.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.lblCurrentPasswordError.Location = new System.Drawing.Point(150, 80);
+            this.lblCurrentPasswordError.Name = "lblCurrentPasswordError";
+            this.lblCurrentPasswordError.Size = new System.Drawing.Size(0, 13);
+            this.lblCurrentPasswordError.TabIndex = 3;
+            // 
+            // txtCurrentPassword
+            // 
+            this.txtCurrentPassword.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtCurrentPassword.Font = new System.Drawing.Font("Segoe UI", 9.5F);
+            this.txtCurrentPassword.Location = new System.Drawing.Point(150, 28);
+            this.txtCurrentPassword.Name = "txtCurrentPassword";
+            this.txtCurrentPassword.Size = new System.Drawing.Size(235, 24);
+            this.txtCurrentPassword.TabIndex = 1;
+            this.txtCurrentPassword.UseSystemPasswordChar = true;
+            // 
+            // lblCurrentPassword
+            // 
+            this.lblCurrentPassword.AutoSize = true;
+            this.lblCurrentPassword.Font = new System.Drawing.Font("Segoe UI", 8.5F);
+            this.lblCurrentPassword.Location = new System.Drawing.Point(15, 30);
+            this.lblCurrentPassword.Name = "lblCurrentPassword";
+            this.lblCurrentPassword.Size = new System.Drawing.Size(100, 15);
+            this.lblCurrentPassword.TabIndex = 0;
+            this.lblCurrentPassword.Text = "Current Password";
+            // 
+            // pnlHeader
+            // 
+            this.pnlHeader.BackColor = System.Drawing.Color.White;
+            this.pnlHeader.Controls.Add(this.lblPageTitle);
+            this.pnlHeader.Controls.Add(this.lblPageSubtitle);
+            this.pnlHeader.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnlHeader.Location = new System.Drawing.Point(0, 0);
+            this.pnlHeader.Name = "pnlHeader";
+            this.pnlHeader.Size = new System.Drawing.Size(597, 66);
+            this.pnlHeader.TabIndex = 1;
+            // 
+            // lblPageTitle
+            // 
+            this.lblPageTitle.AutoSize = true;
+            this.lblPageTitle.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
+            this.lblPageTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(43)))), ((int)(((byte)(75)))));
+            this.lblPageTitle.Location = new System.Drawing.Point(24, 9);
+            this.lblPageTitle.Name = "lblPageTitle";
+            this.lblPageTitle.Size = new System.Drawing.Size(120, 30);
+            this.lblPageTitle.TabIndex = 0;
+            this.lblPageTitle.Text = "My Profile";
+            // 
+            // lblPageSubtitle
+            // 
+            this.lblPageSubtitle.AutoSize = true;
+            this.lblPageSubtitle.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.lblPageSubtitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(130)))), ((int)(((byte)(145)))));
+            this.lblPageSubtitle.Location = new System.Drawing.Point(26, 41);
+            this.lblPageSubtitle.Name = "lblPageSubtitle";
+            this.lblPageSubtitle.Size = new System.Drawing.Size(211, 15);
+            this.lblPageSubtitle.TabIndex = 1;
+            this.lblPageSubtitle.Text = "View and manage your account details";
+            // 
+            // ProfileForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.White;
+            this.ClientSize = new System.Drawing.Size(844, 812);
+            this.Controls.Add(this.pnlRight);
+            this.Controls.Add(this.pnlSidebar);
+            this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.Name = "ProfileForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "My Profile - Library System";
             this.pnlSidebar.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.iconNavProfile)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconSidebar)).EndInit();
@@ -698,6 +698,8 @@ namespace LibraryManagement
             this.pnlProfileCard.ResumeLayout(false);
             this.pnlProfileCard.PerformLayout();
             this.pnlAvatar.ResumeLayout(false);
+            this.grpChangePassword.ResumeLayout(false);
+            this.grpChangePassword.PerformLayout();
             this.pnlHeader.ResumeLayout(false);
             this.pnlHeader.PerformLayout();
             this.ResumeLayout(false);

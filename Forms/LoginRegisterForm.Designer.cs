@@ -152,7 +152,8 @@ namespace LibraryManagement
             this.pnlRight.Margin = new System.Windows.Forms.Padding(2);
             this.pnlRight.Name = "pnlRight";
             this.pnlRight.Size = new System.Drawing.Size(328, 536);
-            this.pnlRight.TabIndex = 0;            // 
+            this.pnlRight.TabIndex = 0;
+            // 
             // pnlLogin
             // 
             this.pnlLogin.BackColor = System.Drawing.Color.White;
@@ -435,7 +436,7 @@ namespace LibraryManagement
             this.txtRegPassword.Location = new System.Drawing.Point(22, 184);
             this.txtRegPassword.Margin = new System.Windows.Forms.Padding(2);
             this.txtRegPassword.Name = "txtRegPassword";
-            this.txtRegPassword.PasswordChar = '?';
+            this.txtRegPassword.UseSystemPasswordChar = true;
             this.txtRegPassword.Size = new System.Drawing.Size(197, 25);
             this.txtRegPassword.TabIndex = 2;
             // 
@@ -487,7 +488,7 @@ namespace LibraryManagement
             this.txtRegPasswordConfirm.Location = new System.Drawing.Point(22, 234);
             this.txtRegPasswordConfirm.Margin = new System.Windows.Forms.Padding(2);
             this.txtRegPasswordConfirm.Name = "txtRegPasswordConfirm";
-            this.txtRegPasswordConfirm.PasswordChar = '?';
+            this.txtRegPasswordConfirm.UseSystemPasswordChar = true;
             this.txtRegPasswordConfirm.Size = new System.Drawing.Size(197, 25);
             this.txtRegPasswordConfirm.TabIndex = 3;
             // 
@@ -587,7 +588,7 @@ namespace LibraryManagement
             this.MaximizeBox = false;
             this.Name = "LoginRegisterForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Library System — Authentication";
+            this.Text = "Library System - Authentication";
             this.pnlSidebar.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.iconBook)).EndInit();
             this.pnlRight.ResumeLayout(false);
