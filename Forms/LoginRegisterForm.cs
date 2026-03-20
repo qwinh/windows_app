@@ -371,6 +371,11 @@ namespace LibraryManagement
                 e.Graphics.DrawRectangle(borderPen, 0, 0, pnl.Width - 1, pnl.Height - 1);
             }
         }
+
+        private void pnlRight_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }
 

@@ -130,14 +130,15 @@ namespace LibraryManagement.BLL
         }
 
         /// <summary>
-        /// Updates the profile (Name, Phone, Address) of an existing employee.
+        /// Updates the profile (Name, Phone, Address, ImagePath) of an existing employee.
         /// Returns a structured validation result.
         /// </summary>
-        public AuthValidationResult<bool> UpdateProfile(int employeeId, string name, string phone, string address)
+        public AuthValidationResult<bool> UpdateProfile(int employeeId, string name, string phone, string address, string imagePath)
         {
             name = (name ?? "").Trim();
             phone = (phone ?? "").Trim();
             address = (address ?? "").Trim();
+            imagePath = (imagePath ?? "").Trim();
 
             // 1. Basic format validation
             if (string.IsNullOrWhiteSpace(name))
@@ -146,7 +147,7 @@ namespace LibraryManagement.BLL
             }
 
             // 2. Perform DB update
-            bool sqlSuccess = _userDAL.UpdateProfile(employeeId, name, phone, address);
+            bool sqlSuccess = _userDAL.UpdateProfile(employeeId, name, phone, address, imagePath);
             if (!sqlSuccess)
             {
                 return AuthValidationResult<bool>.Fail("Failed to update profile due to a database error or invalid employee ID.");
@@ -158,6 +159,7 @@ namespace LibraryManagement.BLL
                 SessionManager.CurrentEmployee.Name = name;
                 SessionManager.CurrentEmployee.Phone = string.IsNullOrEmpty(phone) ? null : phone;
                 SessionManager.CurrentEmployee.Address = string.IsNullOrEmpty(address) ? null : address;
+                SessionManager.CurrentEmployee.ImagePath = string.IsNullOrEmpty(imagePath) ? null : imagePath;
             }
 
             return AuthValidationResult<bool>.Ok(true);

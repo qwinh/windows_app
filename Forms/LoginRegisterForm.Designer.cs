@@ -62,10 +62,11 @@ namespace LibraryManagement
             // 
             this.txtLoginPassword.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtLoginPassword.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtLoginPassword.Location = new System.Drawing.Point(30, 217);
+            this.txtLoginPassword.Location = new System.Drawing.Point(22, 179);
+            this.txtLoginPassword.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtLoginPassword.Name = "txtLoginPassword";
             this.txtLoginPassword.PasswordChar = '*';
-            this.txtLoginPassword.Size = new System.Drawing.Size(262, 30);
+            this.txtLoginPassword.Size = new System.Drawing.Size(197, 25);
             this.txtLoginPassword.TabIndex = 1;
             this.txtLoginPassword.TextChanged += new System.EventHandler(this.txtLoginPassword_TextChanged);
             // 
@@ -74,9 +75,10 @@ namespace LibraryManagement
             this.lblLoginPassword.AutoSize = true;
             this.lblLoginPassword.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.lblLoginPassword.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(60)))), ((int)(((byte)(80)))));
-            this.lblLoginPassword.Location = new System.Drawing.Point(30, 195);
+            this.lblLoginPassword.Location = new System.Drawing.Point(22, 158);
+            this.lblLoginPassword.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblLoginPassword.Name = "lblLoginPassword";
-            this.lblLoginPassword.Size = new System.Drawing.Size(76, 20);
+            this.lblLoginPassword.Size = new System.Drawing.Size(59, 15);
             this.lblLoginPassword.TabIndex = 4;
             this.lblLoginPassword.Text = "Password";
             // 
@@ -88,8 +90,9 @@ namespace LibraryManagement
             this.pnlSidebar.Controls.Add(this.lblAppSubtitle);
             this.pnlSidebar.Dock = System.Windows.Forms.DockStyle.Left;
             this.pnlSidebar.Location = new System.Drawing.Point(0, 0);
+            this.pnlSidebar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pnlSidebar.Name = "pnlSidebar";
-            this.pnlSidebar.Size = new System.Drawing.Size(230, 520);
+            this.pnlSidebar.Size = new System.Drawing.Size(172, 536);
             this.pnlSidebar.TabIndex = 1;
             // 
             // iconBook
@@ -99,10 +102,11 @@ namespace LibraryManagement
             this.iconBook.IconChar = FontAwesome.Sharp.IconChar.BookOpen;
             this.iconBook.IconColor = System.Drawing.Color.FromArgb(((int)(((byte)(92)))), ((int)(((byte)(179)))), ((int)(((byte)(255)))));
             this.iconBook.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.iconBook.IconSize = 80;
-            this.iconBook.Location = new System.Drawing.Point(0, 110);
+            this.iconBook.IconSize = 65;
+            this.iconBook.Location = new System.Drawing.Point(0, 89);
+            this.iconBook.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.iconBook.Name = "iconBook";
-            this.iconBook.Size = new System.Drawing.Size(230, 80);
+            this.iconBook.Size = new System.Drawing.Size(172, 65);
             this.iconBook.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.iconBook.TabIndex = 0;
             this.iconBook.TabStop = false;
@@ -111,9 +115,10 @@ namespace LibraryManagement
             // 
             this.lblAppName.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
             this.lblAppName.ForeColor = System.Drawing.Color.White;
-            this.lblAppName.Location = new System.Drawing.Point(10, 200);
+            this.lblAppName.Location = new System.Drawing.Point(8, 162);
+            this.lblAppName.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblAppName.Name = "lblAppName";
-            this.lblAppName.Size = new System.Drawing.Size(210, 40);
+            this.lblAppName.Size = new System.Drawing.Size(158, 32);
             this.lblAppName.TabIndex = 1;
             this.lblAppName.Text = "Library System";
             this.lblAppName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -122,9 +127,10 @@ namespace LibraryManagement
             // 
             this.lblAppSubtitle.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.lblAppSubtitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(160)))), ((int)(((byte)(190)))), ((int)(((byte)(220)))));
-            this.lblAppSubtitle.Location = new System.Drawing.Point(15, 245);
+            this.lblAppSubtitle.Location = new System.Drawing.Point(11, 199);
+            this.lblAppSubtitle.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblAppSubtitle.Name = "lblAppSubtitle";
-            this.lblAppSubtitle.Size = new System.Drawing.Size(200, 50);
+            this.lblAppSubtitle.Size = new System.Drawing.Size(150, 41);
             this.lblAppSubtitle.TabIndex = 2;
             this.lblAppSubtitle.Text = "Manage your library\r\nefficiently & securely";
             this.lblAppSubtitle.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -135,10 +141,12 @@ namespace LibraryManagement
             this.pnlRight.Controls.Add(this.pnlLogin);
             this.pnlRight.Controls.Add(this.pnlRegister);
             this.pnlRight.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlRight.Location = new System.Drawing.Point(230, 0);
+            this.pnlRight.Location = new System.Drawing.Point(172, 0);
+            this.pnlRight.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pnlRight.Name = "pnlRight";
-            this.pnlRight.Size = new System.Drawing.Size(410, 520);
+            this.pnlRight.Size = new System.Drawing.Size(328, 536);
             this.pnlRight.TabIndex = 0;
+            this.pnlRight.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlRight_Paint);
             // 
             // pnlLogin
             // 
@@ -154,10 +162,11 @@ namespace LibraryManagement
             this.pnlLogin.Controls.Add(this.lblLoginError);
             this.pnlLogin.Controls.Add(this.btnLogin);
             this.pnlLogin.Controls.Add(this.btnGoToRegister);
-            this.pnlLogin.Location = new System.Drawing.Point(30, 25);
+            this.pnlLogin.Location = new System.Drawing.Point(22, 20);
+            this.pnlLogin.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pnlLogin.Name = "pnlLogin";
-            this.pnlLogin.Padding = new System.Windows.Forms.Padding(28, 24, 28, 24);
-            this.pnlLogin.Size = new System.Drawing.Size(360, 480);
+            this.pnlLogin.Padding = new System.Windows.Forms.Padding(21, 20, 21, 20);
+            this.pnlLogin.Size = new System.Drawing.Size(270, 406);
             this.pnlLogin.TabIndex = 0;
             this.pnlLogin.Paint += new System.Windows.Forms.PaintEventHandler(this.CardPanel_Paint);
             // 
@@ -165,9 +174,10 @@ namespace LibraryManagement
             // 
             this.lblLoginTitle.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold);
             this.lblLoginTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(43)))), ((int)(((byte)(75)))));
-            this.lblLoginTitle.Location = new System.Drawing.Point(30, 30);
+            this.lblLoginTitle.Location = new System.Drawing.Point(22, 24);
+            this.lblLoginTitle.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblLoginTitle.Name = "lblLoginTitle";
-            this.lblLoginTitle.Size = new System.Drawing.Size(300, 40);
+            this.lblLoginTitle.Size = new System.Drawing.Size(225, 32);
             this.lblLoginTitle.TabIndex = 0;
             this.lblLoginTitle.Text = "Welcome Back";
             // 
@@ -175,9 +185,10 @@ namespace LibraryManagement
             // 
             this.lblLoginSubtitle.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.lblLoginSubtitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(130)))), ((int)(((byte)(145)))));
-            this.lblLoginSubtitle.Location = new System.Drawing.Point(30, 72);
+            this.lblLoginSubtitle.Location = new System.Drawing.Point(22, 57);
+            this.lblLoginSubtitle.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblLoginSubtitle.Name = "lblLoginSubtitle";
-            this.lblLoginSubtitle.Size = new System.Drawing.Size(300, 22);
+            this.lblLoginSubtitle.Size = new System.Drawing.Size(225, 18);
             this.lblLoginSubtitle.TabIndex = 1;
             this.lblLoginSubtitle.Text = "Sign in to your account to continue";
             // 
@@ -186,9 +197,10 @@ namespace LibraryManagement
             this.lblLoginEmail.AutoSize = true;
             this.lblLoginEmail.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.lblLoginEmail.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(60)))), ((int)(((byte)(80)))));
-            this.lblLoginEmail.Location = new System.Drawing.Point(30, 115);
+            this.lblLoginEmail.Location = new System.Drawing.Point(22, 98);
+            this.lblLoginEmail.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblLoginEmail.Name = "lblLoginEmail";
-            this.lblLoginEmail.Size = new System.Drawing.Size(108, 20);
+            this.lblLoginEmail.Size = new System.Drawing.Size(83, 15);
             this.lblLoginEmail.TabIndex = 2;
             this.lblLoginEmail.Text = "Email Address";
             // 
@@ -196,9 +208,10 @@ namespace LibraryManagement
             // 
             this.txtLoginEmail.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtLoginEmail.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtLoginEmail.Location = new System.Drawing.Point(30, 137);
+            this.txtLoginEmail.Location = new System.Drawing.Point(22, 118);
+            this.txtLoginEmail.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtLoginEmail.Name = "txtLoginEmail";
-            this.txtLoginEmail.Size = new System.Drawing.Size(300, 30);
+            this.txtLoginEmail.Size = new System.Drawing.Size(226, 25);
             this.txtLoginEmail.TabIndex = 0;
             this.txtLoginEmail.TextChanged += new System.EventHandler(this.txtLoginEmail_TextChanged);
             this.txtLoginEmail.Leave += new System.EventHandler(this.txtLoginEmail_Leave);
@@ -208,9 +221,10 @@ namespace LibraryManagement
             this.lblLoginEmailError.AutoSize = true;
             this.lblLoginEmailError.Font = new System.Drawing.Font("Segoe UI", 8F);
             this.lblLoginEmailError.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lblLoginEmailError.Location = new System.Drawing.Point(30, 170);
+            this.lblLoginEmailError.Location = new System.Drawing.Point(22, 142);
+            this.lblLoginEmailError.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblLoginEmailError.Name = "lblLoginEmailError";
-            this.lblLoginEmailError.Size = new System.Drawing.Size(0, 19);
+            this.lblLoginEmailError.Size = new System.Drawing.Size(0, 13);
             this.lblLoginEmailError.TabIndex = 3;
             this.lblLoginEmailError.Visible = false;
             // 
@@ -225,9 +239,10 @@ namespace LibraryManagement
             this.btnShowLoginPassword.IconColor = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(130)))), ((int)(((byte)(145)))));
             this.btnShowLoginPassword.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnShowLoginPassword.IconSize = 20;
-            this.btnShowLoginPassword.Location = new System.Drawing.Point(296, 216);
+            this.btnShowLoginPassword.Location = new System.Drawing.Point(222, 178);
+            this.btnShowLoginPassword.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnShowLoginPassword.Name = "btnShowLoginPassword";
-            this.btnShowLoginPassword.Size = new System.Drawing.Size(34, 32);
+            this.btnShowLoginPassword.Size = new System.Drawing.Size(26, 26);
             this.btnShowLoginPassword.TabIndex = 2;
             this.btnShowLoginPassword.UseVisualStyleBackColor = false;
             this.btnShowLoginPassword.Click += new System.EventHandler(this.btnShowLoginPassword_Click);
@@ -237,10 +252,11 @@ namespace LibraryManagement
             this.lblLoginError.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
             this.lblLoginError.Font = new System.Drawing.Font("Segoe UI", 8.5F);
             this.lblLoginError.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
-            this.lblLoginError.Location = new System.Drawing.Point(30, 260);
+            this.lblLoginError.Location = new System.Drawing.Point(22, 207);
+            this.lblLoginError.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblLoginError.Name = "lblLoginError";
-            this.lblLoginError.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
-            this.lblLoginError.Size = new System.Drawing.Size(300, 30);
+            this.lblLoginError.Padding = new System.Windows.Forms.Padding(6, 0, 0, 0);
+            this.lblLoginError.Size = new System.Drawing.Size(225, 37);
             this.lblLoginError.TabIndex = 5;
             this.lblLoginError.Visible = false;
             // 
@@ -252,9 +268,10 @@ namespace LibraryManagement
             this.btnLogin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLogin.Font = new System.Drawing.Font("Segoe UI", 10.5F, System.Drawing.FontStyle.Bold);
             this.btnLogin.ForeColor = System.Drawing.Color.White;
-            this.btnLogin.Location = new System.Drawing.Point(30, 302);
+            this.btnLogin.Location = new System.Drawing.Point(22, 260);
+            this.btnLogin.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnLogin.Name = "btnLogin";
-            this.btnLogin.Size = new System.Drawing.Size(300, 42);
+            this.btnLogin.Size = new System.Drawing.Size(225, 34);
             this.btnLogin.TabIndex = 3;
             this.btnLogin.Text = "Sign In";
             this.btnLogin.UseVisualStyleBackColor = false;
@@ -273,9 +290,10 @@ namespace LibraryManagement
             this.btnGoToRegister.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnGoToRegister.IconSize = 16;
             this.btnGoToRegister.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnGoToRegister.Location = new System.Drawing.Point(30, 358);
+            this.btnGoToRegister.Location = new System.Drawing.Point(22, 305);
+            this.btnGoToRegister.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnGoToRegister.Name = "btnGoToRegister";
-            this.btnGoToRegister.Size = new System.Drawing.Size(300, 38);
+            this.btnGoToRegister.Size = new System.Drawing.Size(225, 31);
             this.btnGoToRegister.TabIndex = 4;
             this.btnGoToRegister.Text = "Don\'t have an account?  Register   ";
             this.btnGoToRegister.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
@@ -303,10 +321,11 @@ namespace LibraryManagement
             this.pnlRegister.Controls.Add(this.lblRegisterError);
             this.pnlRegister.Controls.Add(this.btnRegister);
             this.pnlRegister.Controls.Add(this.btnGoToLogin);
-            this.pnlRegister.Location = new System.Drawing.Point(30, 25);
+            this.pnlRegister.Location = new System.Drawing.Point(22, 20);
+            this.pnlRegister.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pnlRegister.Name = "pnlRegister";
-            this.pnlRegister.Padding = new System.Windows.Forms.Padding(28, 24, 28, 24);
-            this.pnlRegister.Size = new System.Drawing.Size(360, 600);
+            this.pnlRegister.Padding = new System.Windows.Forms.Padding(21, 20, 21, 20);
+            this.pnlRegister.Size = new System.Drawing.Size(270, 406);
             this.pnlRegister.TabIndex = 1;
             this.pnlRegister.Visible = false;
             this.pnlRegister.Paint += new System.Windows.Forms.PaintEventHandler(this.CardPanel_Paint);
@@ -315,9 +334,10 @@ namespace LibraryManagement
             // 
             this.lblRegTitle.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
             this.lblRegTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(43)))), ((int)(((byte)(75)))));
-            this.lblRegTitle.Location = new System.Drawing.Point(30, 20);
+            this.lblRegTitle.Location = new System.Drawing.Point(22, 12);
+            this.lblRegTitle.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblRegTitle.Name = "lblRegTitle";
-            this.lblRegTitle.Size = new System.Drawing.Size(300, 35);
+            this.lblRegTitle.Size = new System.Drawing.Size(225, 28);
             this.lblRegTitle.TabIndex = 0;
             this.lblRegTitle.Text = "Create Account";
             // 
@@ -325,9 +345,10 @@ namespace LibraryManagement
             // 
             this.lblRegSubtitle.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.lblRegSubtitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(130)))), ((int)(((byte)(145)))));
-            this.lblRegSubtitle.Location = new System.Drawing.Point(30, 55);
+            this.lblRegSubtitle.Location = new System.Drawing.Point(22, 41);
+            this.lblRegSubtitle.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblRegSubtitle.Name = "lblRegSubtitle";
-            this.lblRegSubtitle.Size = new System.Drawing.Size(300, 20);
+            this.lblRegSubtitle.Size = new System.Drawing.Size(225, 16);
             this.lblRegSubtitle.TabIndex = 1;
             this.lblRegSubtitle.Text = "Fill in the details to register";
             // 
@@ -336,9 +357,10 @@ namespace LibraryManagement
             this.lblRegName.AutoSize = true;
             this.lblRegName.Font = new System.Drawing.Font("Segoe UI", 8.5F, System.Drawing.FontStyle.Bold);
             this.lblRegName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(60)))), ((int)(((byte)(80)))));
-            this.lblRegName.Location = new System.Drawing.Point(30, 85);
+            this.lblRegName.Location = new System.Drawing.Point(22, 65);
+            this.lblRegName.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblRegName.Name = "lblRegName";
-            this.lblRegName.Size = new System.Drawing.Size(80, 20);
+            this.lblRegName.Size = new System.Drawing.Size(62, 15);
             this.lblRegName.TabIndex = 2;
             this.lblRegName.Text = "Full Name";
             // 
@@ -346,9 +368,10 @@ namespace LibraryManagement
             // 
             this.txtRegName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtRegName.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtRegName.Location = new System.Drawing.Point(30, 117);
+            this.txtRegName.Location = new System.Drawing.Point(22, 83);
+            this.txtRegName.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtRegName.Name = "txtRegName";
-            this.txtRegName.Size = new System.Drawing.Size(300, 30);
+            this.txtRegName.Size = new System.Drawing.Size(226, 25);
             this.txtRegName.TabIndex = 0;
             this.txtRegName.TextChanged += new System.EventHandler(this.txtRegName_TextChanged);
             // 
@@ -357,9 +380,10 @@ namespace LibraryManagement
             this.lblRegEmail.AutoSize = true;
             this.lblRegEmail.Font = new System.Drawing.Font("Segoe UI", 8.5F, System.Drawing.FontStyle.Bold);
             this.lblRegEmail.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(60)))), ((int)(((byte)(80)))));
-            this.lblRegEmail.Location = new System.Drawing.Point(30, 142);
+            this.lblRegEmail.Location = new System.Drawing.Point(22, 115);
+            this.lblRegEmail.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblRegEmail.Name = "lblRegEmail";
-            this.lblRegEmail.Size = new System.Drawing.Size(108, 20);
+            this.lblRegEmail.Size = new System.Drawing.Size(83, 15);
             this.lblRegEmail.TabIndex = 3;
             this.lblRegEmail.Text = "Email Address";
             // 
@@ -367,9 +391,10 @@ namespace LibraryManagement
             // 
             this.txtRegEmail.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtRegEmail.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtRegEmail.Location = new System.Drawing.Point(30, 182);
+            this.txtRegEmail.Location = new System.Drawing.Point(22, 133);
+            this.txtRegEmail.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtRegEmail.Name = "txtRegEmail";
-            this.txtRegEmail.Size = new System.Drawing.Size(300, 30);
+            this.txtRegEmail.Size = new System.Drawing.Size(226, 25);
             this.txtRegEmail.TabIndex = 1;
             this.txtRegEmail.TextChanged += new System.EventHandler(this.txtRegEmail_TextChanged);
             this.txtRegEmail.Leave += new System.EventHandler(this.txtRegEmail_Leave);
@@ -379,9 +404,10 @@ namespace LibraryManagement
             this.lblRegEmailError.AutoSize = true;
             this.lblRegEmailError.Font = new System.Drawing.Font("Segoe UI", 8F);
             this.lblRegEmailError.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lblRegEmailError.Location = new System.Drawing.Point(30, 191);
+            this.lblRegEmailError.Location = new System.Drawing.Point(22, 158);
+            this.lblRegEmailError.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblRegEmailError.Name = "lblRegEmailError";
-            this.lblRegEmailError.Size = new System.Drawing.Size(0, 19);
+            this.lblRegEmailError.Size = new System.Drawing.Size(0, 13);
             this.lblRegEmailError.TabIndex = 4;
             this.lblRegEmailError.Visible = false;
             // 
@@ -390,9 +416,10 @@ namespace LibraryManagement
             this.lblRegPassword.AutoSize = true;
             this.lblRegPassword.Font = new System.Drawing.Font("Segoe UI", 8.5F, System.Drawing.FontStyle.Bold);
             this.lblRegPassword.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(60)))), ((int)(((byte)(80)))));
-            this.lblRegPassword.Location = new System.Drawing.Point(30, 198);
+            this.lblRegPassword.Location = new System.Drawing.Point(22, 166);
+            this.lblRegPassword.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblRegPassword.Name = "lblRegPassword";
-            this.lblRegPassword.Size = new System.Drawing.Size(76, 20);
+            this.lblRegPassword.Size = new System.Drawing.Size(59, 15);
             this.lblRegPassword.TabIndex = 5;
             this.lblRegPassword.Text = "Password";
             // 
@@ -400,10 +427,11 @@ namespace LibraryManagement
             // 
             this.txtRegPassword.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtRegPassword.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtRegPassword.Location = new System.Drawing.Point(30, 247);
+            this.txtRegPassword.Location = new System.Drawing.Point(22, 184);
+            this.txtRegPassword.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtRegPassword.Name = "txtRegPassword";
             this.txtRegPassword.PasswordChar = '?';
-            this.txtRegPassword.Size = new System.Drawing.Size(262, 30);
+            this.txtRegPassword.Size = new System.Drawing.Size(197, 25);
             this.txtRegPassword.TabIndex = 2;
             // 
             // btnShowRegPassword
@@ -417,9 +445,10 @@ namespace LibraryManagement
             this.btnShowRegPassword.IconColor = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(130)))), ((int)(((byte)(145)))));
             this.btnShowRegPassword.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnShowRegPassword.IconSize = 20;
-            this.btnShowRegPassword.Location = new System.Drawing.Point(296, 217);
+            this.btnShowRegPassword.Location = new System.Drawing.Point(222, 183);
+            this.btnShowRegPassword.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnShowRegPassword.Name = "btnShowRegPassword";
-            this.btnShowRegPassword.Size = new System.Drawing.Size(34, 30);
+            this.btnShowRegPassword.Size = new System.Drawing.Size(26, 24);
             this.btnShowRegPassword.TabIndex = 3;
             this.btnShowRegPassword.UseVisualStyleBackColor = false;
             this.btnShowRegPassword.Click += new System.EventHandler(this.btnShowRegPassword_Click);
@@ -428,9 +457,10 @@ namespace LibraryManagement
             // 
             this.lblRegPasswordStrength.AutoSize = true;
             this.lblRegPasswordStrength.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Bold);
-            this.lblRegPasswordStrength.Location = new System.Drawing.Point(30, 248);
+            this.lblRegPasswordStrength.Location = new System.Drawing.Point(22, 208);
+            this.lblRegPasswordStrength.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblRegPasswordStrength.Name = "lblRegPasswordStrength";
-            this.lblRegPasswordStrength.Size = new System.Drawing.Size(0, 19);
+            this.lblRegPasswordStrength.Size = new System.Drawing.Size(0, 13);
             this.lblRegPasswordStrength.TabIndex = 6;
             // 
             // lblRegPasswordConfirm
@@ -438,9 +468,10 @@ namespace LibraryManagement
             this.lblRegPasswordConfirm.AutoSize = true;
             this.lblRegPasswordConfirm.Font = new System.Drawing.Font("Segoe UI", 8.5F, System.Drawing.FontStyle.Bold);
             this.lblRegPasswordConfirm.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(60)))), ((int)(((byte)(80)))));
-            this.lblRegPasswordConfirm.Location = new System.Drawing.Point(30, 255);
+            this.lblRegPasswordConfirm.Location = new System.Drawing.Point(22, 216);
+            this.lblRegPasswordConfirm.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblRegPasswordConfirm.Name = "lblRegPasswordConfirm";
-            this.lblRegPasswordConfirm.Size = new System.Drawing.Size(137, 20);
+            this.lblRegPasswordConfirm.Size = new System.Drawing.Size(107, 15);
             this.lblRegPasswordConfirm.TabIndex = 7;
             this.lblRegPasswordConfirm.Text = "Confirm Password";
             // 
@@ -448,10 +479,11 @@ namespace LibraryManagement
             // 
             this.txtRegPasswordConfirm.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtRegPasswordConfirm.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtRegPasswordConfirm.Location = new System.Drawing.Point(30, 312);
+            this.txtRegPasswordConfirm.Location = new System.Drawing.Point(22, 234);
+            this.txtRegPasswordConfirm.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtRegPasswordConfirm.Name = "txtRegPasswordConfirm";
             this.txtRegPasswordConfirm.PasswordChar = '?';
-            this.txtRegPasswordConfirm.Size = new System.Drawing.Size(262, 30);
+            this.txtRegPasswordConfirm.Size = new System.Drawing.Size(197, 25);
             this.txtRegPasswordConfirm.TabIndex = 3;
             // 
             // btnShowRegPasswordConfirm
@@ -465,9 +497,10 @@ namespace LibraryManagement
             this.btnShowRegPasswordConfirm.IconColor = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(130)))), ((int)(((byte)(145)))));
             this.btnShowRegPasswordConfirm.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnShowRegPasswordConfirm.IconSize = 20;
-            this.btnShowRegPasswordConfirm.Location = new System.Drawing.Point(296, 274);
+            this.btnShowRegPasswordConfirm.Location = new System.Drawing.Point(222, 233);
+            this.btnShowRegPasswordConfirm.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnShowRegPasswordConfirm.Name = "btnShowRegPasswordConfirm";
-            this.btnShowRegPasswordConfirm.Size = new System.Drawing.Size(34, 30);
+            this.btnShowRegPasswordConfirm.Size = new System.Drawing.Size(26, 24);
             this.btnShowRegPasswordConfirm.TabIndex = 5;
             this.btnShowRegPasswordConfirm.UseVisualStyleBackColor = false;
             this.btnShowRegPasswordConfirm.Click += new System.EventHandler(this.btnShowRegPasswordConfirm_Click);
@@ -477,9 +510,10 @@ namespace LibraryManagement
             this.lblRegPasswordConfirmError.AutoSize = true;
             this.lblRegPasswordConfirmError.Font = new System.Drawing.Font("Segoe UI", 8F);
             this.lblRegPasswordConfirmError.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lblRegPasswordConfirmError.Location = new System.Drawing.Point(30, 306);
+            this.lblRegPasswordConfirmError.Location = new System.Drawing.Point(22, 258);
+            this.lblRegPasswordConfirmError.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblRegPasswordConfirmError.Name = "lblRegPasswordConfirmError";
-            this.lblRegPasswordConfirmError.Size = new System.Drawing.Size(0, 19);
+            this.lblRegPasswordConfirmError.Size = new System.Drawing.Size(0, 13);
             this.lblRegPasswordConfirmError.TabIndex = 8;
             this.lblRegPasswordConfirmError.Visible = false;
             // 
@@ -488,10 +522,11 @@ namespace LibraryManagement
             this.lblRegisterError.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
             this.lblRegisterError.Font = new System.Drawing.Font("Segoe UI", 8.5F);
             this.lblRegisterError.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
-            this.lblRegisterError.Location = new System.Drawing.Point(30, 325);
+            this.lblRegisterError.Location = new System.Drawing.Point(22, 272);
+            this.lblRegisterError.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblRegisterError.Name = "lblRegisterError";
-            this.lblRegisterError.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
-            this.lblRegisterError.Size = new System.Drawing.Size(300, 30);
+            this.lblRegisterError.Padding = new System.Windows.Forms.Padding(6, 0, 0, 0);
+            this.lblRegisterError.Size = new System.Drawing.Size(225, 37);
             this.lblRegisterError.TabIndex = 9;
             this.lblRegisterError.Visible = false;
             // 
@@ -503,9 +538,10 @@ namespace LibraryManagement
             this.btnRegister.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRegister.Font = new System.Drawing.Font("Segoe UI", 10.5F, System.Drawing.FontStyle.Bold);
             this.btnRegister.ForeColor = System.Drawing.Color.White;
-            this.btnRegister.Location = new System.Drawing.Point(30, 365);
+            this.btnRegister.Location = new System.Drawing.Point(22, 317);
+            this.btnRegister.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnRegister.Name = "btnRegister";
-            this.btnRegister.Size = new System.Drawing.Size(300, 42);
+            this.btnRegister.Size = new System.Drawing.Size(225, 34);
             this.btnRegister.TabIndex = 6;
             this.btnRegister.Text = "Create Account";
             this.btnRegister.UseVisualStyleBackColor = false;
@@ -524,9 +560,10 @@ namespace LibraryManagement
             this.btnGoToLogin.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnGoToLogin.IconSize = 16;
             this.btnGoToLogin.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnGoToLogin.Location = new System.Drawing.Point(30, 415);
+            this.btnGoToLogin.Location = new System.Drawing.Point(22, 362);
+            this.btnGoToLogin.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnGoToLogin.Name = "btnGoToLogin";
-            this.btnGoToLogin.Size = new System.Drawing.Size(300, 38);
+            this.btnGoToLogin.Size = new System.Drawing.Size(225, 31);
             this.btnGoToLogin.TabIndex = 7;
             this.btnGoToLogin.Text = "Already have an account?  Sign In   ";
             this.btnGoToLogin.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
@@ -535,14 +572,13 @@ namespace LibraryManagement
             // 
             // LoginRegisterForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(640, 520);
+            this.ClientSize = new System.Drawing.Size(500, 536);
             this.Controls.Add(this.pnlRight);
             this.Controls.Add(this.pnlSidebar);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.Name = "LoginRegisterForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -602,6 +638,7 @@ namespace LibraryManagement
         private FontAwesome.Sharp.IconButton btnGoToLogin;
     }
 }
+
 
 
 

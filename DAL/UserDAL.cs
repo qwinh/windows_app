@@ -14,7 +14,7 @@ namespace LibraryManagement.DAL
         {
             using (var conn = clsDatabase.CreateOpenConnection())
             using (var cmd = new SqlCommand(
-                "SELECT id, name, email, pass, phone, address, date_create, status " +
+                "SELECT id, name, email, pass, phone, address, image_path, date_create, status " +
                 "FROM employees WHERE email = @email", conn))
             {
                 cmd.Parameters.AddWithValue("@email", email);
@@ -112,11 +112,11 @@ namespace LibraryManagement.DAL
             }
         }
 
-        public bool UpdateProfile(int id, string name, string phone, string address)
+        public bool UpdateProfile(int id, string name, string phone, string address, string imagePath)
         {
             using (var conn = clsDatabase.CreateOpenConnection())
             using (var cmd = new SqlCommand(
-                "UPDATE employees SET name = @name, phone = @phone, address = @address " +
+                "UPDATE employees SET name = @name, phone = @phone, address = @address, image_path = @imagePath " +
                 "WHERE id = @id", conn))
             {
                 cmd.Parameters.AddWithValue("@id", id);
@@ -125,6 +125,7 @@ namespace LibraryManagement.DAL
                 // Handle optional fields
                 cmd.Parameters.AddWithValue("@phone", string.IsNullOrEmpty(phone) ? (object)DBNull.Value : phone);
                 cmd.Parameters.AddWithValue("@address", string.IsNullOrEmpty(address) ? (object)DBNull.Value : address);
+                cmd.Parameters.AddWithValue("@imagePath", string.IsNullOrEmpty(imagePath) ? (object)DBNull.Value : imagePath);
                 
                 int rowsAffected = cmd.ExecuteNonQuery();
                 return rowsAffected > 0;
@@ -141,6 +142,7 @@ namespace LibraryManagement.DAL
                 HashedPassword = reader["pass"].ToString(),
                 Phone = reader["phone"] != DBNull.Value ? reader["phone"].ToString() : null,
                 Address = reader["address"] != DBNull.Value ? reader["address"].ToString() : null,
+                ImagePath = reader["image_path"] != DBNull.Value ? reader["image_path"].ToString() : null,
                 DateCreate = Convert.ToDateTime(reader["date_create"]),
                 Status = Convert.ToByte(reader["status"])
             };

@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 using LibraryManagement.BLL;
 using LibraryManagement.Helpers;
 
@@ -16,6 +17,11 @@ namespace LibraryManagement
         private string _originalName;
         private string _originalPhone;
         private string _originalAddress;
+        private string _originalImagePath;
+
+        private string _currentImagePath;
+        private Image _avatarImage;
+        private bool _isEditMode = false;
 
         public ProfileForm()
         {
@@ -23,6 +29,10 @@ namespace LibraryManagement
             _authService = new AuthService();
             
             pnlRight.Resize += (_, __) => CenterProfileCard();
+
+            pnlAvatar.Click += Avatar_Click;
+            // Provide a tooltip hint in edit mode
+            pnlAvatar.Cursor = Cursors.Default;
         }
 
         protected override void OnLoad(EventArgs e)
@@ -61,6 +71,10 @@ namespace LibraryManagement
             _originalName = user.Name ?? "";
             _originalPhone = user.Phone ?? "";
             _originalAddress = user.Address ?? "";
+            _originalImagePath = user.ImagePath;
+
+            _currentImagePath = _originalImagePath;
+            LoadAvatarImage(_currentImagePath);
 
             txtFirstName.Text = _originalName; // we will use txtFirstName as "Full Name" based on validation
             txtPhone.Text = _originalPhone;
@@ -84,6 +98,32 @@ namespace LibraryManagement
             lblAvatar.Text = initials.ToUpper();
         }
 
+        private void LoadAvatarImage(string path)
+        {
+            if (_avatarImage != null)
+            {
+                _avatarImage.Dispose();
+                _avatarImage = null;
+            }
+
+            if (!string.IsNullOrEmpty(path) && File.Exists(path))
+            {
+                try
+                {
+                    // Use FromStream to avoid locking the file
+                    using (var ms = new MemoryStream(File.ReadAllBytes(path)))
+                    {
+                        _avatarImage = Image.FromStream(ms);
+                    }
+                }
+                catch
+                {
+                    _avatarImage = null;
+                }
+            }
+            pnlAvatar.Invalidate(); // Trigger repainting of the avatar
+        }
+
         // --- Modes ---
 
         private void SetViewMode()
@@ -101,6 +141,9 @@ namespace LibraryManagement
             btnEdit.Visible = true;
             btnSave.Visible = false;
             btnCancel.Visible = false;
+
+            _isEditMode = false;
+            pnlAvatar.Cursor = Cursors.Default;
 
             ClearErrors();
             SetFeedback("");
@@ -122,7 +165,26 @@ namespace LibraryManagement
             btnSave.Visible = true;
             btnCancel.Visible = true;
 
+            _isEditMode = true;
+            pnlAvatar.Cursor = Cursors.Hand;
+
             ActiveControl = txtFirstName;
+        }
+
+        private void Avatar_Click(object sender, EventArgs e)
+        {
+            if (!_isEditMode) return;
+            
+            using (OpenFileDialog ofd = new OpenFileDialog())
+            {
+                ofd.Title = "Select Profile Photo";
+                ofd.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp";
+                if (ofd.ShowDialog() == DialogResult.OK)
+                {
+                    _currentImagePath = ofd.FileName;
+                    LoadAvatarImage(_currentImagePath);
+                }
+            }
         }
 
         // --- Real-time Validation & UX ---
@@ -218,6 +280,8 @@ namespace LibraryManagement
             txtFirstName.Text = _originalName;
             txtPhone.Text = _originalPhone;
             txtAddress.Text = _originalAddress;
+            _currentImagePath = _originalImagePath;
+            LoadAvatarImage(_currentImagePath);
             SetViewMode();
         }
 
@@ -238,7 +302,7 @@ namespace LibraryManagement
             string newAddress = txtAddress.Text.Trim();
 
             // Partial Edit Rule: did anything change?
-            if (newName == _originalName && newPhone == _originalPhone && newAddress == _originalAddress)
+            if (newName == _originalName && newPhone == _originalPhone && newAddress == _originalAddress && _currentImagePath == _originalImagePath)
             {
                 SetViewMode();
                 SetFeedback("No changes were made.");
@@ -248,10 +312,35 @@ namespace LibraryManagement
             ClearErrors();
             SetLoadingState(true);
 
+            int empId = SessionManager.CurrentEmployee.Id;
+            string finalImagePath = _currentImagePath;
+
+            // Handle image copy if a new image was selected
+            if (_currentImagePath != _originalImagePath && !string.IsNullOrEmpty(_currentImagePath))
+            {
+                try
+                {
+                    string imagesDir = Path.Combine(Application.StartupPath, "Images", "Employees");
+                    if (!Directory.Exists(imagesDir))
+                    {
+                        Directory.CreateDirectory(imagesDir);
+                    }
+                    string ext = Path.GetExtension(_currentImagePath);
+                    string fileName = $"emp_{empId}_{DateTime.Now.Ticks}{ext}";
+                    finalImagePath = Path.Combine(imagesDir, fileName);
+                    File.Copy(_currentImagePath, finalImagePath, true);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Failed to save image: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    SetLoadingState(false);
+                    return;
+                }
+            }
+
             try
             {
-                int empId = SessionManager.CurrentEmployee.Id;
-                var result = await Task.Run(() => _authService.UpdateProfile(empId, newName, newPhone, newAddress));
+                var result = await Task.Run(() => _authService.UpdateProfile(empId, newName, newPhone, newAddress, finalImagePath));
 
                 if (result.Success)
                 {
@@ -323,20 +412,32 @@ namespace LibraryManagement
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
             var rect = new System.Drawing.Rectangle(0, 0, pnlAvatar.Width - 1, pnlAvatar.Height - 1);
 
-            // Fill circle with primary color
-            using (var brush = new System.Drawing.SolidBrush(System.Drawing.Color.FromArgb(37, 99, 235)))
+            if (_avatarImage != null)
             {
-                g.FillEllipse(brush, rect);
+                using (var path = new System.Drawing.Drawing2D.GraphicsPath())
+                {
+                    path.AddEllipse(rect);
+                    g.SetClip(path);
+                    g.DrawImage(_avatarImage, rect);
+                }
             }
-
-            // Draw initial letter, centered
-            using (var font = new System.Drawing.Font("Segoe UI", 22f, System.Drawing.FontStyle.Bold))
+            else
             {
-                var textSize = g.MeasureString(lblAvatar.Text, font);
-                var textPoint = new System.Drawing.PointF(
-                    (pnlAvatar.Width - textSize.Width) / 2f,
-                    (pnlAvatar.Height - textSize.Height) / 2f);
-                g.DrawString(lblAvatar.Text, font, System.Drawing.Brushes.White, textPoint);
+                // Fill circle with primary color
+                using (var brush = new System.Drawing.SolidBrush(System.Drawing.Color.FromArgb(37, 99, 235)))
+                {
+                    g.FillEllipse(brush, rect);
+                }
+
+                // Draw initial letter, centered
+                using (var font = new System.Drawing.Font("Segoe UI", 22f, System.Drawing.FontStyle.Bold))
+                {
+                    var textSize = g.MeasureString(lblAvatar.Text, font);
+                    var textPoint = new System.Drawing.PointF(
+                        (pnlAvatar.Width - textSize.Width) / 2f,
+                        (pnlAvatar.Height - textSize.Height) / 2f);
+                    g.DrawString(lblAvatar.Text, font, System.Drawing.Brushes.White, textPoint);
+                }
             }
         }
     }
