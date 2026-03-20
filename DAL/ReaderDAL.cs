@@ -11,7 +11,7 @@ namespace LibraryManagement.DAL
         public List<Reader> GetAllActiveReaders()
         {
             var readers = new List<Reader>();
-            string query = "SELECT id, name, email, phone, address, date_create, date_expire, integrity " +
+            string query = "SELECT id, name, email, phone, address, date_create, date_expire, integrity, image_path " +
                            "FROM readers WHERE date_expire > GETDATE()";
             using (var conn = clsDatabase.CreateOpenConnection())
             using (var cmd = new SqlCommand(query, conn))
@@ -28,7 +28,8 @@ namespace LibraryManagement.DAL
                         Address = reader["address"] != DBNull.Value ? reader["address"].ToString() : null,
                         DateCreate = Convert.ToDateTime(reader["date_create"]),
                         DateExpire = reader["date_expire"] != DBNull.Value ? Convert.ToDateTime(reader["date_expire"]) : (DateTime?)null,
-                        Integrity = Convert.ToByte(reader["integrity"])
+                        Integrity = Convert.ToByte(reader["integrity"]),
+                        ImagePath = reader["image_path"] != DBNull.Value ? reader["image_path"].ToString() : null
                     });
                 }
             }

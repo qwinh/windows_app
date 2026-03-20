@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Windows.Forms;
 using System.Collections.Generic;
@@ -30,7 +31,7 @@ namespace LibraryManagement
             base.OnLoad(e);
             
             // Hover effects for Submit button (Green for return)
-            AttachHoverEffect(btnSubmit, Color.FromArgb(5, 150, 105), Color.FromArgb(16, 185, 129));
+            AttachHoverEffect(btnSubmit, Color.FromArgb(29, 78, 216), Color.FromArgb(37, 99, 235));
             
             // Cancel button hover text color
             btnCancel.MouseEnter += (_, __) => btnCancel.ForeColor = Color.FromArgb(16, 185, 129);
@@ -79,15 +80,63 @@ namespace LibraryManagement
             cmbBook.SelectedIndex = -1;
         }
 
+        private void DrawNoImage(PictureBox pb, string text = "No Image")
+        {
+            if (pb == null) return;
+            
+            pb.ImageLocation = null; // Clear any asynchronous image loading
+            
+            int w = pb.Width > 0 ? pb.Width : 150;
+            int h = pb.Height > 0 ? pb.Height : 200;
+            Bitmap bmp = new Bitmap(w, h);
+            using (Graphics g = Graphics.FromImage(bmp))
+            {
+                g.Clear(Color.FromArgb(218, 222, 236));
+                g.SmoothingMode = SmoothingMode.AntiAlias;
+                
+                // Adjust font size dynamically based on width or explicit smaller size
+                float fontSize = w < 80 ? 8f : 10f; 
+                using (Font f = new Font("Segoe UI", fontSize, FontStyle.Bold))
+                using (SolidBrush br = new SolidBrush(Color.FromArgb(140, 150, 175)))
+                {
+                    g.TranslateTransform(w / 2f, h / 2f);
+                    g.RotateTransform(-45);
+                    SizeF sz = g.MeasureString(text, f);
+                    g.DrawString(text, f, br, -sz.Width / 2f, -sz.Height / 2f);
+                    g.ResetTransform();
+                }
+            }
+            pb.Image = bmp;
+            pb.SizeMode = PictureBoxSizeMode.Zoom;
+        }
+
         private void cmbReader_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmbReader.SelectedValue != null && cmbReader.SelectedValue is int readerId)
+            if (cmbReader.SelectedItem is Reader selectedReader)
             {
-                var readerBooks = _bookDal.GetBorrowedBooksByReader(readerId);
+                lblReaderNameValue.Text = selectedReader.Name;
+                lblReaderPhoneValue.Text = string.IsNullOrEmpty(selectedReader.Phone) ? "No Phone" : selectedReader.Phone;
+                lblReaderAddressValue.Text = string.IsNullOrEmpty(selectedReader.Address) ? "No Address" : selectedReader.Address;
+                
+                if (!string.IsNullOrEmpty(selectedReader.ImagePath) && System.IO.File.Exists(selectedReader.ImagePath))
+                {
+                    pbReaderAvatar.ImageLocation = selectedReader.ImagePath;
+                }
+                else
+                {
+                    DrawNoImage(pbReaderAvatar, "No Image");
+                }
+                
+                var readerBooks = _bookDal.GetBorrowedBooksByReader(selectedReader.Id);
                 BindBooksToCombo(readerBooks);
             }
             else
             {
+                if (lblReaderNameValue != null) lblReaderNameValue.Text = "Reader Name";
+                if (lblReaderPhoneValue != null) lblReaderPhoneValue.Text = "Phone";
+                if (lblReaderAddressValue != null) lblReaderAddressValue.Text = "Address";
+                if (pbReaderAvatar != null) DrawNoImage(pbReaderAvatar, "No Image");
+
                 // If nothing is selected or it's cleared, show all borrowed books
                 if (_allBorrowedBooks != null)
                 {
@@ -96,7 +145,39 @@ namespace LibraryManagement
             }
             
             // Clear the text explicitly to prevent carrying over old visual selection
-            cmbBook.Text = string.Empty;
+            if (cmbBook != null)
+            {
+                cmbBook.Text = string.Empty;
+                cmbBook_SelectedIndexChanged(null, null); // forcefully clear the info
+            }
+        }
+
+        private void cmbBook_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbBook != null && cmbBook.SelectedItem is BookActual selectedBook)
+            {
+                if (lblBookAuthorValue != null)
+                {
+                    lblBookAuthorValue.Text = string.IsNullOrEmpty(selectedBook.AuthorName) ? "Unknown Author" : selectedBook.AuthorName;
+                }
+                
+                if (pbBookCover != null)
+                {
+                    if (!string.IsNullOrEmpty(selectedBook.ImagePath) && System.IO.File.Exists(selectedBook.ImagePath))
+                    {
+                        pbBookCover.ImageLocation = selectedBook.ImagePath;
+                    }
+                    else
+                    {
+                        DrawNoImage(pbBookCover, "No Cover");
+                    }
+                }
+            }
+            else
+            {
+                if (lblBookAuthorValue != null) lblBookAuthorValue.Text = "Author Name";
+                if (pbBookCover != null) DrawNoImage(pbBookCover, "No Cover");
+            }
         }
 
         private static void AttachHoverEffect(Button btn, Color hoverColor, Color normalColor)
