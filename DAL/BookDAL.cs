@@ -14,7 +14,9 @@ namespace LibraryManagement.DAL
             
             // Get physical books that are NOT currently borrowed (date_return is NULL in borrows for that book)
             string query = @"
-                SELECT ba.id, ba.books_formal_id, ba.date_create, ba.integrity, bf.name AS formal_name
+                SELECT ba.id, ba.books_formal_id, ba.date_create, ba.integrity, bf.name AS formal_name,
+                       bf.image_path,
+                       (SELECT TOP 1 a.name FROM authors a INNER JOIN books_formal_authors bfa ON a.id = bfa.authors_id WHERE bfa.books_formal_id = bf.id) AS author_name
                 FROM books_actual ba
                 INNER JOIN books_formal bf ON ba.books_formal_id = bf.id
                 WHERE ba.id NOT IN (
@@ -35,7 +37,9 @@ namespace LibraryManagement.DAL
                             FormalId = Convert.ToInt32(reader["books_formal_id"]),
                             DateCreate = Convert.ToDateTime(reader["date_create"]),
                             Integrity = Convert.ToByte(reader["integrity"]),
-                            FormalName = reader["formal_name"].ToString()
+                            FormalName = reader["formal_name"].ToString(),
+                            ImagePath = reader["image_path"] != DBNull.Value ? reader["image_path"].ToString() : null,
+                            AuthorName = reader["author_name"] != DBNull.Value ? reader["author_name"].ToString() : null
                         });
                     }
                 }
@@ -50,7 +54,9 @@ namespace LibraryManagement.DAL
             
             // Get physical books that ARE currently borrowed
             string query = @"
-                SELECT ba.id, ba.books_formal_id, ba.date_create, ba.integrity, bf.name AS formal_name
+                SELECT ba.id, ba.books_formal_id, ba.date_create, ba.integrity, bf.name AS formal_name,
+                       bf.image_path,
+                       (SELECT TOP 1 a.name FROM authors a INNER JOIN books_formal_authors bfa ON a.id = bfa.authors_id WHERE bfa.books_formal_id = bf.id) AS author_name
                 FROM books_actual ba
                 INNER JOIN books_formal bf ON ba.books_formal_id = bf.id
                 WHERE ba.id IN (
@@ -71,7 +77,9 @@ namespace LibraryManagement.DAL
                             FormalId = Convert.ToInt32(reader["books_formal_id"]),
                             DateCreate = Convert.ToDateTime(reader["date_create"]),
                             Integrity = Convert.ToByte(reader["integrity"]),
-                            FormalName = reader["formal_name"].ToString()
+                            FormalName = reader["formal_name"].ToString(),
+                            ImagePath = reader["image_path"] != DBNull.Value ? reader["image_path"].ToString() : null,
+                            AuthorName = reader["author_name"] != DBNull.Value ? reader["author_name"].ToString() : null
                         });
                     }
                 }
@@ -86,7 +94,9 @@ namespace LibraryManagement.DAL
             
             // Get physical books that ARE currently borrowed by a specific reader
             string query = @"
-                SELECT ba.id, ba.books_formal_id, ba.date_create, ba.integrity, bf.name AS formal_name
+                SELECT ba.id, ba.books_formal_id, ba.date_create, ba.integrity, bf.name AS formal_name,
+                       bf.image_path,
+                       (SELECT TOP 1 a.name FROM authors a INNER JOIN books_formal_authors bfa ON a.id = bfa.authors_id WHERE bfa.books_formal_id = bf.id) AS author_name
                 FROM books_actual ba
                 INNER JOIN books_formal bf ON ba.books_formal_id = bf.id
                 WHERE ba.id IN (
@@ -108,7 +118,9 @@ namespace LibraryManagement.DAL
                             FormalId = Convert.ToInt32(reader["books_formal_id"]),
                             DateCreate = Convert.ToDateTime(reader["date_create"]),
                             Integrity = Convert.ToByte(reader["integrity"]),
-                            FormalName = reader["formal_name"].ToString()
+                            FormalName = reader["formal_name"].ToString(),
+                            ImagePath = reader["image_path"] != DBNull.Value ? reader["image_path"].ToString() : null,
+                            AuthorName = reader["author_name"] != DBNull.Value ? reader["author_name"].ToString() : null
                         });
                     }
                 }
