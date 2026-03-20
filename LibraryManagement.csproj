@@ -166,8 +166,6 @@
   <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="FontAwesome.Sharp" Version="6.6.0" />
-    <PackageReference Include="FontAwesome.Sharp" Version="6.6.0" />
-    <PackageReference Include="FontAwesome.Sharp" Version="6.6.0" />
     <Reference Include="System.Configuration" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

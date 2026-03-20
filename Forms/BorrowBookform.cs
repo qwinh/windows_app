@@ -1,9 +1,11 @@
 using System;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Windows.Forms;
 using LibraryManagement.DAL;
 using LibraryManagement.BLL;
+using LibraryManagement.Models;
 
 namespace LibraryManagement
 {
@@ -96,6 +98,84 @@ namespace LibraryManagement
         {
             btn.MouseEnter += (_, __) => btn.BackColor = hoverColor;
             btn.MouseLeave += (_, __) => btn.BackColor = normalColor;
+        }
+
+        private void DrawNoImage(PictureBox pb, string text = "No Image")
+        {
+            if (pb == null) return;
+            
+            pb.ImageLocation = null; // Clear any asynchronous image loading
+            
+            int w = pb.Width > 0 ? pb.Width : 150;
+            int h = pb.Height > 0 ? pb.Height : 200;
+            Bitmap bmp = new Bitmap(w, h);
+            using (Graphics g = Graphics.FromImage(bmp))
+            {
+                g.Clear(Color.FromArgb(218, 222, 236));
+                g.SmoothingMode = SmoothingMode.AntiAlias;
+                
+                // Adjust font size dynamically based on width or just explicitly smaller (9f)
+                float fontSize = w < 80 ? 8f : 10f; 
+                using (Font f = new Font("Segoe UI", fontSize, FontStyle.Bold))
+                using (SolidBrush br = new SolidBrush(Color.FromArgb(140, 150, 175)))
+                {
+                    g.TranslateTransform(w / 2f, h / 2f);
+                    g.RotateTransform(-45);
+                    SizeF sz = g.MeasureString(text, f);
+                    g.DrawString(text, f, br, -sz.Width / 2f, -sz.Height / 2f);
+                    g.ResetTransform();
+                }
+            }
+            pb.Image = bmp;
+            pb.SizeMode = PictureBoxSizeMode.Zoom;
+        }
+
+        private void cmbReader_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbReader.SelectedItem is Reader selectedReader)
+            {
+                lblReaderNameValue.Text = selectedReader.Name;
+                lblReaderPhoneValue.Text = string.IsNullOrEmpty(selectedReader.Phone) ? "No Phone" : selectedReader.Phone;
+                lblReaderAddressValue.Text = string.IsNullOrEmpty(selectedReader.Address) ? "No Address" : selectedReader.Address;
+                
+                if (!string.IsNullOrEmpty(selectedReader.ImagePath) && System.IO.File.Exists(selectedReader.ImagePath))
+                {
+                    pbReaderAvatar.ImageLocation = selectedReader.ImagePath;
+                }
+                else
+                {
+                    DrawNoImage(pbReaderAvatar, "No Image");
+                }
+            }
+            else
+            {
+                if (lblReaderNameValue != null) lblReaderNameValue.Text = "Reader Name";
+                if (lblReaderPhoneValue != null) lblReaderPhoneValue.Text = "Phone";
+                if (lblReaderAddressValue != null) lblReaderAddressValue.Text = "Address";
+                if (pbReaderAvatar != null) DrawNoImage(pbReaderAvatar, "No Image");
+            }
+        }
+
+        private void cmbBook_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbBook.SelectedItem is BookActual selectedBook)
+            {
+                lblBookAuthorValue.Text = string.IsNullOrEmpty(selectedBook.AuthorName) ? "Unknown Author" : selectedBook.AuthorName;
+                
+                if (!string.IsNullOrEmpty(selectedBook.ImagePath) && System.IO.File.Exists(selectedBook.ImagePath))
+                {
+                    pbBookCover.ImageLocation = selectedBook.ImagePath;
+                }
+                else
+                {
+                    DrawNoImage(pbBookCover, "No Cover");
+                }
+            }
+            else
+            {
+                if (lblBookAuthorValue != null) lblBookAuthorValue.Text = "Author Name";
+                if (pbBookCover != null) DrawNoImage(pbBookCover, "No Cover");
+            }
         }
 
         private void btnSubmit_Click(object sender, EventArgs e)

@@ -1,21 +1,7 @@
 create database library
 use library;
 
--- Add image path to employees (profile picture)
-ALTER TABLE employees
-ADD image_path NVARCHAR(500) NULL;
 
--- Add image path to readers (reader photo)
-ALTER TABLE readers
-ADD image_path NVARCHAR(500) NULL;
-
--- Add image path to books_formal (cover image)
-ALTER TABLE books_formal
-ADD image_path NVARCHAR(500) NULL;
-
--- Add image path to authors (author photo)
-ALTER TABLE authors
-ADD image_path NVARCHAR(500) NULL;
 
 -- ============================================
 -- LIBRARY MANAGEMENT SYSTEM
@@ -103,6 +89,22 @@ CREATE TABLE borrows (
     date_expire     DATETIME2   NOT NULL,
     date_return     DATETIME2   NULL            -- NULL = not yet returned
 );
+
+-- Add image path to employees (profile picture)
+ALTER TABLE employees
+ADD image_path NVARCHAR(500) NULL;
+
+-- Add image path to readers (reader photo)
+ALTER TABLE readers
+ADD image_path NVARCHAR(500) NULL;
+
+-- Add image path to books_formal (cover image)
+ALTER TABLE books_formal
+ADD image_path NVARCHAR(500) NULL;
+
+-- Add image path to authors (author photo)
+ALTER TABLE authors
+ADD image_path NVARCHAR(500) NULL;
 
 -- ============================================
 -- INDEXES
