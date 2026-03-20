@@ -468,9 +468,16 @@ namespace LibraryManagement
                 var employee = SessionManager.CurrentEmployee;
                 string current = txtCurrentPassword.Text;
 
-                await Task.Run(() => _authService.ChangePassword(employee, current, newPwd));
+                var result = await Task.Run(() => _authService.ChangePassword(employee, current, newPwd));
 
-                // 5. Success
+                if (!result.Success)
+                {
+                    // Wrong current password or DB error — show inline under the relevant field
+                    SetError(lblCurrentPasswordError, result.ErrorMessage);
+                    return;
+                }
+
+                // 5. Success — clear all fields
                 txtCurrentPassword.Text = "";
                 txtNewPassword.Text = "";
                 txtConfirmNewPassword.Text = "";
@@ -486,19 +493,14 @@ namespace LibraryManagement
                 await Task.Delay(3000);
                 if (!IsDisposed) lblChangePasswordSuccess.Visible = false;
             }
-            catch (BLL.InvalidPasswordException ipex)
-            {
-                // 6. Wrong current password
-                SetError(lblCurrentPasswordError, ipex.Message);
-            }
             catch (Exception ex)
             {
-                // 7. Unexpected error
+                // Unexpected error (network, etc.)
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
-                // 8. Restore loading state
+                // 6. Restore loading state
                 if (!IsDisposed)
                 {
                     btnChangePassword.Enabled = true;
