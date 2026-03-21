@@ -19,7 +19,6 @@ namespace LibraryManagement
         {
             this.pnlReturnCard = new System.Windows.Forms.Panel();
             this.lblTitle = new System.Windows.Forms.Label();
-            this.lblSubtitle = new System.Windows.Forms.Label();
             this.lblReaderId = new System.Windows.Forms.Label();
             this.cmbReader = new System.Windows.Forms.ComboBox();
             this.lblBookId = new System.Windows.Forms.Label();
@@ -41,7 +40,6 @@ namespace LibraryManagement
             // 
             this.pnlReturnCard.BackColor = System.Drawing.Color.White;
             this.pnlReturnCard.Controls.Add(this.lblTitle);
-            this.pnlReturnCard.Controls.Add(this.lblSubtitle);
             this.pnlReturnCard.Controls.Add(this.lblReaderId);
             this.pnlReturnCard.Controls.Add(this.cmbReader);
             this.pnlReturnCard.Controls.Add(this.lblBookId);
@@ -71,16 +69,6 @@ namespace LibraryManagement
             this.lblTitle.TabIndex = 0;
             this.lblTitle.Text = "Return Book";
             // 
-            // lblSubtitle
-            // 
-            this.lblSubtitle.Font = new System.Drawing.Font("Segoe UI", 9.5F);
-            this.lblSubtitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(130)))), ((int)(((byte)(145)))));
-            this.lblSubtitle.Location = new System.Drawing.Point(30, 65);
-            this.lblSubtitle.Name = "lblSubtitle";
-            this.lblSubtitle.Size = new System.Drawing.Size(400, 22);
-            this.lblSubtitle.TabIndex = 1;
-            this.lblSubtitle.Text = "Search by reader and select borrowed book below";
-            // 
             // lblReaderId
             // 
             this.lblReaderId.AutoSize = true;
@@ -103,55 +91,12 @@ namespace LibraryManagement
             this.cmbReader.TabIndex = 3;
             this.cmbReader.SelectedIndexChanged += new System.EventHandler(this.cmbReader_SelectedIndexChanged);
             // 
-            // pbReaderAvatar
-            // 
-            this.pbReaderAvatar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(235)))), ((int)(((byte)(240)))));
-            this.pbReaderAvatar.Location = new System.Drawing.Point(30, 165);
-            this.pbReaderAvatar.Name = "pbReaderAvatar";
-            this.pbReaderAvatar.Size = new System.Drawing.Size(60, 80);
-            this.pbReaderAvatar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pbReaderAvatar.TabIndex = 10;
-            this.pbReaderAvatar.TabStop = false;
-            // 
-            // lblReaderNameValue
-            // 
-            this.lblReaderNameValue.AutoSize = true;
-            this.lblReaderNameValue.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Bold);
-            this.lblReaderNameValue.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(43)))), ((int)(((byte)(75)))));
-            this.lblReaderNameValue.Location = new System.Drawing.Point(100, 165);
-            this.lblReaderNameValue.Name = "lblReaderNameValue";
-            this.lblReaderNameValue.Size = new System.Drawing.Size(113, 21);
-            this.lblReaderNameValue.TabIndex = 11;
-            this.lblReaderNameValue.Text = "Reader Name";
-            // 
-            // lblReaderPhoneValue
-            // 
-            this.lblReaderPhoneValue.AutoSize = true;
-            this.lblReaderPhoneValue.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.lblReaderPhoneValue.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(110)))), ((int)(((byte)(120)))));
-            this.lblReaderPhoneValue.Location = new System.Drawing.Point(100, 190);
-            this.lblReaderPhoneValue.Name = "lblReaderPhoneValue";
-            this.lblReaderPhoneValue.Size = new System.Drawing.Size(50, 20);
-            this.lblReaderPhoneValue.TabIndex = 12;
-            this.lblReaderPhoneValue.Text = "Phone";
-            // 
-            // lblReaderAddressValue
-            // 
-            this.lblReaderAddressValue.AutoSize = true;
-            this.lblReaderAddressValue.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.lblReaderAddressValue.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(110)))), ((int)(((byte)(120)))));
-            this.lblReaderAddressValue.Location = new System.Drawing.Point(100, 215);
-            this.lblReaderAddressValue.Name = "lblReaderAddressValue";
-            this.lblReaderAddressValue.Size = new System.Drawing.Size(62, 20);
-            this.lblReaderAddressValue.TabIndex = 13;
-            this.lblReaderAddressValue.Text = "Address";
-            // 
             // lblBookId
             // 
             this.lblBookId.AutoSize = true;
             this.lblBookId.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.lblBookId.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(60)))), ((int)(((byte)(80)))));
-            this.lblBookId.Location = new System.Drawing.Point(30, 260);
+            this.lblBookId.Location = new System.Drawing.Point(30, 266);
             this.lblBookId.Name = "lblBookId";
             this.lblBookId.Size = new System.Drawing.Size(169, 20);
             this.lblBookId.TabIndex = 4;
@@ -162,18 +107,61 @@ namespace LibraryManagement
             this.cmbBook.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.cmbBook.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.cmbBook.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.cmbBook.Location = new System.Drawing.Point(30, 282);
+            this.cmbBook.Location = new System.Drawing.Point(30, 288);
             this.cmbBook.Name = "cmbBook";
             this.cmbBook.Size = new System.Drawing.Size(521, 31);
             this.cmbBook.TabIndex = 5;
             this.cmbBook.SelectedIndexChanged += new System.EventHandler(this.cmbBook_SelectedIndexChanged);
+            // 
+            // pbReaderAvatar
+            // 
+            this.pbReaderAvatar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(235)))), ((int)(((byte)(240)))));
+            this.pbReaderAvatar.Location = new System.Drawing.Point(30, 165);
+            this.pbReaderAvatar.Name = "pbReaderAvatar";
+            this.pbReaderAvatar.Size = new System.Drawing.Size(75, 100);
+            this.pbReaderAvatar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbReaderAvatar.TabIndex = 10;
+            this.pbReaderAvatar.TabStop = false;
+            // 
+            // lblReaderNameValue
+            // 
+            this.lblReaderNameValue.AutoSize = true;
+            this.lblReaderNameValue.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Bold);
+            this.lblReaderNameValue.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(43)))), ((int)(((byte)(75)))));
+            this.lblReaderNameValue.Location = new System.Drawing.Point(120, 165);
+            this.lblReaderNameValue.Name = "lblReaderNameValue";
+            this.lblReaderNameValue.Size = new System.Drawing.Size(113, 21);
+            this.lblReaderNameValue.TabIndex = 11;
+            this.lblReaderNameValue.Text = "Reader Name";
+            // 
+            // lblReaderPhoneValue
+            // 
+            this.lblReaderPhoneValue.AutoSize = true;
+            this.lblReaderPhoneValue.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.lblReaderPhoneValue.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(110)))), ((int)(((byte)(120)))));
+            this.lblReaderPhoneValue.Location = new System.Drawing.Point(120, 190);
+            this.lblReaderPhoneValue.Name = "lblReaderPhoneValue";
+            this.lblReaderPhoneValue.Size = new System.Drawing.Size(50, 20);
+            this.lblReaderPhoneValue.TabIndex = 12;
+            this.lblReaderPhoneValue.Text = "Phone";
+            // 
+            // lblReaderAddressValue
+            // 
+            this.lblReaderAddressValue.AutoSize = true;
+            this.lblReaderAddressValue.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.lblReaderAddressValue.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(110)))), ((int)(((byte)(120)))));
+            this.lblReaderAddressValue.Location = new System.Drawing.Point(120, 215);
+            this.lblReaderAddressValue.Name = "lblReaderAddressValue";
+            this.lblReaderAddressValue.Size = new System.Drawing.Size(62, 20);
+            this.lblReaderAddressValue.TabIndex = 13;
+            this.lblReaderAddressValue.Text = "Address";
             // 
             // pbBookCover
             // 
             this.pbBookCover.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(235)))), ((int)(((byte)(240)))));
             this.pbBookCover.Location = new System.Drawing.Point(30, 325);
             this.pbBookCover.Name = "pbBookCover";
-            this.pbBookCover.Size = new System.Drawing.Size(60, 80);
+            this.pbBookCover.Size = new System.Drawing.Size(75, 100);
             this.pbBookCover.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbBookCover.TabIndex = 14;
             this.pbBookCover.TabStop = false;
@@ -183,9 +171,9 @@ namespace LibraryManagement
             this.lblBookAuthorValue.AutoSize = true;
             this.lblBookAuthorValue.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Bold);
             this.lblBookAuthorValue.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(43)))), ((int)(((byte)(75)))));
-            this.lblBookAuthorValue.Location = new System.Drawing.Point(100, 325);
+            this.lblBookAuthorValue.Location = new System.Drawing.Point(120, 325);
             this.lblBookAuthorValue.Name = "lblBookAuthorValue";
-            this.lblBookAuthorValue.Size = new System.Drawing.Size(112, 21);
+            this.lblBookAuthorValue.Size = new System.Drawing.Size(113, 21);
             this.lblBookAuthorValue.TabIndex = 15;
             this.lblBookAuthorValue.Text = "Author Name";
             // 
@@ -197,7 +185,7 @@ namespace LibraryManagement
             this.btnSubmit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSubmit.Font = new System.Drawing.Font("Segoe UI", 10.5F, System.Drawing.FontStyle.Bold);
             this.btnSubmit.ForeColor = System.Drawing.Color.White;
-            this.btnSubmit.Location = new System.Drawing.Point(142, 440);
+            this.btnSubmit.Location = new System.Drawing.Point(142, 472);
             this.btnSubmit.Name = "btnSubmit";
             this.btnSubmit.Size = new System.Drawing.Size(300, 42);
             this.btnSubmit.TabIndex = 8;
@@ -213,7 +201,7 @@ namespace LibraryManagement
             this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCancel.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnCancel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(130)))), ((int)(((byte)(145)))));
-            this.btnCancel.Location = new System.Drawing.Point(142, 495);
+            this.btnCancel.Location = new System.Drawing.Point(142, 527);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(300, 38);
             this.btnCancel.TabIndex = 9;
@@ -246,7 +234,6 @@ namespace LibraryManagement
 
         private System.Windows.Forms.Panel pnlReturnCard;
         private System.Windows.Forms.Label lblTitle;
-        private System.Windows.Forms.Label lblSubtitle;
         private System.Windows.Forms.Label lblReaderId;
         private System.Windows.Forms.ComboBox cmbReader;
         private System.Windows.Forms.Label lblBookId;

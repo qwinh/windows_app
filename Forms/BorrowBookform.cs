@@ -195,9 +195,8 @@ namespace LibraryManagement
 
             try
             {
-                // In a true enterprise app, this EmployeeID comes from caching/session of the logged-in user.
-                // For now, we will default to 1 (Assuming Admin/First setup user is Employee 1)
-                int currentEmployeeId = 1; 
+                // Get the EmployeeID from the active session
+                int currentEmployeeId = LibraryManagement.Helpers.SessionManager.CurrentEmployee?.Id ?? 1; 
                 
                 bool success = _borrowService.IssueBook(readerId, bookId, currentEmployeeId, dateExpire);
                 
