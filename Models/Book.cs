@@ -44,6 +44,9 @@ namespace LibraryManagement.Models
         public string AuthorName { get; set; }
         public string ImagePath { get; set; }
         
+        // Expiration date from active borrow record
+        public DateTime? DateExpire { get; set; }
+        
         // Display property for DropDowns
         public string DisplayTitle => $"{FormalName} (Copy {Id})";
     }

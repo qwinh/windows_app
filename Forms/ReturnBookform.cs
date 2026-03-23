@@ -161,6 +161,28 @@ namespace LibraryManagement
                     lblBookAuthorValue.Text = string.IsNullOrEmpty(selectedBook.AuthorName) ? "Unknown Author" : selectedBook.AuthorName;
                 }
                 
+                if (lblReturnStatusValue != null)
+                {
+                    if (selectedBook.DateExpire.HasValue)
+                    {
+                        if (selectedBook.DateExpire.Value.Date < DateTime.Now.Date)
+                        {
+                            lblReturnStatusValue.Text = "Return Late";
+                            lblReturnStatusValue.ForeColor = Color.FromArgb(220, 38, 38); // Red
+                        }
+                        else
+                        {
+                            lblReturnStatusValue.Text = "On Time";
+                            lblReturnStatusValue.ForeColor = Color.FromArgb(16, 185, 129); // Green
+                        }
+                    }
+                    else
+                    {
+                        lblReturnStatusValue.Text = "Unknown";
+                        lblReturnStatusValue.ForeColor = Color.FromArgb(100, 110, 120);
+                    }
+                }
+                
                 if (pbBookCover != null)
                 {
                     if (!string.IsNullOrEmpty(selectedBook.ImagePath) && System.IO.File.Exists(selectedBook.ImagePath))
@@ -176,6 +198,7 @@ namespace LibraryManagement
             else
             {
                 if (lblBookAuthorValue != null) lblBookAuthorValue.Text = "Author Name";
+                if (lblReturnStatusValue != null) lblReturnStatusValue.Text = "";
                 if (pbBookCover != null) DrawNoImage(pbBookCover, "No Cover");
             }
         }

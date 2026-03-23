@@ -31,6 +31,8 @@ namespace LibraryManagement
             this.lblBookAuthorValue = new System.Windows.Forms.Label();
             this.btnSubmit = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.lblReturnStatus = new System.Windows.Forms.Label();
+            this.lblReturnStatusValue = new System.Windows.Forms.Label();
             this.pnlReturnCard.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbReaderAvatar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbBookCover)).BeginInit();
@@ -50,6 +52,8 @@ namespace LibraryManagement
             this.pnlReturnCard.Controls.Add(this.lblReaderAddressValue);
             this.pnlReturnCard.Controls.Add(this.pbBookCover);
             this.pnlReturnCard.Controls.Add(this.lblBookAuthorValue);
+            this.pnlReturnCard.Controls.Add(this.lblReturnStatus);
+            this.pnlReturnCard.Controls.Add(this.lblReturnStatusValue);
             this.pnlReturnCard.Controls.Add(this.btnSubmit);
             this.pnlReturnCard.Controls.Add(this.btnCancel);
             this.pnlReturnCard.Location = new System.Drawing.Point(31, 30);
@@ -177,6 +181,27 @@ namespace LibraryManagement
             this.lblBookAuthorValue.TabIndex = 15;
             this.lblBookAuthorValue.Text = "Author Name";
             // 
+            // lblReturnStatus
+            // 
+            this.lblReturnStatus.AutoSize = true;
+            this.lblReturnStatus.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.lblReturnStatus.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(110)))), ((int)(((byte)(120)))));
+            this.lblReturnStatus.Location = new System.Drawing.Point(120, 350);
+            this.lblReturnStatus.Name = "lblReturnStatus";
+            this.lblReturnStatus.Size = new System.Drawing.Size(52, 20);
+            this.lblReturnStatus.TabIndex = 16;
+            this.lblReturnStatus.Text = "Status:";
+            // 
+            // lblReturnStatusValue
+            // 
+            this.lblReturnStatusValue.AutoSize = true;
+            this.lblReturnStatusValue.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Bold);
+            this.lblReturnStatusValue.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(43)))), ((int)(((byte)(75)))));
+            this.lblReturnStatusValue.Location = new System.Drawing.Point(185, 349);
+            this.lblReturnStatusValue.Name = "lblReturnStatusValue";
+            this.lblReturnStatusValue.Size = new System.Drawing.Size(0, 21);
+            this.lblReturnStatusValue.TabIndex = 17;
+            // 
             // btnSubmit
             // 
             this.btnSubmit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(99)))), ((int)(((byte)(235)))));
@@ -247,5 +272,7 @@ namespace LibraryManagement
         private System.Windows.Forms.Label lblReaderAddressValue;
         private System.Windows.Forms.PictureBox pbBookCover;
         private System.Windows.Forms.Label lblBookAuthorValue;
+        private System.Windows.Forms.Label lblReturnStatus;
+        private System.Windows.Forms.Label lblReturnStatusValue;
     }
 }
