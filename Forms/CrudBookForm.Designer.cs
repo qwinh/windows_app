@@ -40,9 +40,10 @@ namespace LibraryManagement
             this.txtImagePath = new System.Windows.Forms.TextBox();
             this.btnBrowse = new System.Windows.Forms.Button();
             this.pbCover = new System.Windows.Forms.PictureBox();
-            this.lblCopies = new System.Windows.Forms.Label();
-            this.nudCopies = new System.Windows.Forms.NumericUpDown();
-            this.lblCopiesHint = new System.Windows.Forms.Label();
+            this.dgvCopies = new System.Windows.Forms.DataGridView();
+            this.btnAddCopy = new System.Windows.Forms.Button();
+            this.btnUpdateCopy = new System.Windows.Forms.Button();
+            this.btnDeleteCopy = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
 
             this.pnlHeader.SuspendLayout();
@@ -50,7 +51,7 @@ namespace LibraryManagement
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewBooks)).BeginInit();
             this.pnlDetails.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbCover)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudCopies)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvCopies)).BeginInit();
             this.SuspendLayout();
             // 
             // pnlHeader
@@ -85,7 +86,7 @@ namespace LibraryManagement
             this.pnlList.Location = new System.Drawing.Point(0, 60);
             this.pnlList.Name = "pnlList";
             this.pnlList.Padding = new System.Windows.Forms.Padding(20);
-            this.pnlList.Size = new System.Drawing.Size(500, 540);
+            this.pnlList.Size = new System.Drawing.Size(500, 690);
             this.pnlList.TabIndex = 1;
             // 
             // txtSearch
@@ -143,7 +144,7 @@ namespace LibraryManagement
             this.dataGridViewBooks.RowHeadersWidth = 51;
             this.dataGridViewBooks.RowTemplate.Height = 35;
             this.dataGridViewBooks.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewBooks.Size = new System.Drawing.Size(460, 450);
+            this.dataGridViewBooks.Size = new System.Drawing.Size(460, 600);
             this.dataGridViewBooks.TabIndex = 3;
             // 
             // pnlDetails
@@ -164,15 +165,16 @@ namespace LibraryManagement
             this.pnlDetails.Controls.Add(this.txtImagePath);
             this.pnlDetails.Controls.Add(this.btnBrowse);
             this.pnlDetails.Controls.Add(this.pbCover);
-            this.pnlDetails.Controls.Add(this.lblCopies);
-            this.pnlDetails.Controls.Add(this.nudCopies);
-            this.pnlDetails.Controls.Add(this.lblCopiesHint);
+            this.pnlDetails.Controls.Add(this.dgvCopies);
+            this.pnlDetails.Controls.Add(this.btnAddCopy);
+            this.pnlDetails.Controls.Add(this.btnUpdateCopy);
+            this.pnlDetails.Controls.Add(this.btnDeleteCopy);
             this.pnlDetails.Controls.Add(this.btnSave);
             this.pnlDetails.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlDetails.Location = new System.Drawing.Point(500, 60);
             this.pnlDetails.Name = "pnlDetails";
             this.pnlDetails.Padding = new System.Windows.Forms.Padding(30);
-            this.pnlDetails.Size = new System.Drawing.Size(500, 540);
+            this.pnlDetails.Size = new System.Drawing.Size(500, 690);
             this.pnlDetails.TabIndex = 2;
             // 
             // lblDetailsTitle
@@ -330,39 +332,69 @@ namespace LibraryManagement
             this.pbCover.TabIndex = 13;
             this.pbCover.TabStop = false;
             // 
-            // lblCopies
+            // dgvCopies
             // 
-            this.lblCopies.Font = new System.Drawing.Font("Segoe UI", 9.5F);
-            this.lblCopies.Location = new System.Drawing.Point(30, 430);
-            this.lblCopies.Name = "lblCopies";
-            this.lblCopies.Size = new System.Drawing.Size(120, 25);
-            this.lblCopies.TabIndex = 14;
-            this.lblCopies.Text = "Total Copies:";
-            this.lblCopies.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.dgvCopies.AllowUserToAddRows = false;
+            this.dgvCopies.AllowUserToDeleteRows = false;
+            this.dgvCopies.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvCopies.BackgroundColor = System.Drawing.Color.White;
+            this.dgvCopies.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.dgvCopies.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvCopies.Location = new System.Drawing.Point(160, 430);
+            this.dgvCopies.MultiSelect = false;
+            this.dgvCopies.Name = "dgvCopies";
+            this.dgvCopies.ReadOnly = true;
+            this.dgvCopies.RowHeadersVisible = false;
+            this.dgvCopies.RowHeadersWidth = 51;
+            this.dgvCopies.RowTemplate.Height = 30;
+            this.dgvCopies.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvCopies.Size = new System.Drawing.Size(310, 150);
+            this.dgvCopies.TabIndex = 14;
             // 
-            // nudCopies
+            // btnAddCopy
             // 
-            this.nudCopies.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.nudCopies.Location = new System.Drawing.Point(160, 428);
-            this.nudCopies.Maximum = new decimal(new int[] {
-            100,
-            0,
-            0,
-            0});
-            this.nudCopies.Name = "nudCopies";
-            this.nudCopies.Size = new System.Drawing.Size(80, 30);
-            this.nudCopies.TabIndex = 15;
+            this.btnAddCopy.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(98)))), ((int)(((byte)(190)))));
+            this.btnAddCopy.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnAddCopy.FlatAppearance.BorderSize = 0;
+            this.btnAddCopy.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAddCopy.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.btnAddCopy.ForeColor = System.Drawing.Color.White;
+            this.btnAddCopy.Location = new System.Drawing.Point(30, 430);
+            this.btnAddCopy.Name = "btnAddCopy";
+            this.btnAddCopy.Size = new System.Drawing.Size(120, 30);
+            this.btnAddCopy.TabIndex = 15;
+            this.btnAddCopy.Text = "Add Copy";
+            this.btnAddCopy.UseVisualStyleBackColor = false;
             // 
-            // lblCopiesHint
+            // btnUpdateCopy
             // 
-            this.lblCopiesHint.AutoSize = true;
-            this.lblCopiesHint.Font = new System.Drawing.Font("Segoe UI", 8.5F);
-            this.lblCopiesHint.ForeColor = System.Drawing.Color.Gray;
-            this.lblCopiesHint.Location = new System.Drawing.Point(250, 432);
-            this.lblCopiesHint.Name = "lblCopiesHint";
-            this.lblCopiesHint.Size = new System.Drawing.Size(183, 20);
-            this.lblCopiesHint.TabIndex = 16;
-            this.lblCopiesHint.Text = "Total copies to create";
+            this.btnUpdateCopy.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(193)))), ((int)(((byte)(7)))));
+            this.btnUpdateCopy.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnUpdateCopy.FlatAppearance.BorderSize = 0;
+            this.btnUpdateCopy.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnUpdateCopy.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.btnUpdateCopy.ForeColor = System.Drawing.Color.Black;
+            this.btnUpdateCopy.Location = new System.Drawing.Point(30, 470);
+            this.btnUpdateCopy.Name = "btnUpdateCopy";
+            this.btnUpdateCopy.Size = new System.Drawing.Size(120, 30);
+            this.btnUpdateCopy.TabIndex = 16;
+            this.btnUpdateCopy.Text = "Edit Copy";
+            this.btnUpdateCopy.UseVisualStyleBackColor = false;
+            // 
+            // btnDeleteCopy
+            // 
+            this.btnDeleteCopy.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(53)))), ((int)(((byte)(69)))));
+            this.btnDeleteCopy.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnDeleteCopy.FlatAppearance.BorderSize = 0;
+            this.btnDeleteCopy.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDeleteCopy.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.btnDeleteCopy.ForeColor = System.Drawing.Color.White;
+            this.btnDeleteCopy.Location = new System.Drawing.Point(30, 510);
+            this.btnDeleteCopy.Name = "btnDeleteCopy";
+            this.btnDeleteCopy.Size = new System.Drawing.Size(120, 30);
+            this.btnDeleteCopy.TabIndex = 17;
+            this.btnDeleteCopy.Text = "Delete Copy";
+            this.btnDeleteCopy.UseVisualStyleBackColor = false;
             // 
             // btnSave
             // 
@@ -372,7 +404,7 @@ namespace LibraryManagement
             this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSave.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.btnSave.ForeColor = System.Drawing.Color.White;
-            this.btnSave.Location = new System.Drawing.Point(160, 480);
+            this.btnSave.Location = new System.Drawing.Point(160, 600);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(310, 40);
             this.btnSave.TabIndex = 18;
@@ -384,7 +416,7 @@ namespace LibraryManagement
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1000, 600);
+            this.ClientSize = new System.Drawing.Size(1000, 750);
             this.Controls.Add(this.pnlDetails);
             this.Controls.Add(this.pnlList);
             this.Controls.Add(this.pnlHeader);
@@ -401,7 +433,7 @@ namespace LibraryManagement
             this.pnlDetails.ResumeLayout(false);
             this.pnlDetails.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbCover)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudCopies)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvCopies)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -431,9 +463,10 @@ namespace LibraryManagement
         private System.Windows.Forms.TextBox txtImagePath;
         private System.Windows.Forms.Button btnBrowse;
         private System.Windows.Forms.PictureBox pbCover;
-        private System.Windows.Forms.Label lblCopies;
-        private System.Windows.Forms.NumericUpDown nudCopies;
-        private System.Windows.Forms.Label lblCopiesHint;
+        private System.Windows.Forms.DataGridView dgvCopies;
+        private System.Windows.Forms.Button btnAddCopy;
+        private System.Windows.Forms.Button btnUpdateCopy;
+        private System.Windows.Forms.Button btnDeleteCopy;
         private System.Windows.Forms.Button btnSave;
     }
 }

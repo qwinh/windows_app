@@ -166,6 +166,98 @@ namespace LibraryManagement.DAL
                 return rowsAffected > 0;
             }
         }
+
+        public List<BookActual> GetCopiesByFormalId(int formalId)
+        {
+            var books = new List<BookActual>();
+            string query = @"
+                SELECT ba.id, ba.books_formal_id, ba.date_create, ba.integrity, bf.name AS formal_name,
+                       CAST(CASE WHEN EXISTS(SELECT 1 FROM borrows WHERE books_actual_id = ba.id AND date_return IS NULL) THEN 1 ELSE 0 END AS BIT) AS is_borrowed
+                FROM books_actual ba
+                INNER JOIN books_formal bf ON ba.books_formal_id = bf.id
+                WHERE ba.books_formal_id = @formalId
+                ORDER BY ba.id";
+                           
+            using (var conn = clsDatabase.CreateOpenConnection())
+            using (var cmd = new SqlCommand(query, conn))
+            {
+                cmd.Parameters.AddWithValue("@formalId", formalId);
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var copy = new BookActual
+                        {
+                            Id = Convert.ToInt32(reader["id"]),
+                            FormalId = Convert.ToInt32(reader["books_formal_id"]),
+                            DateCreate = Convert.ToDateTime(reader["date_create"]),
+                            Integrity = Convert.ToByte(reader["integrity"]),
+                            FormalName = reader["formal_name"].ToString(),
+                            IsBorrowed = Convert.ToBoolean(reader["is_borrowed"])
+                        };
+                        books.Add(copy);
+                    }
+                }
+            }
+            
+            return books;
+        }
+
+        public bool AddCopy(int formalId, byte integrity = 5)
+        {
+            string query = "INSERT INTO books_actual (books_formal_id, integrity) VALUES (@formalId, @integrity)";
+            using (var conn = clsDatabase.CreateOpenConnection())
+            using (var cmd = new SqlCommand(query, conn))
+            {
+                cmd.Parameters.AddWithValue("@formalId", formalId);
+                cmd.Parameters.AddWithValue("@integrity", integrity);
+                return cmd.ExecuteNonQuery() > 0;
+            }
+        }
+
+        public bool UpdateCopy(int copyId, byte integrity)
+        {
+            string query = "UPDATE books_actual SET integrity = @integrity WHERE id = @id";
+            using (var conn = clsDatabase.CreateOpenConnection())
+            using (var cmd = new SqlCommand(query, conn))
+            {
+                cmd.Parameters.AddWithValue("@id", copyId);
+                cmd.Parameters.AddWithValue("@integrity", integrity);
+                return cmd.ExecuteNonQuery() > 0;
+            }
+        }
+
+        public bool DeleteCopy(int copyId)
+        {
+            string query = @"
+                BEGIN TRY
+                    BEGIN TRANSACTION;
+                    IF EXISTS(SELECT 1 FROM borrows WHERE books_actual_id = @id AND date_return IS NULL)
+                        THROW 50000, 'Copy is currently borrowed.', 1;
+                        
+                    DELETE FROM borrows WHERE books_actual_id = @id;
+                    DELETE FROM books_actual WHERE id = @id;
+                    COMMIT;
+                END TRY
+                BEGIN CATCH
+                    IF @@TRANCOUNT > 0
+                        ROLLBACK TRANSACTION;
+                    THROW;
+                END CATCH;";
+            try
+            {
+                using (var conn = clsDatabase.CreateOpenConnection())
+                using (var cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@id", copyId);
+                    return cmd.ExecuteNonQuery() > 0;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 
     public class BookFormalDAL
@@ -239,7 +331,7 @@ namespace LibraryManagement.DAL
             return list;
         }
 
-        public bool AddBook(BookFormal book, int copiesCount)
+        public bool AddBook(BookFormal book)
         {
             string query = @"
                 BEGIN TRANSACTION;
@@ -253,13 +345,6 @@ namespace LibraryManagement.DAL
                 IF @genreId > 0
                     INSERT INTO books_formal_genres (books_formal_id, genres_id) VALUES (@newBookId, @genreId);
                 
-                DECLARE @i INT = 0;
-                WHILE @i < @copiesCount
-                BEGIN
-                    INSERT INTO books_actual (books_formal_id, integrity) VALUES (@newBookId, 5);
-                    SET @i = @i + 1;
-                END
-                
                 COMMIT;";
             try
             {
@@ -271,7 +356,6 @@ namespace LibraryManagement.DAL
                     cmd.Parameters.AddWithValue("@imagePath", string.IsNullOrEmpty(book.ImagePath) ? DBNull.Value : (object)book.ImagePath);
                     cmd.Parameters.AddWithValue("@authorId", book.AuthorId);
                     cmd.Parameters.AddWithValue("@genreId", book.GenreId);
-                    cmd.Parameters.AddWithValue("@copiesCount", copiesCount);
                     cmd.ExecuteNonQuery();
                     return true;
                 }
@@ -282,7 +366,7 @@ namespace LibraryManagement.DAL
             }
         }
 
-        public bool UpdateBook(BookFormal book, int targetCopies)
+        public bool UpdateBook(BookFormal book)
         {
             string query = @"
                 BEGIN TRY
@@ -296,27 +380,6 @@ namespace LibraryManagement.DAL
                     DELETE FROM books_formal_genres WHERE books_formal_id = @id;
                     IF @genreId > 0
                         INSERT INTO books_formal_genres (books_formal_id, genres_id) VALUES (@id, @genreId);
-                    
-                    DECLARE @currentCopies INT;
-                    SELECT @currentCopies = COUNT(*) FROM books_actual WHERE books_formal_id = @id;
-                    
-                    IF @targetCopies > @currentCopies
-                    BEGIN
-                        DECLARE @i INT = 0;
-                        DECLARE @diff INT = @targetCopies - @currentCopies;
-                        WHILE @i < @diff
-                        BEGIN
-                            INSERT INTO books_actual (books_formal_id, integrity) VALUES (@id, 5);
-                            SET @i = @i + 1;
-                        END
-                    END
-                    ELSE IF @targetCopies < @currentCopies
-                    BEGIN
-                        DECLARE @toDelete INT = @currentCopies - @targetCopies;
-                        DELETE TOP (@toDelete) FROM books_actual 
-                        WHERE books_formal_id = @id 
-                        AND id NOT IN (SELECT books_actual_id FROM borrows WHERE date_return IS NULL);
-                    END
                     
                     COMMIT;
                 END TRY
@@ -336,7 +399,6 @@ namespace LibraryManagement.DAL
                     cmd.Parameters.AddWithValue("@imagePath", string.IsNullOrEmpty(book.ImagePath) ? DBNull.Value : (object)book.ImagePath);
                     cmd.Parameters.AddWithValue("@authorId", book.AuthorId);
                     cmd.Parameters.AddWithValue("@genreId", book.GenreId);
-                    cmd.Parameters.AddWithValue("@targetCopies", targetCopies);
                     cmd.ExecuteNonQuery();
                     return true;
                 }
@@ -352,6 +414,10 @@ namespace LibraryManagement.DAL
             string query = @"
                 BEGIN TRY
                     BEGIN TRANSACTION;
+                    IF EXISTS(SELECT 1 FROM borrows WHERE books_actual_id IN (SELECT id FROM books_actual WHERE books_formal_id = @id) AND date_return IS NULL)
+                        THROW 50000, 'One or more copies are currently borrowed.', 1;
+
+                    DELETE FROM borrows WHERE books_actual_id IN (SELECT id FROM books_actual WHERE books_formal_id = @id);
                     DELETE FROM books_formal_authors WHERE books_formal_id = @id;
                     DELETE FROM books_formal_genres WHERE books_formal_id = @id;
                     DELETE FROM books_actual WHERE books_formal_id = @id;

@@ -46,5 +46,9 @@ namespace LibraryManagement.Models
         
         // Display property for DropDowns
         public string DisplayTitle => $"{FormalName} (Copy {Id})";
+        
+        // Properties for individual copy management
+        public bool IsBorrowed { get; set; }
+        public string StatusDisplay => IsBorrowed ? "Borrowed" : "Available";
     }
 }
