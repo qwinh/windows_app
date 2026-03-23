@@ -56,12 +56,12 @@ namespace LibraryManagement.DAL
             string query = @"
                 SELECT ba.id, ba.books_formal_id, ba.date_create, ba.integrity, bf.name AS formal_name,
                        bf.image_path,
-                       (SELECT TOP 1 a.name FROM authors a INNER JOIN books_formal_authors bfa ON a.id = bfa.authors_id WHERE bfa.books_formal_id = bf.id) AS author_name
+                       (SELECT TOP 1 a.name FROM authors a INNER JOIN books_formal_authors bfa ON a.id = bfa.authors_id WHERE bfa.books_formal_id = bf.id) AS author_name,
+                       br.date_expire
                 FROM books_actual ba
                 INNER JOIN books_formal bf ON ba.books_formal_id = bf.id
-                WHERE ba.id IN (
-                    SELECT books_actual_id FROM borrows WHERE date_return IS NULL
-                )
+                INNER JOIN borrows br ON ba.id = br.books_actual_id
+                WHERE br.date_return IS NULL
                 ORDER BY bf.name, ba.id";
                            
             using (var conn = clsDatabase.CreateOpenConnection())
@@ -79,7 +79,8 @@ namespace LibraryManagement.DAL
                             Integrity = Convert.ToByte(reader["integrity"]),
                             FormalName = reader["formal_name"].ToString(),
                             ImagePath = reader["image_path"] != DBNull.Value ? reader["image_path"].ToString() : null,
-                            AuthorName = reader["author_name"] != DBNull.Value ? reader["author_name"].ToString() : null
+                            AuthorName = reader["author_name"] != DBNull.Value ? reader["author_name"].ToString() : null,
+                            DateExpire = reader["date_expire"] != DBNull.Value ? (DateTime?)Convert.ToDateTime(reader["date_expire"]) : null
                         });
                     }
                 }
@@ -96,12 +97,12 @@ namespace LibraryManagement.DAL
             string query = @"
                 SELECT ba.id, ba.books_formal_id, ba.date_create, ba.integrity, bf.name AS formal_name,
                        bf.image_path,
-                       (SELECT TOP 1 a.name FROM authors a INNER JOIN books_formal_authors bfa ON a.id = bfa.authors_id WHERE bfa.books_formal_id = bf.id) AS author_name
+                       (SELECT TOP 1 a.name FROM authors a INNER JOIN books_formal_authors bfa ON a.id = bfa.authors_id WHERE bfa.books_formal_id = bf.id) AS author_name,
+                       br.date_expire
                 FROM books_actual ba
                 INNER JOIN books_formal bf ON ba.books_formal_id = bf.id
-                WHERE ba.id IN (
-                    SELECT books_actual_id FROM borrows WHERE date_return IS NULL AND readers_id = @readerId
-                )
+                INNER JOIN borrows br ON ba.id = br.books_actual_id
+                WHERE br.date_return IS NULL AND br.readers_id = @readerId
                 ORDER BY bf.name, ba.id";
                            
             using (var conn = clsDatabase.CreateOpenConnection())
@@ -120,7 +121,8 @@ namespace LibraryManagement.DAL
                             Integrity = Convert.ToByte(reader["integrity"]),
                             FormalName = reader["formal_name"].ToString(),
                             ImagePath = reader["image_path"] != DBNull.Value ? reader["image_path"].ToString() : null,
-                            AuthorName = reader["author_name"] != DBNull.Value ? reader["author_name"].ToString() : null
+                            AuthorName = reader["author_name"] != DBNull.Value ? reader["author_name"].ToString() : null,
+                            DateExpire = reader["date_expire"] != DBNull.Value ? (DateTime?)Convert.ToDateTime(reader["date_expire"]) : null
                         });
                     }
                 }
