@@ -115,8 +115,8 @@ namespace LibraryManagement
             if (cmbReader.SelectedItem is Reader selectedReader)
             {
                 lblReaderNameValue.Text = selectedReader.Name;
-                lblReaderPhoneValue.Text = string.IsNullOrEmpty(selectedReader.Phone) ? "No Phone" : selectedReader.Phone;
-                lblReaderAddressValue.Text = string.IsNullOrEmpty(selectedReader.Address) ? "No Address" : selectedReader.Address;
+                lblReaderPhoneValue.Text = string.IsNullOrEmpty(selectedReader.Phone) ? "Phone: No Phone" : $"Phone: {selectedReader.Phone}";
+                lblReaderAddressValue.Text = string.IsNullOrEmpty(selectedReader.Address) ? "Address: No Address" : $"Address: {selectedReader.Address}";
                 
                 if (!string.IsNullOrEmpty(selectedReader.ImagePath) && System.IO.File.Exists(selectedReader.ImagePath))
                 {
@@ -133,8 +133,8 @@ namespace LibraryManagement
             else
             {
                 if (lblReaderNameValue != null) lblReaderNameValue.Text = "Reader Name";
-                if (lblReaderPhoneValue != null) lblReaderPhoneValue.Text = "Phone";
-                if (lblReaderAddressValue != null) lblReaderAddressValue.Text = "Address";
+                if (lblReaderPhoneValue != null) lblReaderPhoneValue.Text = "Phone: ";
+                if (lblReaderAddressValue != null) lblReaderAddressValue.Text = "Address: ";
                 if (pbReaderAvatar != null) DrawNoImage(pbReaderAvatar, "No Image");
 
                 // If nothing is selected or it's cleared, show all borrowed books
@@ -161,6 +161,7 @@ namespace LibraryManagement
                     lblBookAuthorValue.Text = string.IsNullOrEmpty(selectedBook.AuthorName) ? "Unknown Author" : selectedBook.AuthorName;
                 }
                 
+
                 if (lblReturnStatusValue != null)
                 {
                     if (selectedBook.DateExpire.HasValue)
@@ -183,6 +184,15 @@ namespace LibraryManagement
                     }
                 }
                 
+                // Pre-fill integrity spinner with the book's current condition
+                if (nudIntegrity != null)
+                {
+                    nudIntegrity.Enabled = true;
+                    byte integrity = selectedBook.Integrity;
+                    nudIntegrity.Value = (integrity >= 1 && integrity <= 5) ? integrity : 5;
+                    nudIntegrity.Text = nudIntegrity.Value.ToString();
+                }
+                
                 if (pbBookCover != null)
                 {
                     if (!string.IsNullOrEmpty(selectedBook.ImagePath) && System.IO.File.Exists(selectedBook.ImagePath))
@@ -199,6 +209,11 @@ namespace LibraryManagement
             {
                 if (lblBookAuthorValue != null) lblBookAuthorValue.Text = "Author Name";
                 if (lblReturnStatusValue != null) lblReturnStatusValue.Text = "";
+                if (nudIntegrity != null) 
+                {
+                    nudIntegrity.Enabled = false;
+                    nudIntegrity.Text = string.Empty;
+                }
                 if (pbBookCover != null) DrawNoImage(pbBookCover, "No Cover");
             }
         }
@@ -219,10 +234,11 @@ namespace LibraryManagement
 
             int readerId = (int)cmbReader.SelectedValue;
             int bookId = (int)cmbBook.SelectedValue;
+            byte newIntegrity = (byte)nudIntegrity.Value;
             
             try
             {
-                bool success = _borrowService.ReturnBook(bookId);
+                bool success = _borrowService.ReturnBook(bookId, newIntegrity);
                 
                 if (success)
                 {

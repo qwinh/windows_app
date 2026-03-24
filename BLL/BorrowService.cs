@@ -22,9 +22,10 @@ namespace LibraryManagement.BLL
             return _bookDal.IssueBook(readerId, bookId, employeeId, expireDate);
         }
 
-        public bool ReturnBook(int bookId)
+        public bool ReturnBook(int bookId, byte newIntegrity = 5)
         {
-            return _bookDal.ReturnBook(bookId);
+            // Add any extra business rules here
+            return _bookDal.ReturnBook(bookId, newIntegrity);
         }
     }
 }

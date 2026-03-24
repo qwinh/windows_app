@@ -135,8 +135,8 @@ namespace LibraryManagement
             if (cmbReader.SelectedItem is Reader selectedReader)
             {
                 lblReaderNameValue.Text = selectedReader.Name;
-                lblReaderPhoneValue.Text = string.IsNullOrEmpty(selectedReader.Phone) ? "No Phone" : selectedReader.Phone;
-                lblReaderAddressValue.Text = string.IsNullOrEmpty(selectedReader.Address) ? "No Address" : selectedReader.Address;
+                lblReaderPhoneValue.Text = string.IsNullOrEmpty(selectedReader.Phone) ? "Phone: No Phone" : $"Phone: {selectedReader.Phone}";
+                lblReaderAddressValue.Text = string.IsNullOrEmpty(selectedReader.Address) ? "Address: No Address" : $"Address: {selectedReader.Address}";
                 
                 if (!string.IsNullOrEmpty(selectedReader.ImagePath) && System.IO.File.Exists(selectedReader.ImagePath))
                 {
@@ -150,8 +150,8 @@ namespace LibraryManagement
             else
             {
                 if (lblReaderNameValue != null) lblReaderNameValue.Text = "Reader Name";
-                if (lblReaderPhoneValue != null) lblReaderPhoneValue.Text = "Phone";
-                if (lblReaderAddressValue != null) lblReaderAddressValue.Text = "Address";
+                if (lblReaderPhoneValue != null) lblReaderPhoneValue.Text = "Phone: ";
+                if (lblReaderAddressValue != null) lblReaderAddressValue.Text = "Address: ";
                 if (pbReaderAvatar != null) DrawNoImage(pbReaderAvatar, "No Image");
             }
         }
@@ -161,6 +161,9 @@ namespace LibraryManagement
             if (cmbBook.SelectedItem is BookActual selectedBook)
             {
                 lblBookAuthorValue.Text = string.IsNullOrEmpty(selectedBook.AuthorName) ? "Unknown Author" : selectedBook.AuthorName;
+                
+                // Display book copy integrity (1-5 scale)
+                lblBookIntegrityValue.Text = $"Integrity: {selectedBook.Integrity}";
                 
                 if (!string.IsNullOrEmpty(selectedBook.ImagePath) && System.IO.File.Exists(selectedBook.ImagePath))
                 {
@@ -174,9 +177,12 @@ namespace LibraryManagement
             else
             {
                 if (lblBookAuthorValue != null) lblBookAuthorValue.Text = "Author Name";
+                if (lblBookIntegrityValue != null) lblBookIntegrityValue.Text = "Integrity: ";
                 if (pbBookCover != null) DrawNoImage(pbBookCover, "No Cover");
             }
         }
+
+
 
         private void btnSubmit_Click(object sender, EventArgs e)
         {

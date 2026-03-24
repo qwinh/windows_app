@@ -29,6 +29,10 @@ namespace LibraryManagement
             this.lblReaderAddressValue = new System.Windows.Forms.Label();
             this.pbBookCover = new System.Windows.Forms.PictureBox();
             this.lblBookAuthorValue = new System.Windows.Forms.Label();
+            this.lblReturnStatus = new System.Windows.Forms.Label();
+            this.lblReturnStatusValue = new System.Windows.Forms.Label();
+            this.lblIntegrityInput = new System.Windows.Forms.Label();
+            this.nudIntegrity = new System.Windows.Forms.NumericUpDown();
             this.btnSubmit = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.lblReturnStatus = new System.Windows.Forms.Label();
@@ -36,6 +40,7 @@ namespace LibraryManagement
             this.pnlReturnCard.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbReaderAvatar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbBookCover)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudIntegrity)).BeginInit();
             this.SuspendLayout();
             // 
             // pnlReturnCard
@@ -54,12 +59,14 @@ namespace LibraryManagement
             this.pnlReturnCard.Controls.Add(this.lblBookAuthorValue);
             this.pnlReturnCard.Controls.Add(this.lblReturnStatus);
             this.pnlReturnCard.Controls.Add(this.lblReturnStatusValue);
+            this.pnlReturnCard.Controls.Add(this.lblIntegrityInput);
+            this.pnlReturnCard.Controls.Add(this.nudIntegrity);
             this.pnlReturnCard.Controls.Add(this.btnSubmit);
             this.pnlReturnCard.Controls.Add(this.btnCancel);
             this.pnlReturnCard.Location = new System.Drawing.Point(31, 30);
             this.pnlReturnCard.Name = "pnlReturnCard";
             this.pnlReturnCard.Padding = new System.Windows.Forms.Padding(28, 24, 28, 24);
-            this.pnlReturnCard.Size = new System.Drawing.Size(582, 590);
+            this.pnlReturnCard.Size = new System.Drawing.Size(582, 630);
             this.pnlReturnCard.TabIndex = 0;
             this.pnlReturnCard.Paint += new System.Windows.Forms.PaintEventHandler(this.CardPanel_Paint);
             // 
@@ -145,9 +152,9 @@ namespace LibraryManagement
             this.lblReaderPhoneValue.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(110)))), ((int)(((byte)(120)))));
             this.lblReaderPhoneValue.Location = new System.Drawing.Point(120, 190);
             this.lblReaderPhoneValue.Name = "lblReaderPhoneValue";
-            this.lblReaderPhoneValue.Size = new System.Drawing.Size(50, 20);
+            this.lblReaderPhoneValue.Size = new System.Drawing.Size(57, 20);
             this.lblReaderPhoneValue.TabIndex = 12;
-            this.lblReaderPhoneValue.Text = "Phone";
+            this.lblReaderPhoneValue.Text = "Phone: ";
             // 
             // lblReaderAddressValue
             // 
@@ -156,9 +163,9 @@ namespace LibraryManagement
             this.lblReaderAddressValue.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(110)))), ((int)(((byte)(120)))));
             this.lblReaderAddressValue.Location = new System.Drawing.Point(120, 215);
             this.lblReaderAddressValue.Name = "lblReaderAddressValue";
-            this.lblReaderAddressValue.Size = new System.Drawing.Size(62, 20);
+            this.lblReaderAddressValue.Size = new System.Drawing.Size(69, 20);
             this.lblReaderAddressValue.TabIndex = 13;
-            this.lblReaderAddressValue.Text = "Address";
+            this.lblReaderAddressValue.Text = "Address: ";
             // 
             // pbBookCover
             // 
@@ -202,6 +209,39 @@ namespace LibraryManagement
             this.lblReturnStatusValue.Size = new System.Drawing.Size(0, 21);
             this.lblReturnStatusValue.TabIndex = 17;
             // 
+            // lblIntegrityInput
+            // 
+            this.lblIntegrityInput.AutoSize = true;
+            this.lblIntegrityInput.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.lblIntegrityInput.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(110)))), ((int)(((byte)(120)))));
+            this.lblIntegrityInput.Location = new System.Drawing.Point(120, 377);
+            this.lblIntegrityInput.Name = "lblIntegrityInput";
+            this.lblIntegrityInput.Size = new System.Drawing.Size(71, 20);
+            this.lblIntegrityInput.TabIndex = 18;
+            this.lblIntegrityInput.Text = "Integrity: ";
+            // 
+            // nudIntegrity
+            // 
+            this.nudIntegrity.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.nudIntegrity.Location = new System.Drawing.Point(220, 374);
+            this.nudIntegrity.Maximum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.nudIntegrity.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nudIntegrity.Name = "nudIntegrity";
+            this.nudIntegrity.Size = new System.Drawing.Size(51, 30);
+            this.nudIntegrity.TabIndex = 19;
+            this.nudIntegrity.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // btnSubmit
             // 
             this.btnSubmit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(99)))), ((int)(((byte)(235)))));
@@ -210,7 +250,7 @@ namespace LibraryManagement
             this.btnSubmit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSubmit.Font = new System.Drawing.Font("Segoe UI", 10.5F, System.Drawing.FontStyle.Bold);
             this.btnSubmit.ForeColor = System.Drawing.Color.White;
-            this.btnSubmit.Location = new System.Drawing.Point(142, 472);
+            this.btnSubmit.Location = new System.Drawing.Point(142, 512);
             this.btnSubmit.Name = "btnSubmit";
             this.btnSubmit.Size = new System.Drawing.Size(300, 42);
             this.btnSubmit.TabIndex = 8;
@@ -226,7 +266,7 @@ namespace LibraryManagement
             this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCancel.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnCancel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(130)))), ((int)(((byte)(145)))));
-            this.btnCancel.Location = new System.Drawing.Point(142, 527);
+            this.btnCancel.Location = new System.Drawing.Point(142, 567);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(300, 38);
             this.btnCancel.TabIndex = 9;
@@ -239,7 +279,7 @@ namespace LibraryManagement
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(247)))), ((int)(((byte)(250)))));
-            this.ClientSize = new System.Drawing.Size(640, 660);
+            this.ClientSize = new System.Drawing.Size(640, 700);
             this.Controls.Add(this.pnlReturnCard);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
@@ -251,6 +291,7 @@ namespace LibraryManagement
             this.pnlReturnCard.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbReaderAvatar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbBookCover)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudIntegrity)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -274,5 +315,7 @@ namespace LibraryManagement
         private System.Windows.Forms.Label lblBookAuthorValue;
         private System.Windows.Forms.Label lblReturnStatus;
         private System.Windows.Forms.Label lblReturnStatusValue;
+        private System.Windows.Forms.Label lblIntegrityInput;
+        private System.Windows.Forms.NumericUpDown nudIntegrity;
     }
 }

@@ -131,19 +131,24 @@ namespace LibraryManagement.DAL
             return books;
         }
 
-        public bool ReturnBook(int bookId)
+        public bool ReturnBook(int bookId, byte newIntegrity = 5)
         {
-            // Find the active borrow record for this physical book and set its return date
+            // Close the active borrow record and update the physical copy's integrity in one batch
             string query = @"
                 UPDATE borrows 
                 SET date_return = GETDATE()
                 WHERE books_actual_id = @bookId 
-                  AND date_return IS NULL";
+                  AND date_return IS NULL;
+
+                UPDATE books_actual
+                SET integrity = @integrity
+                WHERE id = @bookId;";
                   
             using (var conn = clsDatabase.CreateOpenConnection())
             using (var cmd = new SqlCommand(query, conn))
             {
                 cmd.Parameters.AddWithValue("@bookId", bookId);
+                cmd.Parameters.AddWithValue("@integrity", newIntegrity);
                 int rowsAffected = cmd.ExecuteNonQuery();
                 return rowsAffected > 0;
             }

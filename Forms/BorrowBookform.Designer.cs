@@ -29,6 +29,7 @@ namespace LibraryManagement
             this.cmbBook = new System.Windows.Forms.ComboBox();
             this.pbBookCover = new System.Windows.Forms.PictureBox();
             this.lblBookAuthorValue = new System.Windows.Forms.Label();
+            this.lblBookIntegrityValue = new System.Windows.Forms.Label();
             this.lblDateExpire = new System.Windows.Forms.Label();
             this.dtpDateExpire = new System.Windows.Forms.DateTimePicker();
             this.btnSubmit = new System.Windows.Forms.Button();
@@ -52,6 +53,7 @@ namespace LibraryManagement
             this.pnlBorrowCard.Controls.Add(this.cmbBook);
             this.pnlBorrowCard.Controls.Add(this.pbBookCover);
             this.pnlBorrowCard.Controls.Add(this.lblBookAuthorValue);
+            this.pnlBorrowCard.Controls.Add(this.lblBookIntegrityValue);
             this.pnlBorrowCard.Controls.Add(this.lblDateExpire);
             this.pnlBorrowCard.Controls.Add(this.dtpDateExpire);
             this.pnlBorrowCard.Controls.Add(this.btnSubmit);
@@ -183,6 +185,17 @@ namespace LibraryManagement
             this.lblBookAuthorValue.TabIndex = 15;
             this.lblBookAuthorValue.Text = "Author Name";
             // 
+            // lblBookIntegrityValue
+            // 
+            this.lblBookIntegrityValue.AutoSize = true;
+            this.lblBookIntegrityValue.Font = new System.Drawing.Font("Segoe UI", 9.5F);
+            this.lblBookIntegrityValue.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(43)))), ((int)(((byte)(75)))));
+            this.lblBookIntegrityValue.Location = new System.Drawing.Point(107, 330);
+            this.lblBookIntegrityValue.Name = "lblBookIntegrityValue";
+            this.lblBookIntegrityValue.Size = new System.Drawing.Size(71, 21);
+            this.lblBookIntegrityValue.TabIndex = 19;
+            this.lblBookIntegrityValue.Text = "Integrity:";
+            // 
             // lblDateExpire
             // 
             this.lblDateExpire.AutoSize = true;
@@ -274,5 +287,6 @@ namespace LibraryManagement
         private System.Windows.Forms.Label lblReaderAddressValue;
         private System.Windows.Forms.PictureBox pbBookCover;
         private System.Windows.Forms.Label lblBookAuthorValue;
+        private System.Windows.Forms.Label lblBookIntegrityValue;
     }
 }
