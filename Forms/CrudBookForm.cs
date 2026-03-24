@@ -12,6 +12,7 @@ namespace LibraryManagement
     public partial class CrudBookForm : Form
     {
         private BookFormalDAL _dal;
+        private BookActualDAL _copyDal;
         private List<BookFormal> _allBooks;
         private int _currentBookId = 0;
 
@@ -19,6 +20,7 @@ namespace LibraryManagement
         {
             InitializeComponent();
             _dal = new BookFormalDAL();
+            _copyDal = new BookActualDAL();
             
             this.Load += CrudBookForm_Load;
             
@@ -30,6 +32,10 @@ namespace LibraryManagement
             btnDelete.Click += BtnDelete_Click;
             btnBrowse.Click += BtnBrowse_Click;
             dataGridViewBooks.SelectionChanged += DataGridViewBooks_SelectionChanged;
+            
+            btnAddCopy.Click += BtnAddCopy_Click;
+            btnUpdateCopy.Click += BtnUpdateCopy_Click;
+            btnDeleteCopy.Click += BtnDeleteCopy_Click;
         }
 
         private void CrudBookForm_Load(object sender, EventArgs e)
@@ -45,6 +51,13 @@ namespace LibraryManagement
             dataGridViewBooks.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "AuthorName", HeaderText = "Author", FillWeight = 140 });
             dataGridViewBooks.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "TotalCopies", HeaderText = "Total", FillWeight = 50 });
             dataGridViewBooks.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "AvailableCopies", HeaderText = "Avail", FillWeight = 50 });
+
+            // Format Copies DataGridView
+            dgvCopies.AutoGenerateColumns = false;
+            dgvCopies.Columns.Clear();
+            dgvCopies.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Id", HeaderText = "Copy ID", FillWeight = 60 });
+            dgvCopies.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Integrity", HeaderText = "Intg", FillWeight = 40 });
+            dgvCopies.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "StatusDisplay", HeaderText = "Status", FillWeight = 100 });
         }
 
         private void LoadDropdowns()
@@ -147,10 +160,7 @@ namespace LibraryManagement
             dtpDatePublish.Value = DateTime.Today;
             txtImagePath.Text = "";
             pbCover.Image = null;
-            nudCopies.Value = 1;
-            nudCopies.Enabled = true;
-            lblCopiesHint.Visible = true;
-            lblCopiesHint.Text = "Total copies to create";
+            LoadCopies();
         }
 
         private void DataGridViewBooks_SelectionChanged(object sender, EventArgs e)
@@ -173,10 +183,7 @@ namespace LibraryManagement
                 txtImagePath.Text = book.ImagePath;
                 LoadImage(book.ImagePath);
                 
-                nudCopies.Value = book.TotalCopies;
-                nudCopies.Enabled = true;
-                lblCopiesHint.Visible = true;
-                lblCopiesHint.Text = "Adjust total copies";
+                LoadCopies();
             }
         }
 
@@ -246,16 +253,15 @@ namespace LibraryManagement
             };
 
             bool success = false;
-            int copies = (int)nudCopies.Value;
             if (_currentBookId == 0)
             {
                 // Add new book
-                success = _dal.AddBook(book, copies);
+                success = _dal.AddBook(book);
             }
             else
             {
                 // Update existing book
-                success = _dal.UpdateBook(book, copies);
+                success = _dal.UpdateBook(book);
             }
 
             if (success)
@@ -267,6 +273,136 @@ namespace LibraryManagement
             else
             {
                 MessageBox.Show("Failed to save the book. Please try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void LoadCopies()
+        {
+            if (_currentBookId == 0)
+            {
+                dgvCopies.DataSource = null;
+                return;
+            }
+            dgvCopies.DataSource = _copyDal.GetCopiesByFormalId(_currentBookId);
+        }
+
+        private void BtnAddCopy_Click(object sender, EventArgs e)
+        {
+            if (_currentBookId == 0)
+            {
+                MessageBox.Show("Please select a saved book first.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            
+            if (_copyDal.AddCopy(_currentBookId))
+            {
+                RefreshDataKeepSelection(_currentBookId);
+            }
+            else
+            {
+                MessageBox.Show("Failed to add a copy.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void BtnUpdateCopy_Click(object sender, EventArgs e)
+        {
+            if (dgvCopies.CurrentRow != null && dgvCopies.CurrentRow.DataBoundItem is BookActual copy)
+            {
+                using (Form prompt = new Form())
+                {
+                    prompt.Width = 300;
+                    prompt.Height = 150;
+                    prompt.FormBorderStyle = FormBorderStyle.FixedDialog;
+                    prompt.Text = "Update Integrity";
+                    prompt.StartPosition = FormStartPosition.CenterParent;
+                    prompt.MaximizeBox = false;
+                    prompt.MinimizeBox = false;
+
+                    Label textLabel = new Label() { Left = 20, Top = 25, Text = "Integrity (1-5):" };
+                    NumericUpDown num = new NumericUpDown() { Left = 120, Top = 23, Width = 100, Minimum = 1, Maximum = 5, Value = copy.Integrity };
+                    Button confirmation = new Button() { Text = "Save", Left = 120, Width = 100, Top = 60, DialogResult = DialogResult.OK };
+                    confirmation.Click += (sender2, e2) => { prompt.Close(); };
+                    
+                    prompt.Controls.Add(textLabel);
+                    prompt.Controls.Add(num);
+                    prompt.Controls.Add(confirmation);
+                    prompt.AcceptButton = confirmation;
+                    
+                    if (prompt.ShowDialog() == DialogResult.OK)
+                    {
+                        if (_copyDal.UpdateCopy(copy.Id, (byte)num.Value))
+                        {
+                            LoadCopies();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Failed to update copy.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select a copy to edit.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void BtnDeleteCopy_Click(object sender, EventArgs e)
+        {
+            if (dgvCopies.CurrentRow != null && dgvCopies.CurrentRow.DataBoundItem is BookActual copy)
+            {
+                var confirmResult = MessageBox.Show(
+                    $"Are you sure you want to delete Copy ID {copy.Id}?",
+                    "Confirm Delete",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
+
+                if (confirmResult == DialogResult.Yes)
+                {
+                    if (_copyDal.DeleteCopy(copy.Id))
+                    {
+                        RefreshDataKeepSelection(_currentBookId);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to delete the copy. It may be currently borrowed.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select a copy to delete.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void RefreshDataKeepSelection(int savedId)
+        {
+            dataGridViewBooks.SelectionChanged -= DataGridViewBooks_SelectionChanged;
+            
+            LoadData(); // Hits FilterList() and updates grid
+            
+            ReselectBook(savedId);
+            
+            dataGridViewBooks.SelectionChanged += DataGridViewBooks_SelectionChanged;
+            
+            _currentBookId = savedId;
+            LoadCopies();
+        }
+
+        private void ReselectBook(int bookId)
+        {
+            foreach(DataGridViewRow row in dataGridViewBooks.Rows)
+            {
+                if (row.DataBoundItem is BookFormal b && b.Id == bookId)
+                {
+                    row.Selected = true;
+                    if (dataGridViewBooks.CurrentCell != null)
+                    {
+                        dataGridViewBooks.CurrentCell = row.Cells[0];
+                    }
+                    dataGridViewBooks.FirstDisplayedScrollingRowIndex = row.Index;
+                    break;
+                }
             }
         }
     }

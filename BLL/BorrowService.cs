@@ -14,7 +14,6 @@ namespace LibraryManagement.BLL
 
         public bool IssueBook(int readerId, int bookId, int employeeId, DateTime expireDate)
         {
-            // Here you can add business logic e.g validation limits
             if (expireDate <= DateTime.Now)
             {
                 throw new Exception("Return date must be in the future.");
@@ -25,7 +24,6 @@ namespace LibraryManagement.BLL
 
         public bool ReturnBook(int bookId)
         {
-            // Add any extra business rules here
             return _bookDal.ReturnBook(bookId);
         }
     }

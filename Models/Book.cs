@@ -44,7 +44,14 @@ namespace LibraryManagement.Models
         public string AuthorName { get; set; }
         public string ImagePath { get; set; }
         
+        // Expiration date from active borrow record
+        public DateTime? DateExpire { get; set; }
+        
         // Display property for DropDowns
         public string DisplayTitle => $"{FormalName} (Copy {Id})";
+        
+        // Properties for individual copy management
+        public bool IsBorrowed { get; set; }
+        public string StatusDisplay => IsBorrowed ? "Borrowed" : "Available";
     }
 }
