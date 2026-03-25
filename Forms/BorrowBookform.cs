@@ -235,16 +235,5 @@ namespace LibraryManagement
             this.Close();
         }
 
-        private void CardPanel_Paint(object sender, PaintEventArgs e)
-        {
-            Panel pnl = sender as Panel;
-            if (pnl == null) return;
-
-            // Soft border color #E2E8F0
-            using (Pen borderPen = new Pen(Color.FromArgb(226, 232, 240), 1))
-            {
-                e.Graphics.DrawRectangle(borderPen, 0, 0, pnl.Width - 1, pnl.Height - 1);
-            }
-        }
     }
 }

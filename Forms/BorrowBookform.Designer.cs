@@ -63,7 +63,6 @@ namespace LibraryManagement
             this.pnlBorrowCard.Padding = new System.Windows.Forms.Padding(28, 24, 28, 24);
             this.pnlBorrowCard.Size = new System.Drawing.Size(582, 604);
             this.pnlBorrowCard.TabIndex = 0;
-            this.pnlBorrowCard.Paint += new System.Windows.Forms.PaintEventHandler(this.CardPanel_Paint);
             // 
             // lblTitle
             // 

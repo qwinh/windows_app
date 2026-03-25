@@ -132,8 +132,8 @@ namespace LibraryManagement
             switch (strength)
             {
                 case PasswordStrength.None:
-                    lblRegPasswordStrength.Text = "";
-                    break;
+                    lblRegPasswordStrength.Visible = false;
+                    return;
                 case PasswordStrength.Weak:
                     lblRegPasswordStrength.Text = "● Weak";
                     lblRegPasswordStrength.ForeColor = Color.FromArgb(210, 50, 50);
@@ -147,6 +147,7 @@ namespace LibraryManagement
                     lblRegPasswordStrength.ForeColor = Color.FromArgb(22, 163, 74);
                     break;
             }
+            lblRegPasswordStrength.Visible = true;
         }
 
         private void txtRegPasswordConfirm_Leave(object sender, EventArgs e) => ValidatePasswordConfirm();
@@ -276,18 +277,6 @@ namespace LibraryManagement
             finally
             {
                 SetLoadingState(btnRegister, false, "Create Account", "Creating account…");
-            }
-        }
-
-        // UI Polish - Card Panel Borders
-        private void CardPanel_Paint(object sender, PaintEventArgs e)
-        {
-            if (sender is Panel pnl)
-            {
-                using (Pen borderPen = new Pen(System.Drawing.Color.FromArgb(226, 232, 240), 1))
-                {
-                    e.Graphics.DrawRectangle(borderPen, 0, 0, pnl.Width - 1, pnl.Height - 1);
-                }
             }
         }
     }

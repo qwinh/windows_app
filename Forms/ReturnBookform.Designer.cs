@@ -68,7 +68,6 @@ namespace LibraryManagement
             this.pnlReturnCard.Padding = new System.Windows.Forms.Padding(28, 24, 28, 24);
             this.pnlReturnCard.Size = new System.Drawing.Size(582, 630);
             this.pnlReturnCard.TabIndex = 0;
-            this.pnlReturnCard.Paint += new System.Windows.Forms.PaintEventHandler(this.CardPanel_Paint);
             // 
             // lblTitle
             // 

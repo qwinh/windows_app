@@ -32,7 +32,7 @@ namespace LibraryManagement.DAL
         public bool EmailExists(string email)
         {
             using (var conn = clsDatabase.CreateOpenConnection())
-            using (var cmd = new SqlCommand("SELECT COUNT(1) FROM employees WHERE email = @email", conn))
+            using (var cmd = new SqlCommand("SELECT COUNT(*) FROM employees WHERE email = @email", conn))
             {
                 cmd.Parameters.AddWithValue("@email", email);
                 int count = (int)cmd.ExecuteScalar();
@@ -55,18 +55,13 @@ namespace LibraryManagement.DAL
                 cmd.Parameters.AddWithValue("@phone", string.IsNullOrEmpty(emp.Phone) ? (object)DBNull.Value : emp.Phone);
                 cmd.Parameters.AddWithValue("@address", string.IsNullOrEmpty(emp.Address) ? (object)DBNull.Value : emp.Address);
                 
-                // Status defaults to 1 (active) per schema, but we'll set it explicitly
                 cmd.Parameters.AddWithValue("@status", 1);
 
                 int rowsAffected = cmd.ExecuteNonQuery();
                 return rowsAffected > 0;
             }
         }
-
-        /// <summary>
-        /// Acquires an exclusive application lock to prevent multiple logins.
-        /// Uses the connection provided, does NOT close it.
-        /// </summary>
+        
         public bool AcquireLoginLock(SqlConnection lockConn, string email)
         {
             string resource = BuildLoginLockResource(email);
@@ -79,10 +74,8 @@ namespace LibraryManagement.DAL
                 cmd.Parameters.AddWithValue("@LockOwner", "Session");
                 cmd.Parameters.AddWithValue("@LockTimeout", 0); // Fail immediately if locked
 
-                var returnParam = new SqlParameter
-                {
-                    Direction = ParameterDirection.ReturnValue
-                };
+                SqlParameter returnParam = new SqlParameter();
+                returnParam.Direction = ParameterDirection.ReturnValue;
                 cmd.Parameters.Add(returnParam);
 
                 cmd.ExecuteNonQuery();
@@ -95,21 +88,7 @@ namespace LibraryManagement.DAL
 
         private static string BuildLoginLockResource(string email)
         {
-            string normalized = (email ?? "").Trim().ToLowerInvariant();
-            const string prefix = "login_user_";
-
-            if (prefix.Length + normalized.Length <= 255)
-            {
-                return prefix + normalized;
-            }
-
-            using (var sha = SHA256.Create())
-            {
-                byte[] bytes = Encoding.UTF8.GetBytes(normalized);
-                byte[] hashBytes = sha.ComputeHash(bytes);
-                var hashHex = BitConverter.ToString(hashBytes).Replace("-", "");
-                return prefix + hashHex;
-            }
+            return "login_user_" + (email ?? "").Trim().ToLowerInvariant();
         }
 
         public bool UpdateProfile(int id, string name, string phone, string address, string imagePath)
@@ -147,9 +126,7 @@ namespace LibraryManagement.DAL
                 Status = Convert.ToByte(reader["status"])
             };
         }
-        /// <summary>
-        /// FEATURE: Updates the hashed password for the given employee.
-        /// </summary>
+
         public bool UpdatePassword(int employeeId, string newHash)
         {
             using (var conn = clsDatabase.CreateOpenConnection())

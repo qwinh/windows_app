@@ -27,30 +27,28 @@ namespace LibraryManagement.BLL
                 return AuthValidationResult<Employee>.Fail("Email and password are required.");
             }
 
-            // 1. Fetch user by email
+            // Fetch user by email
             Employee emp = _userDAL.GetByEmail(email);
 
-            // 2. Base checks & generic error message (do not reveal if email exists)
             if (emp == null)
             {
                 return AuthValidationResult<Employee>.Fail("Invalid email or password.");
             }
 
-            // 3. Status check
+            // Status check
             if (!emp.IsActive)
             {
                 return AuthValidationResult<Employee>.Fail("This account has been deactivated.");
             }
 
-            // 4. Verify password with BCrypt
+            // Verify password with BCrypt
             bool passwordMatches = BCrypt.Net.BCrypt.Verify(password, emp.HashedPassword);
             if (!passwordMatches)
             {
                 return AuthValidationResult<Employee>.Fail("Invalid email or password.");
             }
 
-            // 5. Try to acquire login lock using a NEW dedicated lock connection.
-            //    If anything fails after opening this connection, make sure we dispose it.
+            // Try to acquire login lock using a new dedicated lock connection.
             SqlConnection lockConnection = null;
             try
             {
@@ -63,7 +61,7 @@ namespace LibraryManagement.BLL
                     return AuthValidationResult<Employee>.Fail("Account is already logged in on another device.");
                 }
 
-                // 6. Lock succeeded — set session and keep lockConnection OPEN
+                // Lock succeeded — set session and keep lockConnection OPEN
                 SessionManager.SetSession(emp, lockConnection);
                 lockConnection = null; // ownership transferred to SessionManager
             }
@@ -81,7 +79,7 @@ namespace LibraryManagement.BLL
             email = (email ?? "").Trim();
             password = password ?? "";
 
-            // 1. Basic format validation
+            // Basic format validation
             if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
             {
                 return AuthValidationResult<bool>.Fail("Name, email, and password are required.");
@@ -92,27 +90,31 @@ namespace LibraryManagement.BLL
                 return AuthValidationResult<bool>.Fail("Invalid email format.");
             }
 
+            if (email.Length > 30)
+            {
+                return AuthValidationResult<bool>.Fail("Email cannot be longer than 30 characters.");
+            }
+
             if (password.Length < 8)
             {
                 return AuthValidationResult<bool>.Fail("Password must be at least 8 characters long.");
             }
 
-            // 2. Normalize email and check uniqueness
+            // Normalize email and check uniqueness
             string normalizedEmail = email.ToLowerInvariant();
             if (_userDAL.EmailExists(normalizedEmail))
             {
                 return AuthValidationResult<bool>.Fail("Email is already in use.");
             }
 
-            // 3. Hash password (cost 10)
+            // Hash password (cost 10)
             string hashedPassword = BCrypt.Net.BCrypt.HashPassword(password, 10);
 
-            // 4. Create and save employee
+            // Create and save employee
             var newEmp = new Employee
             {
                 Name = name,
                 Email = normalizedEmail
-                // phone and address can be updated later by admin
             };
 
             bool sqlSuccess = _userDAL.Register(newEmp, hashedPassword);
@@ -132,19 +134,19 @@ namespace LibraryManagement.BLL
             phone   = (phone   ?? "").Trim();
             address = (address ?? "").Trim();
 
-            // 1. Validate name
+            // Validate name
             if (string.IsNullOrWhiteSpace(name))
                 return AuthValidationResult<bool>.Fail("Full Name is required.");
 
-            // 2. Validate phone format
+            // Validate phone format
             if (phone.Length > 0 && !Regex.IsMatch(phone, @"^[\d\+\-\s]+$"))
                 return AuthValidationResult<bool>.Fail("Phone can only contain digits, spaces, +, and -");
 
-            // 3. Validate address length
+            // Validate address length
             if (address.Length > 500)
                 return AuthValidationResult<bool>.Fail("Address is too long (max 500 chars).");
 
-            // 4. Copy image to app storage if a new one was selected
+            // Copy image to app storage if a new one was selected
             string finalImagePath = sourceImagePath;
             if (sourceImagePath != originalImagePath && !string.IsNullOrEmpty(sourceImagePath))
             {
@@ -164,12 +166,12 @@ namespace LibraryManagement.BLL
                 }
             }
 
-            // 5. Persist to DB
+            // Persist to DB
             bool sqlSuccess = _userDAL.UpdateProfile(employeeId, name, phone, address, finalImagePath ?? "");
             if (!sqlSuccess)
                 return AuthValidationResult<bool>.Fail("Failed to update profile due to a database error or invalid employee ID.");
 
-            // 6. Update the live session state
+            // Update the live session state
             if (SessionManager.IsLoggedIn && SessionManager.CurrentEmployee.Id == employeeId)
             {
                 SessionManager.CurrentEmployee.Name      = name;
@@ -185,20 +187,20 @@ namespace LibraryManagement.BLL
         {
             if (employee == null) throw new ArgumentNullException(nameof(employee));
 
-            // 1. Re-fetch the current hash from DB
+            // Re-fetch the current hash from DB
             Models.Employee fresh = _userDAL.GetByEmail(employee.Email);
             if (fresh == null)
                 return AuthValidationResult<bool>.Fail("Account not found.");
 
-            // 2. Verify supplied current password
+            // Verify supplied current password
             bool matches = BCrypt.Net.BCrypt.Verify(currentPassword, fresh.HashedPassword);
             if (!matches)
                 return AuthValidationResult<bool>.Fail("Current password is incorrect.");
 
-            // 3. Hash the new password
+            // Hash the new password
             string newHash = BCrypt.Net.BCrypt.HashPassword(newPassword, 10);
 
-            // 4. Persist the new hash
+            // Persist the new hash
             bool ok = _userDAL.UpdatePassword(employee.Id, newHash);
             if (!ok)
                 return AuthValidationResult<bool>.Fail("Failed to update password in the database.");

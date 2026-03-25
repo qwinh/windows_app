@@ -233,30 +233,15 @@ namespace LibraryManagement
             this.pnlProfileCard.Padding = new System.Windows.Forms.Padding(28, 24, 28, 24);
             this.pnlProfileCard.Size = new System.Drawing.Size(440, 770);
             this.pnlProfileCard.TabIndex = 0;
-            this.pnlProfileCard.Paint += new System.Windows.Forms.PaintEventHandler(this.CardPanel_Paint);
             // 
             // pnlAvatar
             // 
             this.pnlAvatar.BackColor = System.Drawing.Color.White;
-            this.pnlAvatar.Controls.Add(this.lblAvatar);
             this.pnlAvatar.Location = new System.Drawing.Point(30, 25);
             this.pnlAvatar.Name = "pnlAvatar";
             this.pnlAvatar.Size = new System.Drawing.Size(64, 64);
             this.pnlAvatar.TabIndex = 0;
             this.pnlAvatar.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlAvatar_Paint);
-            // 
-            // lblAvatar
-            // 
-            this.lblAvatar.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblAvatar.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold);
-            this.lblAvatar.ForeColor = System.Drawing.Color.White;
-            this.lblAvatar.Location = new System.Drawing.Point(0, 0);
-            this.lblAvatar.Name = "lblAvatar";
-            this.lblAvatar.Size = new System.Drawing.Size(64, 64);
-            this.lblAvatar.TabIndex = 0;
-            this.lblAvatar.Text = "JS";
-            this.lblAvatar.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblAvatar.Visible = false;
             // 
             // lblDisplayName
             // 

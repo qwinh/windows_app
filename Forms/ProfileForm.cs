@@ -12,7 +12,6 @@ namespace LibraryManagement
     {
         private readonly AuthService _authService;
         
-        // Store values as they were originally loaded from DB
         private string _originalName;
         private string _originalPhone;
         private string _originalAddress;
@@ -57,18 +56,7 @@ namespace LibraryManagement
             lblDisplayName.Text = _originalName;
             lblDisplayRole.Text = "Librarian";
 
-            // Initials
-            string initials = "";
-            var parts = _originalName.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            if (parts.Length > 0)
-            {
-                initials += parts[0][0];
-                if (parts.Length > 1)
-                {
-                    initials += parts[parts.Length - 1][0];
-                }
-            }
-            lblAvatar.Text = initials.ToUpper();
+
         }
 
         private void LoadAvatarImage(string path)
@@ -153,6 +141,15 @@ namespace LibraryManagement
                     LoadAvatarImage(_currentImagePath);
                 }
             }
+        }
+
+        private static string GetInitials(string fullName)
+        {
+            var parts = (fullName ?? "").Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            if (parts.Length == 0) return "";
+            string initials = "" + parts[0][0];
+            if (parts.Length > 1) initials += parts[parts.Length - 1][0];
+            return initials.ToUpper();
         }
 
         private void ClearErrors()
@@ -336,7 +333,7 @@ namespace LibraryManagement
 
         private async void btnChangePassword_Click(object sender, EventArgs e)
         {
-            // 1. Validate current password not empty
+            // Validate current password not empty
             if (string.IsNullOrWhiteSpace(txtCurrentPassword.Text))
             {
                 SetError(lblCurrentPasswordError, "Current password is required.");
@@ -344,7 +341,7 @@ namespace LibraryManagement
             }
             SetError(lblCurrentPasswordError, "");
 
-            // 2. Validate new password strength (not Weak)
+            // Validate new password strength (not Weak)
             string newPwd = txtNewPassword.Text;
             if (newPwd.Length < 8)
             {
@@ -352,7 +349,7 @@ namespace LibraryManagement
                 return;
             }
 
-            // 3. Validate confirm match
+            // Validate confirm match
             if (newPwd != txtConfirmNewPassword.Text)
             {
                 SetError(lblNewPasswordError, "Passwords do not match.");
@@ -360,9 +357,9 @@ namespace LibraryManagement
             }
             SetError(lblNewPasswordError, "");
 
-            // 4. Loading state
+            // Loading state
             btnChangePassword.Enabled = false;
-            btnChangePassword.Text = "Saving\u2026";
+            btnChangePassword.Text = "Saving";
             Cursor = Cursors.WaitCursor;
 
             try
@@ -379,7 +376,7 @@ namespace LibraryManagement
                     return;
                 }
 
-                // 5. Success — clear all fields
+                // Success — clear all fields
                 txtCurrentPassword.Text = "";
                 txtNewPassword.Text = "";
                 txtConfirmNewPassword.Text = "";
@@ -402,23 +399,12 @@ namespace LibraryManagement
             }
             finally
             {
-                // 6. Restore loading state
+                // Restore loading state
                 if (!IsDisposed)
                 {
                     btnChangePassword.Enabled = true;
                     btnChangePassword.Text = "Update Password";
                     Cursor = Cursors.Default;
-                }
-            }
-        }
-
-        private void CardPanel_Paint(object sender, PaintEventArgs e)
-        {
-            if (sender is Panel pnl)
-            {
-                using (Pen borderPen = new Pen(System.Drawing.Color.FromArgb(226, 232, 240), 1))
-                {
-                    e.Graphics.DrawRectangle(borderPen, 0, 0, pnl.Width - 1, pnl.Height - 1);
                 }
             }
         }
@@ -447,13 +433,14 @@ namespace LibraryManagement
                 }
 
                 // Draw initial letter, centered
+                string initials = GetInitials(_originalName);
                 using (var font = new System.Drawing.Font("Segoe UI", 22f, System.Drawing.FontStyle.Bold))
                 {
-                    var textSize = g.MeasureString(lblAvatar.Text, font);
+                    var textSize = g.MeasureString(initials, font);
                     var textPoint = new System.Drawing.PointF(
                         (pnlAvatar.Width - textSize.Width) / 2f,
                         (pnlAvatar.Height - textSize.Height) / 2f);
-                    g.DrawString(lblAvatar.Text, font, System.Drawing.Brushes.White, textPoint);
+                    g.DrawString(initials, font, System.Drawing.Brushes.White, textPoint);
                 }
             }
         }
