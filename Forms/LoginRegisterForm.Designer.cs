@@ -99,7 +99,7 @@ namespace LibraryManagement
             this.pnlSidebar.Location = new System.Drawing.Point(0, 0);
             this.pnlSidebar.Margin = new System.Windows.Forms.Padding(2);
             this.pnlSidebar.Name = "pnlSidebar";
-            this.pnlSidebar.Size = new System.Drawing.Size(172, 536);
+            this.pnlSidebar.Size = new System.Drawing.Size(172, 556);
             this.pnlSidebar.TabIndex = 1;
             // 
             // iconBook
@@ -151,7 +151,7 @@ namespace LibraryManagement
             this.pnlRight.Location = new System.Drawing.Point(172, 0);
             this.pnlRight.Margin = new System.Windows.Forms.Padding(2);
             this.pnlRight.Name = "pnlRight";
-            this.pnlRight.Size = new System.Drawing.Size(314, 536);
+            this.pnlRight.Size = new System.Drawing.Size(314, 556);
             this.pnlRight.TabIndex = 0;
             // 
             // pnlLogin

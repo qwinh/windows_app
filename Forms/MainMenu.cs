@@ -26,7 +26,6 @@ namespace LibraryManagement
 
         protected override void OnLoad(EventArgs e)
         {
-            base.OnLoad(e);
             RefreshLoginState();
         }
 
@@ -62,7 +61,6 @@ namespace LibraryManagement
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            base.OnFormClosing(e);
             if (SessionManager.IsLoggedIn)
             {
                 SessionManager.Logout();

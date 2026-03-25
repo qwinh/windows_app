@@ -29,7 +29,6 @@ namespace LibraryManagement
 
         protected override void OnLoad(EventArgs e)
         {
-            base.OnLoad(e);
             LoadUserProfile();
             SetViewMode();
         }
@@ -59,32 +58,7 @@ namespace LibraryManagement
 
         }
 
-        private void LoadAvatarImage(string path)
-        {
-            if (_avatarImage != null)
-            {
-                _avatarImage.Dispose();
-                _avatarImage = null;
-            }
-
-            if (!string.IsNullOrEmpty(path) && File.Exists(path))
-            {
-                try
-                {
-                    // Use FromStream to avoid locking the file
-                    using (var ms = new MemoryStream(File.ReadAllBytes(path)))
-                    {
-                        _avatarImage = Image.FromStream(ms);
-                    }
-                }
-                catch
-                {
-                    _avatarImage = null;
-                }
-            }
-            pnlAvatar.Invalidate(); // Trigger repainting of the avatar
-        }
-
+        
         // --- Modes ---
 
         private void SetViewMode()
@@ -92,10 +66,6 @@ namespace LibraryManagement
             txtFirstName.ReadOnly = true;
             txtPhone.ReadOnly = true;
             txtAddress.ReadOnly = true;
-
-            txtFirstName.BackColor = Color.White;
-            txtPhone.BackColor = Color.White;
-            txtAddress.BackColor = Color.White;
 
             btnEdit.Visible = true;
             btnSave.Visible = false;
@@ -113,17 +83,12 @@ namespace LibraryManagement
             txtPhone.ReadOnly = false;
             txtAddress.ReadOnly = false;
 
-            txtFirstName.BackColor = SystemColors.Window;
-            txtPhone.BackColor = SystemColors.Window;
-            txtAddress.BackColor = SystemColors.Window;
-
             btnEdit.Visible = false;
             btnSave.Visible = true;
             btnCancel.Visible = true;
 
             _isEditMode = true;
             pnlAvatar.Cursor = Cursors.Hand;
-
             ActiveControl = txtFirstName;
         }
 
@@ -408,6 +373,32 @@ namespace LibraryManagement
                 }
             }
         }
+
+        private void LoadAvatarImage(string path)
+        {
+            if (_avatarImage != null)
+            {
+                _avatarImage.Dispose();
+                _avatarImage = null;
+            }
+
+            if (!string.IsNullOrEmpty(path) && File.Exists(path))
+            {
+                try
+                {
+                    using (var ms = new MemoryStream(File.ReadAllBytes(path)))
+                    {
+                        _avatarImage = Image.FromStream(ms);
+                    }
+                }
+                catch
+                {
+                    _avatarImage = null;
+                }
+            }
+            pnlAvatar.Invalidate();
+        }
+
 
         private void pnlAvatar_Paint(object sender, PaintEventArgs e)
         {
