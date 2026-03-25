@@ -691,6 +691,9 @@ namespace LibraryManagement
             this.Name = "ProfileForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "My Profile - Library System";
+            // Avatar
+            this.pnlAvatar.Cursor = System.Windows.Forms.Cursors.Default;
+            this.pnlAvatar.Click += new System.EventHandler(this.Avatar_Click);
             this.pnlSidebar.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.iconNavProfile)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconSidebar)).EndInit();

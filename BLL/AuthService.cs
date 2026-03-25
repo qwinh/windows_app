@@ -1,5 +1,7 @@
 using System;
 using System.Data.SqlClient;
+using System.IO;
+using System.Text.RegularExpressions;
 using LibraryManagement.DAL;
 using LibraryManagement.Helpers;
 using LibraryManagement.Models;
@@ -15,10 +17,6 @@ namespace LibraryManagement.BLL
             _userDAL = new UserDAL();
         }
 
-        /// <summary>
-        /// Attempts to log in a user.
-        /// Returns a structured validation result instead of throwing.
-        /// </summary>
         public AuthValidationResult<Employee> Login(string email, string password)
         {
             email = (email ?? "").Trim();
@@ -77,9 +75,6 @@ namespace LibraryManagement.BLL
             return AuthValidationResult<Employee>.Ok(emp);
         }
 
-        /// <summary>
-        /// Registers a new user. Returns a structured validation result instead of throwing.
-        /// </summary>
         public AuthValidationResult<bool> Register(string name, string email, string password)
         {
             name = (name ?? "").Trim();
@@ -92,7 +87,7 @@ namespace LibraryManagement.BLL
                 return AuthValidationResult<bool>.Fail("Name, email, and password are required.");
             }
 
-            if (!email.Contains("@") || !email.Contains("."))
+            if (!IsValidEmail(email))
             {
                 return AuthValidationResult<bool>.Fail("Invalid email format.");
             }
@@ -129,45 +124,63 @@ namespace LibraryManagement.BLL
             return AuthValidationResult<bool>.Ok(true);
         }
 
-        /// <summary>
-        /// Updates the profile (Name, Phone, Address, ImagePath) of an existing employee.
-        /// Returns a structured validation result.
-        /// </summary>
-        public AuthValidationResult<bool> UpdateProfile(int employeeId, string name, string phone, string address, string imagePath)
+        public AuthValidationResult<bool> UpdateProfile(
+            int employeeId, string name, string phone, string address,
+            string sourceImagePath, string originalImagePath, string imagesDir)
         {
-            name = (name ?? "").Trim();
-            phone = (phone ?? "").Trim();
+            name    = (name    ?? "").Trim();
+            phone   = (phone   ?? "").Trim();
             address = (address ?? "").Trim();
-            imagePath = (imagePath ?? "").Trim();
 
-            // 1. Basic format validation
+            // 1. Validate name
             if (string.IsNullOrWhiteSpace(name))
-            {
                 return AuthValidationResult<bool>.Fail("Full Name is required.");
-            }
 
-            // 2. Perform DB update
-            bool sqlSuccess = _userDAL.UpdateProfile(employeeId, name, phone, address, imagePath);
-            if (!sqlSuccess)
+            // 2. Validate phone format
+            if (phone.Length > 0 && !Regex.IsMatch(phone, @"^[\d\+\-\s]+$"))
+                return AuthValidationResult<bool>.Fail("Phone can only contain digits, spaces, +, and -");
+
+            // 3. Validate address length
+            if (address.Length > 500)
+                return AuthValidationResult<bool>.Fail("Address is too long (max 500 chars).");
+
+            // 4. Copy image to app storage if a new one was selected
+            string finalImagePath = sourceImagePath;
+            if (sourceImagePath != originalImagePath && !string.IsNullOrEmpty(sourceImagePath))
             {
-                return AuthValidationResult<bool>.Fail("Failed to update profile due to a database error or invalid employee ID.");
+                try
+                {
+                    if (!Directory.Exists(imagesDir))
+                        Directory.CreateDirectory(imagesDir);
+
+                    string ext      = Path.GetExtension(sourceImagePath);
+                    string fileName = $"emp_{employeeId}_{DateTime.Now.Ticks}{ext}";
+                    finalImagePath  = Path.Combine(imagesDir, fileName);
+                    File.Copy(sourceImagePath, finalImagePath, overwrite: true);
+                }
+                catch (Exception ex)
+                {
+                    return AuthValidationResult<bool>.Fail("Failed to save image: " + ex.Message);
+                }
             }
 
-            // 3. Update the session state immediately to reflect changes
+            // 5. Persist to DB
+            bool sqlSuccess = _userDAL.UpdateProfile(employeeId, name, phone, address, finalImagePath ?? "");
+            if (!sqlSuccess)
+                return AuthValidationResult<bool>.Fail("Failed to update profile due to a database error or invalid employee ID.");
+
+            // 6. Update the live session state
             if (SessionManager.IsLoggedIn && SessionManager.CurrentEmployee.Id == employeeId)
             {
-                SessionManager.CurrentEmployee.Name = name;
-                SessionManager.CurrentEmployee.Phone = string.IsNullOrEmpty(phone) ? null : phone;
-                SessionManager.CurrentEmployee.Address = string.IsNullOrEmpty(address) ? null : address;
-                SessionManager.CurrentEmployee.ImagePath = string.IsNullOrEmpty(imagePath) ? null : imagePath;
+                SessionManager.CurrentEmployee.Name      = name;
+                SessionManager.CurrentEmployee.Phone     = string.IsNullOrEmpty(phone)          ? null : phone;
+                SessionManager.CurrentEmployee.Address   = string.IsNullOrEmpty(address)        ? null : address;
+                SessionManager.CurrentEmployee.ImagePath = string.IsNullOrEmpty(finalImagePath) ? null : finalImagePath;
             }
 
             return AuthValidationResult<bool>.Ok(true);
         }
-        /// <summary>
-        /// FEATURE: Change password — verifies current password then updates hash.
-        /// Returns a structured validation result instead of throwing.
-        /// </summary>
+
         public AuthValidationResult<bool> ChangePassword(Models.Employee employee, string currentPassword, string newPassword)
         {
             if (employee == null) throw new ArgumentNullException(nameof(employee));
@@ -192,15 +205,28 @@ namespace LibraryManagement.BLL
 
             return AuthValidationResult<bool>.Ok(true);
         }
+        // ── Validation Helpers ────
+        public static bool IsValidEmail(string email)
+            => Regex.IsMatch(email ?? "", @"^[^@\s]+@[^@\s]+\.[^@\s]+$");
+
+        public static PasswordStrength CalculatePasswordStrength(string password)
+        {
+            if (password == null || password.Length == 0) return PasswordStrength.None;
+            if (password.Length < 8) return PasswordStrength.Weak;
+
+            bool hasUpper   = Regex.IsMatch(password, @"[A-Z]");
+            bool hasLower   = Regex.IsMatch(password, @"[a-z]");
+            bool hasDigit   = Regex.IsMatch(password, @"\d");
+            bool hasSpecial = Regex.IsMatch(password, @"[^A-Za-z0-9]");
+            bool isStrong   = password.Length >= 12
+                           || (hasUpper && hasLower && hasDigit && hasSpecial);
+
+            return isStrong ? PasswordStrength.Strong : PasswordStrength.Medium;
+        }
     }
 
-    // ---------------------------------------------------------------------------
-    // Moved from AuthValidationResult.cs — kept in the same namespace/assembly
-    // ---------------------------------------------------------------------------
-    /// <summary>
-    /// Encapsulates the result of an authentication operation (Login/Register).
-    /// Prevents the need to throw generic Exceptions for validation failures.
-    /// </summary>
+    public enum PasswordStrength { None, Weak, Medium, Strong }
+
     public class AuthValidationResult<T>
     {
         public bool Success { get; }
@@ -225,12 +251,6 @@ namespace LibraryManagement.BLL
         }
     }
 
-    // ---------------------------------------------------------------------------
-    // Moved from InvalidPasswordException.cs — kept in the same namespace/assembly
-    // ---------------------------------------------------------------------------
-    /// <summary>
-    /// Thrown when a supplied password does not match the stored hash.
-    /// </summary>
     public class InvalidPasswordException : Exception
     {
         public InvalidPasswordException()

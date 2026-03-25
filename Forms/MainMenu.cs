@@ -13,7 +13,6 @@ namespace LibraryManagement
             InitializeComponent();
         }
 
-        // button1 → Logout (login starts from Program.cs)
         private void btnLoginOrLogout_Click(object sender, EventArgs e)
         {
             if (SessionManager.IsLoggedIn)
@@ -28,27 +27,7 @@ namespace LibraryManagement
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            
-            // Attach primary button hover effects
-            AttachHoverEffect(btnLoginRegister, System.Drawing.Color.FromArgb(29, 78, 216), System.Drawing.Color.FromArgb(37, 99, 235));
-            
-            // Attach card hover effects (slightly deeper white/gray on hover)
-            AttachHoverEffect(btnManageBooks, System.Drawing.Color.FromArgb(240, 245, 250), System.Drawing.Color.White);
-            AttachHoverEffect(btnManageReaders, System.Drawing.Color.FromArgb(240, 245, 250), System.Drawing.Color.White);
-            AttachHoverEffect(btnBorrowBook, System.Drawing.Color.FromArgb(240, 245, 250), System.Drawing.Color.White);
-            AttachHoverEffect(btnReturnBook, System.Drawing.Color.FromArgb(240, 245, 250), System.Drawing.Color.White);
-            
-            // Attach secondary/exit hover effect
-            AttachHoverEffect(btnExit, System.Drawing.Color.FromArgb(220, 225, 235), System.Drawing.Color.FromArgb(240, 242, 245));
-
             RefreshLoginState();
-        }
-
-        private static void AttachHoverEffect(Button btn, System.Drawing.Color hoverColor, System.Drawing.Color normalColor)
-        {
-            // SIMPLIFY-CANDIDATE: AttachHoverEffect is defined identically in LoginRegisterForm and ProfileForm. Could be extracted to a shared static helper class without altering behaviour, but Criterion 4 forbids adding new files.
-            btn.MouseEnter += (_, __) => btn.BackColor = hoverColor;
-            btn.MouseLeave += (_, __) => btn.BackColor = normalColor;
         }
 
         private void RefreshLoginState()
@@ -56,7 +35,6 @@ namespace LibraryManagement
             if (SessionManager.IsLoggedIn)
             {
                 btnLoginRegister.Text = "Logout";
-                // [HIGH] Guard against null CurrentEmployee before accessing .Name
                 var emp = SessionManager.CurrentEmployee;
                 lblSessionStatus.Text = emp != null ? $"Signed in as: {emp.Name}" : "Signed in";
                 lblSessionStatus.ForeColor = System.Drawing.Color.FromArgb(22, 43, 75);
@@ -66,7 +44,6 @@ namespace LibraryManagement
             {
                 btnLoginRegister.Text = "Login / Register";
                 lblSessionStatus.Text = "Not signed in";
-                lblSessionStatus.ForeColor = System.Drawing.Color.FromArgb(120, 130, 145); // Muted when inactive
                 btnProfile.Visible = false;
             }
         }
@@ -86,43 +63,32 @@ namespace LibraryManagement
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             base.OnFormClosing(e);
-
-            // Always release the login lock when leaving the main menu.
             if (SessionManager.IsLoggedIn)
             {
                 SessionManager.Logout();
             }
         }
 
-        // button3 → Manage Books (CRUD)
         private void btnManageBooks_Click(object sender, EventArgs e)
         {
-            // REVIEW [MEDIUM]: Form not wrapped in using; could leak resources if ShowDialog throws.
             CrudBookForm crudBookForm = new CrudBookForm();
             crudBookForm.ShowDialog();
         }
-
-        // button4 → Manage Readers (CRUD)
         private void btnManageReaders_Click(object sender, EventArgs e)
         {
-            // REVIEW [MEDIUM]: Form not wrapped in using; could leak resources if ShowDialog throws.
             ReaderService service = new ReaderService();
             CrudReaderForm crudReaderForm = new CrudReaderForm(service);
             crudReaderForm.ShowDialog();
         }
 
-        // button5 → Borrow Book
         private void btnBorrowBook_Click(object sender, EventArgs e)
         {
-            // REVIEW [MEDIUM]: Form not wrapped in using; could leak resources if ShowDialog throws.
             BorrowBookform borrowForm = new BorrowBookform();
             borrowForm.ShowDialog();
         }
 
-        // button6 → Return Book
         private void btnReturnBook_Click(object sender, EventArgs e)
         {
-            // REVIEW [MEDIUM]: Form not wrapped in using; could leak resources if ShowDialog throws.
             ReturnBookform returnForm = new ReturnBookform();
             returnForm.ShowDialog();
         }
@@ -133,4 +99,3 @@ namespace LibraryManagement
         }
     }
 }
-
