@@ -305,7 +305,6 @@ namespace LibraryManagement
 
         #endregion
 
-        // Original buttons updated with new UX
         private System.Windows.Forms.Button btnLoginRegister;
         private FontAwesome.Sharp.IconButton btnProfile;
         private System.Windows.Forms.Button btnManageBooks;

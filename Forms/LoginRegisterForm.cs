@@ -1,7 +1,5 @@
 using System;
-using System.Data.SqlClient;
 using System.Drawing;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using LibraryManagement.BLL;
@@ -17,41 +15,17 @@ namespace LibraryManagement
         {
             InitializeComponent();
             _authService = new AuthService();
-
-            // UX – center cards when the right panel resizes (e.g. form loads)
-            // REVIEW [LOW]: Resize wired with a lambda — acceptable but consider a named method for consistency with designer conventions.
-            pnlRight.Resize += (_, __) => CenterCards();
-
             ShowLoginPanel();
         }
 
-        // ─── UX: Card centering ────────────────────────────────────────────────────
-
-        private void CenterCards() // UX
-        {
-            int rightW = pnlRight.ClientSize.Width;
-            int rightH = pnlRight.ClientSize.Height;
-
-            // Login card
-            pnlLogin.Left = (rightW - pnlLogin.Width) / 2;
-            pnlLogin.Top = (rightH - pnlLogin.Height) / 2;
-
-            // Register card
-            pnlRegister.Left = (rightW - pnlRegister.Width) / 2;
-            pnlRegister.Top = Math.Max(10, (rightH - pnlRegister.Height) / 2);
-        }
-
-        // ─── Panel Switching ───────────────────────────────────────────────────────
-
+        // ─── Panel Switching ───
         private void ShowLoginPanel()
         {
             pnlLogin.Visible = true;
             pnlRegister.Visible = false;
 
-            // UX – Enter key triggers login
             this.AcceptButton = btnLogin;
 
-            CenterCards();
             ActiveControl = txtLoginEmail;
         }
 
@@ -60,10 +34,8 @@ namespace LibraryManagement
             pnlLogin.Visible = false;
             pnlRegister.Visible = true;
 
-            // UX – Enter key triggers register
             this.AcceptButton = btnRegister;
 
-            CenterCards();
             ActiveControl = txtRegName;
         }
 
@@ -79,62 +51,42 @@ namespace LibraryManagement
             ShowLoginPanel();
         }
 
-        // ─── UX: Error clearers ────────────────────────────────────────────────────
-
-        private void ClearLoginErrors() // UX
+        private void ClearLoginErrors()
         {
             SetError(lblLoginError, "");
             SetError(lblLoginEmailError, "");
         }
 
-        private void ClearRegisterErrors() // UX
+        private void ClearRegisterErrors()
         {
             SetError(lblRegisterError, "");
             SetError(lblRegEmailError, "");
             SetError(lblRegPasswordConfirmError, "");
         }
 
-        // UX – helper: show/hide a label depending on whether message is empty
-        private static void SetError(Label lbl, string message) // UX
+        private static void SetError(Label lbl, string message)
         {
             lbl.Text = message;
             lbl.Visible = !string.IsNullOrEmpty(message);
         }
 
-        // ─── UX: Button hover effects ──────────────────────────────────────────────
+        private void txtLoginEmail_Leave(object sender, EventArgs e) => ValidateLoginEmail();
 
-        protected override void OnLoad(EventArgs e) // UX
-        {
-            base.OnLoad(e);
-            AttachHoverEffect(btnLogin, Color.FromArgb(29, 78, 216), Color.FromArgb(37, 99, 235));
-            AttachHoverEffect(btnRegister, Color.FromArgb(29, 78, 216), Color.FromArgb(37, 99, 235));
-        }
-
-        private static void AttachHoverEffect(Button btn, Color hoverColor, Color normalColor) // UX
-        {
-            btn.MouseEnter += (_, __) => btn.BackColor = hoverColor;
-            btn.MouseLeave += (_, __) => btn.BackColor = normalColor;
-        }
-
-        // ─── UX: Real-time – Login panel ───────────────────────────────────────────
-
-        private void txtLoginEmail_Leave(object sender, EventArgs e) => ValidateLoginEmail(); // UX
-
-        private void txtLoginEmail_TextChanged(object sender, EventArgs e) // UX
+        private void txtLoginEmail_TextChanged(object sender, EventArgs e)
         {
             if (lblLoginEmailError.Visible) SetError(lblLoginEmailError, "");
             if (lblLoginError.Visible) SetError(lblLoginError, "");
         }
 
-        private void txtLoginPassword_TextChanged(object sender, EventArgs e) // UX
+        private void txtLoginPassword_TextChanged(object sender, EventArgs e)
         {
             if (lblLoginError.Visible) SetError(lblLoginError, "");
         }
 
-        private bool ValidateLoginEmail() // UX
+        private bool ValidateLoginEmail()
         {
             string email = txtLoginEmail.Text.Trim();
-            if (email.Length > 0 && !IsValidEmail(email))
+            if (email.Length > 0 && !AuthService.IsValidEmail(email))
             {
                 SetError(lblLoginEmailError, "Invalid email format.");
                 return false;
@@ -143,25 +95,23 @@ namespace LibraryManagement
             return true;
         }
 
-        // ─── UX: Real-time – Register panel ────────────────────────────────────────
-
-        private void txtRegName_TextChanged(object sender, EventArgs e) // UX
+        private void txtRegName_TextChanged(object sender, EventArgs e)
         {
             if (lblRegisterError.Visible) SetError(lblRegisterError, "");
         }
 
-        private void txtRegEmail_Leave(object sender, EventArgs e) => ValidateRegEmail(); // UX
+        private void txtRegEmail_Leave(object sender, EventArgs e) => ValidateRegEmail();
 
-        private void txtRegEmail_TextChanged(object sender, EventArgs e) // UX
+        private void txtRegEmail_TextChanged(object sender, EventArgs e)
         {
             if (lblRegEmailError.Visible) SetError(lblRegEmailError, "");
             if (lblRegisterError.Visible) SetError(lblRegisterError, "");
         }
 
-        private bool ValidateRegEmail() // UX
+        private bool ValidateRegEmail()
         {
             string email = txtRegEmail.Text.Trim();
-            if (email.Length > 0 && !IsValidEmail(email))
+            if (email.Length > 0 && !AuthService.IsValidEmail(email))
             {
                 SetError(lblRegEmailError, "Invalid email format.");
                 return false;
@@ -170,50 +120,44 @@ namespace LibraryManagement
             return true;
         }
 
-        private void txtRegPassword_TextChanged(object sender, EventArgs e) // UX
+        private void txtRegPassword_TextChanged(object sender, EventArgs e)
         {
             UpdatePasswordStrength(txtRegPassword.Text);
             if (lblRegisterError.Visible) SetError(lblRegisterError, "");
         }
 
-        private void UpdatePasswordStrength(string password) // UX
+        private void UpdatePasswordStrength(string password)
         {
-            if (password.Length == 0) { lblRegPasswordStrength.Text = ""; return; }
-
-            bool hasUpper = Regex.IsMatch(password, @"[A-Z]");
-            bool hasLower = Regex.IsMatch(password, @"[a-z]");
-            bool hasDigit = Regex.IsMatch(password, @"\d");
-            bool hasSpecial = Regex.IsMatch(password, @"[^A-Za-z0-9]");
-
-            bool isStrong = password.Length >= 12
-                         || (password.Length >= 8 && hasUpper && hasLower && hasDigit && hasSpecial);
-
-            if (password.Length < 8)
+            var strength = AuthService.CalculatePasswordStrength(password);
+            switch (strength)
             {
-                lblRegPasswordStrength.Text = "● Weak";
-                lblRegPasswordStrength.ForeColor = Color.FromArgb(210, 50, 50);
-            }
-            else if (isStrong)
-            {
-                lblRegPasswordStrength.Text = "● Strong";
-                lblRegPasswordStrength.ForeColor = Color.FromArgb(22, 163, 74);
-            }
-            else
-            {
-                lblRegPasswordStrength.Text = "● Medium";
-                lblRegPasswordStrength.ForeColor = Color.FromArgb(234, 88, 12);
+                case PasswordStrength.None:
+                    lblRegPasswordStrength.Text = "";
+                    break;
+                case PasswordStrength.Weak:
+                    lblRegPasswordStrength.Text = "● Weak";
+                    lblRegPasswordStrength.ForeColor = Color.FromArgb(210, 50, 50);
+                    break;
+                case PasswordStrength.Medium:
+                    lblRegPasswordStrength.Text = "● Medium";
+                    lblRegPasswordStrength.ForeColor = Color.FromArgb(234, 88, 12);
+                    break;
+                case PasswordStrength.Strong:
+                    lblRegPasswordStrength.Text = "● Strong";
+                    lblRegPasswordStrength.ForeColor = Color.FromArgb(22, 163, 74);
+                    break;
             }
         }
 
-        private void txtRegPasswordConfirm_Leave(object sender, EventArgs e) => ValidatePasswordConfirm(); // UX
+        private void txtRegPasswordConfirm_Leave(object sender, EventArgs e) => ValidatePasswordConfirm();
 
-        private void txtRegPasswordConfirm_TextChanged(object sender, EventArgs e) // UX
+        private void txtRegPasswordConfirm_TextChanged(object sender, EventArgs e)
         {
             if (lblRegPasswordConfirmError.Visible) SetError(lblRegPasswordConfirmError, "");
             if (lblRegisterError.Visible) SetError(lblRegisterError, "");
         }
 
-        private bool ValidatePasswordConfirm() // UX
+        private bool ValidatePasswordConfirm()
         {
             if (txtRegPasswordConfirm.Text != txtRegPassword.Text)
             {
@@ -224,35 +168,26 @@ namespace LibraryManagement
             return true;
         }
 
-        // ─── UX: Show/hide password toggles ────────────────────────────────────────
-
-        private void btnShowLoginPassword_Click(object sender, EventArgs e) // UX
+        private void btnShowLoginPassword_Click(object sender, EventArgs e)
         {
             bool isHidden = txtLoginPassword.UseSystemPasswordChar;
             txtLoginPassword.UseSystemPasswordChar = !isHidden;
             btnShowLoginPassword.IconChar = isHidden ? FontAwesome.Sharp.IconChar.EyeSlash : FontAwesome.Sharp.IconChar.Eye;
         }
 
-        private void btnShowRegPassword_Click(object sender, EventArgs e) // UX
+        private void btnShowRegPassword_Click(object sender, EventArgs e)
         {
             bool isHidden = txtRegPassword.UseSystemPasswordChar;
             txtRegPassword.UseSystemPasswordChar = !isHidden;
             btnShowRegPassword.IconChar = isHidden ? FontAwesome.Sharp.IconChar.EyeSlash : FontAwesome.Sharp.IconChar.Eye;
         }
 
-        private void btnShowRegPasswordConfirm_Click(object sender, EventArgs e) // UX
+        private void btnShowRegPasswordConfirm_Click(object sender, EventArgs e)
         {
             bool isHidden = txtRegPasswordConfirm.UseSystemPasswordChar;
             txtRegPasswordConfirm.UseSystemPasswordChar = !isHidden;
             btnShowRegPasswordConfirm.IconChar = isHidden ? FontAwesome.Sharp.IconChar.EyeSlash : FontAwesome.Sharp.IconChar.Eye;
         }
-
-        // ─── UX: Email format helper ───────────────────────────────────────────────
-
-        private static bool IsValidEmail(string email) // UX
-            => Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$");
-
-        // ─── UX: Loading state helper ──────────────────────────────────────────────
 
         private void SetLoadingState(Button btn, bool isLoading, string defaultText, string loadingText)
         {
@@ -284,7 +219,7 @@ namespace LibraryManagement
                     SetError(lblLoginError, result.ErrorMessage);
                 }
             }
-            catch (SqlException ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -294,7 +229,7 @@ namespace LibraryManagement
             }
         }
 
-        // ─── Register submit (async + loading state) ──────────────────────────────
+        // ─── Register submit (async + loading state) ────
 
         private async void btnRegister_Click(object sender, EventArgs e)
         {
@@ -320,10 +255,9 @@ namespace LibraryManagement
                     txtRegName.Text = "";
                     txtRegEmail.Text = "";
                     txtRegPassword.Text = "";
-                    txtRegPasswordConfirm.Text = "";    // UX
-                    lblRegPasswordStrength.Text = "";   // UX
+                    txtRegPasswordConfirm.Text = "";    
+                    lblRegPasswordStrength.Text = "";   
 
-                    // UX – pre-fill email on login panel (kept working)
                     txtLoginEmail.Text = registeredEmail;
                     ShowLoginPanel();
 
@@ -335,7 +269,7 @@ namespace LibraryManagement
                     SetError(lblRegisterError, result.ErrorMessage);
                 }
             }
-            catch (SqlException ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -345,9 +279,7 @@ namespace LibraryManagement
             }
         }
 
-        // ══════════════════════════════════════════════════════════════════════
         // UI Polish - Card Panel Borders
-        // ══════════════════════════════════════════════════════════════════════
         private void CardPanel_Paint(object sender, PaintEventArgs e)
         {
             if (sender is Panel pnl)

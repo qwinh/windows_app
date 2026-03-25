@@ -1,9 +1,8 @@
 using System;
 using System.Drawing;
-using System.Text.RegularExpressions;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.IO;
 using LibraryManagement.BLL;
 using LibraryManagement.Helpers;
 
@@ -27,39 +26,13 @@ namespace LibraryManagement
         {
             InitializeComponent();
             _authService = new AuthService();
-            
-            pnlRight.Resize += (_, __) => CenterProfileCard();
-
-            pnlAvatar.Click += Avatar_Click;
-            // Provide a tooltip hint in edit mode
-            pnlAvatar.Cursor = Cursors.Default;
         }
 
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-
-            AttachHoverEffect(btnEdit, Color.FromArgb(29, 78, 216), Color.FromArgb(37, 99, 235));
-            AttachHoverEffect(btnSave, Color.FromArgb(29, 78, 216), Color.FromArgb(37, 99, 235));
-            AttachHoverEffect(btnCancel, Color.FromArgb(220, 225, 235), Color.FromArgb(240, 242, 245));
-
             LoadUserProfile();
             SetViewMode();
-        }
-
-        private void CenterProfileCard()
-        {
-            int rightW = pnlRight.ClientSize.Width;
-            int rightH = pnlRight.ClientSize.Height;
-
-            pnlProfileCard.Left = (rightW - pnlProfileCard.Width) / 2;
-            pnlProfileCard.Top = Math.Max(pnlHeader.Height + 20, (rightH + pnlHeader.Height - pnlProfileCard.Height) / 2);
-        }
-
-        private static void AttachHoverEffect(Button btn, Color hoverColor, Color normalColor)
-        {
-            btn.MouseEnter += (_, __) => btn.BackColor = hoverColor;
-            btn.MouseLeave += (_, __) => btn.BackColor = normalColor;
         }
 
         private void LoadUserProfile()
@@ -119,7 +92,6 @@ namespace LibraryManagement
                 catch
                 {
                     _avatarImage = null;
-                    // REVIEW [LOW]: Avatar load errors are swallowed silently. Consider logging if a logging framework is added.
                 }
             }
             pnlAvatar.Invalidate(); // Trigger repainting of the avatar
@@ -132,19 +104,16 @@ namespace LibraryManagement
             txtFirstName.ReadOnly = true;
             txtPhone.ReadOnly = true;
             txtAddress.ReadOnly = true;
-            txtEmail.ReadOnly = true; // Always read-only
 
             txtFirstName.BackColor = Color.White;
             txtPhone.BackColor = Color.White;
             txtAddress.BackColor = Color.White;
-            txtEmail.BackColor = Color.FromArgb(245, 247, 250); // Muted to show read-only
 
             btnEdit.Visible = true;
             btnSave.Visible = false;
             btnCancel.Visible = false;
 
             _isEditMode = false;
-            pnlAvatar.Cursor = Cursors.Default;
 
             ClearErrors();
             SetFeedback("");
@@ -155,12 +124,10 @@ namespace LibraryManagement
             txtFirstName.ReadOnly = false;
             txtPhone.ReadOnly = false;
             txtAddress.ReadOnly = false;
-            txtEmail.ReadOnly = true; // Always read-only
 
             txtFirstName.BackColor = SystemColors.Window;
             txtPhone.BackColor = SystemColors.Window;
             txtAddress.BackColor = SystemColors.Window;
-            txtEmail.BackColor = Color.FromArgb(245, 247, 250);
 
             btnEdit.Visible = false;
             btnSave.Visible = true;
@@ -187,8 +154,6 @@ namespace LibraryManagement
                 }
             }
         }
-
-        // --- Real-time Validation & UX ---
 
         private void ClearErrors()
         {
@@ -231,41 +196,12 @@ namespace LibraryManagement
 
         private bool ValidateFields()
         {
-            bool isValid = true;
-
-            // Full Name validation (required)
-            if (txtFirstName.Text.Trim() != _originalName)
+            if (string.IsNullOrWhiteSpace(txtFirstName.Text))
             {
-                if (string.IsNullOrWhiteSpace(txtFirstName.Text))
-                {
-                    SetError(lblErrFirstName, "Full Name is required.");
-                    isValid = false;
-                }
+                SetError(lblErrFirstName, "Full Name is required.");
+                return false;
             }
-
-            // Phone validation
-            if (txtPhone.Text.Trim() != _originalPhone)
-            {
-                string p = txtPhone.Text.Trim();
-                if (p.Length > 0 && !Regex.IsMatch(p, @"^[\d\+\-\s]+$"))
-                {
-                    SetError(lblErrPhone, "Phone can only contain digits, spaces, +, and -");
-                    isValid = false;
-                }
-            }
-
-            // Address
-            // (Only checking if changed, no strict rules for format yet, assume up to 500 chars limit handled implicitly or here)
-            if (txtAddress.Text.Trim() != _originalAddress)
-            {
-                if (txtAddress.Text.Trim().Length > 500)
-                {
-                    SetError(lblErrAddress, "Address is too long (max 500 chars).");
-                    isValid = false;
-                }
-            }
-
-            return isValid;
+            return true;
         }
 
         // --- Button Handlers ---
@@ -302,7 +238,6 @@ namespace LibraryManagement
             string newPhone = txtPhone.Text.Trim();
             string newAddress = txtAddress.Text.Trim();
 
-            // Partial Edit Rule: did anything change?
             if (newName == _originalName && newPhone == _originalPhone && newAddress == _originalAddress && _currentImagePath == _originalImagePath)
             {
                 SetViewMode();
@@ -313,41 +248,17 @@ namespace LibraryManagement
             ClearErrors();
             SetLoadingState(true);
 
-            // REVIEW [MEDIUM]: SessionManager.CurrentEmployee could theoretically be null if session expires mid-edit. Guard if this becomes a concern.
             int empId = SessionManager.CurrentEmployee.Id;
-            string finalImagePath = _currentImagePath;
-
-            // Handle image copy if a new image was selected
-            if (_currentImagePath != _originalImagePath && !string.IsNullOrEmpty(_currentImagePath))
-            {
-                try
-                {
-                    string imagesDir = Path.Combine(Application.StartupPath, "Images", "Employees");
-                    if (!Directory.Exists(imagesDir))
-                    {
-                        Directory.CreateDirectory(imagesDir);
-                    }
-                    string ext = Path.GetExtension(_currentImagePath);
-                    string fileName = $"emp_{empId}_{DateTime.Now.Ticks}{ext}";
-                    finalImagePath = Path.Combine(imagesDir, fileName);
-                    File.Copy(_currentImagePath, finalImagePath, true);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Failed to save image: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    SetLoadingState(false);
-                    return;
-                }
-            }
+            string imagesDir = Path.Combine(Application.StartupPath, "Images", "Employees");
 
             try
             {
-                var result = await Task.Run(() => _authService.UpdateProfile(empId, newName, newPhone, newAddress, finalImagePath));
+                var result = await Task.Run(() =>
+                    _authService.UpdateProfile(empId, newName, newPhone, newAddress, _currentImagePath, _originalImagePath, imagesDir));
 
                 if (result.Success)
                 {
-                    // Update successfully. The BLL also updated SessionManager inline.
-                    LoadUserProfile(); // refresh the UI (like Avatar and stored original values)
+                    LoadUserProfile();
                     SetViewMode();
                     SetFeedback("Profile updated successfully.");
                 }
@@ -371,60 +282,51 @@ namespace LibraryManagement
             this.Close();
         }
 
-        // ══════════════════════════════════════════════════════════════════════
         // FEATURE — Change Password
-        // ══════════════════════════════════════════════════════════════════════
 
-        private void chkShowCurrentPassword_CheckedChanged(object sender, EventArgs e) // UX
+        private void chkShowCurrentPassword_CheckedChanged(object sender, EventArgs e)
         {
             txtCurrentPassword.UseSystemPasswordChar = !chkShowCurrentPassword.Checked;
         }
 
-        private void chkShowNewPassword_CheckedChanged(object sender, EventArgs e) // UX
+        private void chkShowNewPassword_CheckedChanged(object sender, EventArgs e)
         {
             bool show = chkShowNewPassword.Checked;
             txtNewPassword.UseSystemPasswordChar = !show;
             txtConfirmNewPassword.UseSystemPasswordChar = !show;
         }
 
-        private void txtNewPassword_TextChanged(object sender, EventArgs e) // UX
+        private void txtNewPassword_TextChanged(object sender, EventArgs e)
         {
             // Clear mismatch error on each keystroke
             if (lblNewPasswordError.Visible) SetError(lblNewPasswordError, "");
 
             string pwd = txtNewPassword.Text;
-            if (pwd.Length == 0)
-            {
-                lblPasswordStrength.Text = "";
-                lblPasswordStrength.Visible = false;
-                return;
-            }
+            var strength = AuthService.CalculatePasswordStrength(pwd);
 
-            bool hasUpper   = Regex.IsMatch(pwd, @"[A-Z]");
-            bool hasLower   = Regex.IsMatch(pwd, @"[a-z]");
-            bool hasDigit   = Regex.IsMatch(pwd, @"\d");
-            bool hasSpecial = Regex.IsMatch(pwd, @"[^A-Za-z0-9]");
-            bool isStrong   = pwd.Length >= 12 || (pwd.Length >= 8 && hasUpper && hasLower && hasDigit && hasSpecial);
-
-            if (pwd.Length < 8)
+            switch (strength)
             {
-                lblPasswordStrength.Text = "● Weak";
-                lblPasswordStrength.ForeColor = Color.FromArgb(210, 50, 50);
-            }
-            else if (isStrong)
-            {
-                lblPasswordStrength.Text = "● Strong";
-                lblPasswordStrength.ForeColor = Color.FromArgb(22, 163, 74);
-            }
-            else
-            {
-                lblPasswordStrength.Text = "● Medium";
-                lblPasswordStrength.ForeColor = Color.FromArgb(234, 88, 12);
+                case PasswordStrength.None:
+                    lblPasswordStrength.Text = "";
+                    lblPasswordStrength.Visible = false;
+                    return;
+                case PasswordStrength.Weak:
+                    lblPasswordStrength.Text = "● Weak";
+                    lblPasswordStrength.ForeColor = Color.FromArgb(210, 50, 50);
+                    break;
+                case PasswordStrength.Medium:
+                    lblPasswordStrength.Text = "● Medium";
+                    lblPasswordStrength.ForeColor = Color.FromArgb(234, 88, 12);
+                    break;
+                case PasswordStrength.Strong:
+                    lblPasswordStrength.Text = "● Strong";
+                    lblPasswordStrength.ForeColor = Color.FromArgb(22, 163, 74);
+                    break;
             }
             lblPasswordStrength.Visible = true;
         }
 
-        private void txtConfirmNewPassword_Leave(object sender, EventArgs e) // UX
+        private void txtConfirmNewPassword_Leave(object sender, EventArgs e)
         {
             if (txtConfirmNewPassword.Text.Length > 0 && txtConfirmNewPassword.Text != txtNewPassword.Text)
             {
@@ -432,7 +334,7 @@ namespace LibraryManagement
             }
         }
 
-        private async void btnChangePassword_Click(object sender, EventArgs e) // FEATURE
+        private async void btnChangePassword_Click(object sender, EventArgs e)
         {
             // 1. Validate current password not empty
             if (string.IsNullOrWhiteSpace(txtCurrentPassword.Text))
@@ -510,9 +412,6 @@ namespace LibraryManagement
             }
         }
 
-        // ══════════════════════════════════════════════════════════════════════
-        // UI Polish - Card Panel Borders
-        // ══════════════════════════════════════════════════════════════════════
         private void CardPanel_Paint(object sender, PaintEventArgs e)
         {
             if (sender is Panel pnl)
@@ -524,9 +423,6 @@ namespace LibraryManagement
             }
         }
 
-        // ══════════════════════════════════════════════════════════════════════
-        // UI Polish - Avatar Circle
-        // ══════════════════════════════════════════════════════════════════════
         private void pnlAvatar_Paint(object sender, PaintEventArgs e)
         {
             var g = e.Graphics;
